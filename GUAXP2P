@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUAX P2P | Internacional</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <style>
+        :root {
+            --bg: #05070a;
+            --card: #0f121a;
+            --neon-blue: #00f2ff;
+            --gold: #ffcc00;
+            --text: #ffffff;
+            --text-dim: #8892b0;
+            --danger: #ff4d4d;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 60px;
+        }
+
+        /* HEADER TICKER */
+        .header-ticker {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+            z-index: 1000;
+            padding: 12px 0;
+            overflow: hidden;
+        }
+
+        .ticker-wrap {
+            display: flex;
+            white-space: nowrap;
+            animation: ticker 40s linear infinite;
+        }
+
+        .ticker-item {
+            padding: 0 40px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--gold);
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* LOGO GUAXINIM IMPONENTE */
+        .guax-logo-container {
+            width: 220px;
+            height: 220px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 25px rgba(0, 242, 255, 0.3));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* TELAS */
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .screen.active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* UI ELEMENTS */
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--gold);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: var(--card);
+            width: 100%;
+            padding: 30px;
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .input-group { margin-bottom: 20px; width: 100%; }
+        label { display: block; margin-bottom: 8px; color: var(--text-dim); font-size: 0.85rem; font-weight: 600; }
+        
+        input, select {
+            width: 100%;
+            padding: 16px;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--neon-blue); }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--neon-blue), #0072ff);
+            color: #000;
+            border: none;
+            padding: 20px;
+            border-radius: 16px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 242, 255, 0.4); }
+
+        .btn-back {
+            background: transparent;
+            color: var(--text-dim);
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        /* BOX MATEMÁTICA */
+        .math-box {
+            background: rgba(0, 242, 255, 0.05);
+            padding: 18px;
+            border-radius: 16px;
+            border-left: 4px solid var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .math-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
+        .math-total { font-size: 1.2rem; font-weight: 900; color: var(--neon-blue); margin-top: 10px; border-top: 1px solid #333; padding-top: 10px; }
+
+        .warning-text {
+            color: var(--danger);
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            line-height: 1.4;
+            background: rgba(255, 77, 77, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        #qrcode { background: #fff; padding: 10px; border-radius: 12px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER TICKER -->
+    <header class="header-ticker">
+        <div class="ticker-wrap" id="ticker-content">
+            <span class="ticker-item">GUAX P2P: A MOEDA DO FUTURO</span>
+            <span class="ticker-item">BTC: $...</span>
+            <span class="ticker-item">ETH: $...</span>
+            <span class="ticker-item">USDT: $1.00</span>
+            <span class="ticker-item">SOL: $...</span>
+        </div>
+    </header>
+
+    <!-- TELA 1: HOME -->
+    <section id="screen-1" class="screen active">
+        <div class="guax-logo-container">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path d="M60 70 L40 30 L85 60 Z" fill="#161b22" stroke="#ffcc00" stroke-width="2"/>
+                <path d="M140 70 L160 30 L115 60 Z" fill="#161b22" stroke="#ffcc00" stroke-width="2"/>
+                <path d="M100 170 L50 130 L55 70 L100 50 L145 70 L150 130 Z" fill="#161b22" stroke="#ffcc00" stroke-width="3"/>
+                <path d="M55 85 L145 85 L140 115 L60 115 Z" fill="#05070a" opacity="0.9"/>
+                <rect x="75" y="95" width="15" height="4" fill="#00f2ff" rx="2"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite" /></rect>
+                <rect x="110" y="95" width="15" height="4" fill="#00f2ff" rx="2"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite" /></rect>
+                <path d="M90 140 L100 155 L110 140" fill="none" stroke="#ffcc00" stroke-width="2" opacity="0.6"/>
+            </svg>
+        </div>
+        <h1 class="hero-title">GUAX P2P</h1>
+        <p style="color: var(--text-dim); margin-bottom: 40px; text-align: center; font-weight: 600; letter-spacing: 1px;">SISTEMA INTERNACIONAL DE CÂMBIO</p>
+        <button class="btn-primary" onclick="goToScreen(2)">Iniciar Compra</button>
+    </section>
+
+    <!-- TELA 2: FORMULÁRIO -->
+    <section id="screen-2" class="screen">
+        <div class="card">
+            <h2 style="margin-bottom: 25px; color: var(--neon-blue); text-align: center;">Realizar Pedido</h2>
+            
+            <div class="input-group">
+                <label>Nome Completo (Sem abreviações)</label>
+                <input type="text" id="name-input" placeholder="Ex: Joao Maria Jose">
+            </div>
+
+            <div class="input-group">
+                <label>E-mail Obrigatório</label>
+                <input type="email" id="email-input" placeholder="seu@email.com">
+            </div>
+
+            <div class="input-group">
+                <label>WhatsApp (DDD + Número)</label>
+                <input type="tel" id="whatsapp-input" placeholder="(11) 999999999">
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <div class="input-group" style="flex: 1;">
+                    <label>Moeda</label>
+                    <select id="coin-select" onchange="calculate()">
+                        <option value="USDT">USDT</option>
+                        <option value="USDC">USDC</option>
+                    </select>
+                </div>
+                <div class="input-group" style="flex: 1;">
+                    <label>Valor BRL (50-500)</label>
+                    <input type="number" id="brl-input" placeholder="100" oninput="calculate()">
+                </div>
+            </div>
+
+            <div class="math-box">
+                <div class="math-row">
+                    <span>Cotação USD:</span>
+                    <span id="rate-display">R$ 0,00</span>
+                </div>
+                <div class="math-row">
+                    <span>Taxa de Rede já aplicada:</span>
+                    <span style="color: var(--white);"> 1%</span>
+                </div>
+                <div class="math-total">
+                    <span>Você recebe:</span>
+                    <span id="receive-display">0.00 USDT</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Rede de Envio</label>
+                <select id="network-select">
+                    <option value="TRON (TRC20)">TRON (TRC20)</option>
+                    <option value="BNB (BEP20)">BNB (BEP20)</option>
+                    <option value="POL (Polygon)">POL (Polygon)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Endereço da Carteira (Wallet)</label>
+                <input type="text" id="wallet-input" placeholder="0x... ou T...">
+            </div>
+
+            <button class="btn-primary" onclick="validateStep2()">Avançar para Pix</button>
+            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
+        </div>
+    </section>
+
+    <!-- TELA 3: PAGAMENTO -->
+    <section id="screen-3" class="screen">
+        <div class="card" style="text-align: center;">
+            <h2 style="color: var(--gold);">Pagamento Pix</h2>
+            <p style="margin: 15px 0; font-size: 0.9rem; color: var(--text-dim);">Transfira exatamente:</p>
+            <p id="final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff;">R$ 0,00</p>
+            
+            <canvas id="qrcode"></canvas>
+
+            <div class="input-group" style="text-align: left;">
+                <label>Pix Copia e Cola</label>
+                <div style="display: flex; gap: 5px;">
+                    <input type="text" id="pix-code" value="00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839" readonly>
+                    <button onclick="copyPix()" style="background: var(--gold); border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold;">Copiar</button>
+                </div>
+            </div>
+
+            <div class="warning-text">
+                ⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU. <br>Tentativas de fraude bloqueiam sua carteira em nossa rede.
+            </div>
+
+            <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishOrder()">
+                Paguei, Enviar Comprovante
+            </button>
+            <button class="btn-back" onclick="goToScreen(2)">Corrigir Dados</button>
+        </div>
+    </section>
+
+    <script>
+        let realUsdRate = 5.20;
+        const spread = 0.005; // 0.5%
+        const networkFee = 0.01; // 1%
+        let orderData = {};
+
+        window.onload = () => {
+            fetchRate();
+            fetchTicker();
+            generateQR();
+        };
+
+        function goToScreen(num) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(`screen-${num}`).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        async function fetchRate() {
+            try {
+                const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL');
+                const data = await res.json();
+                realUsdRate = parseFloat(data.USDBRL.bid);
+                calculate();
+            } catch (e) { console.error("Erro API Dólar"); }
+        }
+
+        async function fetchTicker() {
+            try {
+                const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin,solana,tron&vs_currencies=usd');
+                const data = await res.json();
+                const ticker = document.getElementById('ticker-content');
+                const coins = { bitcoin:'BTC', ethereum:'ETH', binancecoin:'BNB', solana:'SOL', tron:'TRX' };
+                let html = '<span class="ticker-item">GUAX P2P: A MOEDA DO FUTURO</span>';
+                Object.keys(coins).forEach(c => {
+                    html += `<span class="ticker-item">${coins[c]}: $${data[c].usd.toLocaleString()}</span>`;
+                });
+                ticker.innerHTML = html + html;
+            } catch (e) {}
+        }
+
+        // --- MATEMÁTICA DE PRECISÃO P2P ---
+        function calculate() {
+            const brl = parseFloat(document.getElementById('brl-input').value) || 0;
+            const coin = document.getElementById('coin-select').value;
+            
+            // 1. Cotação Real + Spread (0.5%) e ARREDONDA para 2 casas (Ex: 5.19585 -> 5.20)
+            const rateWithSpread = Math.round((realUsdRate * (1 + spread)) * 100) / 100;
+            document.getElementById('rate-display').innerText = `R$ ${rateWithSpread.toFixed(2)}`;
+
+            if (brl >= 50 && brl <= 500) {
+                // 2. Converte BRL para Cripto e ARREDONDA para 2 casas (Ex: 96.1538 -> 96.15)
+                const cryptoGross = Math.round((brl / rateWithSpread) * 100) / 100;
+                
+                // 3. Calcula a Taxa de Rede (1%) sobre o valor bruto e ARREDONDA
+                const feeAmount = Math.round((cryptoGross * networkFee) * 100) / 100;
+                
+                // 4. Valor Final
+                const finalReceive = cryptoGross - feeAmount;
+                
+                document.getElementById('receive-display').innerText = `${finalReceive.toFixed(2)} ${coin}`;
+            } else {
+                document.getElementById('receive-display').innerText = `0.00 ${coin}`;
+            }
+        }
+
+        function validateStep2() {
+            const name = document.getElementById('name-input').value;
+            const email = document.getElementById('email-input').value;
+            const brl = parseFloat(document.getElementById('brl-input').value);
+            const wallet = document.getElementById('wallet-input').value;
+            const whatsapp = document.getElementById('whatsapp-input').value;
+
+            if (name.trim().split(' ').length < 2) return alert("Insira seu NOME COMPLETO.");
+            if (!email.includes('@') || email.length < 5) return alert("Insira um E-MAIL válido.");
+            if (brl < 50 || brl > 500 || isNaN(brl)) return alert("Valor entre R$ 50 e R$ 500.");
+            if (wallet.length < 10) return alert("Endereço de carteira inválido.");
+            if (whatsapp.length < 8) return alert("WhatsApp obrigatório.");
+
+            orderData = {
+                name, email, brl, wallet, whatsapp,
+                coin: document.getElementById('coin-select').value,
+                network: document.getElementById('network-select').value,
+                receive: document.getElementById('receive-display').innerText
+            };
+
+            document.getElementById('final-brl').innerText = `R$ ${brl.toFixed(2)}`;
+            goToScreen(3);
+        }
+
+        function generateQR() {
+            new QRious({
+                element: document.getElementById('qrcode'),
+                value: document.getElementById('pix-code').value,
+                size: 220
+            });
+        }
+
+        function copyPix() {
+            const input = document.getElementById('pix-code');
+            input.select();
+            navigator.clipboard.writeText(input.value);
+            alert("Código Pix Copiado!");
+        }
+
+        function finishOrder() {
+            const msg = `Hola confira meu pagamento do meu pedido.
+Nome: ${orderData.name}
+Email: ${orderData.email}
+Valor final: ${orderData.receive}
+Valor em Reais: R$ ${orderData.brl.toFixed(2)}
+Endereço da carteira: ${orderData.wallet}
+Rede: ${orderData.network}`;
+            
+            window.open(`https://api.whatsapp.com/send?phone=595991398215&text=${encodeURIComponent(msg)}`);
+        }
+    </script>
+</body>
+</html>
