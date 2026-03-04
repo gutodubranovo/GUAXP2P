@@ -17,6 +17,7 @@
             --text: #ffffff;
             --text-dim: #8892b0;
             --danger: #ff4d4d;
+            --success: #00ff88;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
@@ -62,10 +63,10 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* LOGO GUAXINIM IMPONENTE */
+        /* LOGO GUAXINIM */
         .guax-logo-container {
-            width: 220px;
-            height: 220px;
+            width: 230px;
+            height: 230px;
             margin-bottom: 20px;
             filter: drop-shadow(0 0 25px rgba(0, 242, 255, 0.3));
             animation: float 4s ease-in-out infinite;
@@ -166,6 +167,34 @@
             border-radius: 16px;
             border-left: 4px solid var(--gold);
             margin-bottom: 20px;
+            position: relative;
+        }
+
+        /* INDICADOR LIVE */
+        .live-indicator {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 0.65rem;
+            color: var(--success);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--success);
+            border-radius: 50%;
+            animation: pulse-green 1.5s infinite;
+        }
+
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 255, 136, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
         }
 
         .math-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
@@ -188,10 +217,9 @@
 </head>
 <body>
 
-    <!-- HEADER TICKER -->
     <header class="header-ticker">
         <div class="ticker-wrap" id="ticker-content">
-            <span class="ticker-item">GUAX P2P: A MOEDA DO FUTURO</span>
+            <span class="ticker-item">GUAX P2P: COTAÇÕES EM TEMPO REAL</span>
             <span class="ticker-item">BTC: $...</span>
             <span class="ticker-item">ETH: $...</span>
             <span class="ticker-item">USDT: $1.00</span>
@@ -199,7 +227,6 @@
         </div>
     </header>
 
-    <!-- TELA 1: HOME -->
     <section id="screen-1" class="screen active">
         <div class="guax-logo-container">
             <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -217,10 +244,9 @@
         <button class="btn-primary" onclick="goToScreen(2)">Iniciar Compra</button>
     </section>
 
-    <!-- TELA 2: FORMULÁRIO -->
     <section id="screen-2" class="screen">
         <div class="card">
-            <h2 style="margin-bottom: 25px; color: var(--neon-blue); text-align: center;">Realizar Pedido</h2>
+            <h2 style="margin-bottom: 25px; color: var(--neon-blue); text-align: center;">Efetuar Ordem</h2>
             
             <div class="input-group">
                 <label>Nome Completo (Sem abreviações)</label>
@@ -252,12 +278,14 @@
             </div>
 
             <div class="math-box">
+                <div class="live-indicator"><div class="dot"></div> LIVE</div>
                 <div class="math-row">
-                    <span>Cotação USD:</span>
-                    <span id="rate-display">R$ 0,00</span>
+
+                    <span>Cotação USD (flutuação):</span>
+                    <span id="rate-display">Buscando...</span>
                 </div>
                 <div class="math-row">
-                    <span>Taxa de Rede já aplicada:</span>
+                    <span>Taxa de Rede:</span>
                     <span style="color: var(--white);"> 1%</span>
                 </div>
                 <div class="math-total">
@@ -269,9 +297,11 @@
             <div class="input-group">
                 <label>Rede de Envio</label>
                 <select id="network-select">
-                    <option value="TRON (TRC20)">TRON (TRC20)</option>
+                    
                     <option value="BNB (BEP20)">BNB (BEP20)</option>
                     <option value="POL (Polygon)">POL (Polygon)</option>
+                    <option value="SOL (SOLANA)">SOL (Solana)</option>
+                    <option value="ARB (ARBITRUM)">ARB (Arbitrum one)</option>
                 </select>
             </div>
 
@@ -285,7 +315,6 @@
         </div>
     </section>
 
-    <!-- TELA 3: PAGAMENTO -->
     <section id="screen-3" class="screen">
         <div class="card" style="text-align: center;">
             <h2 style="color: var(--gold);">Pagamento Pix</h2>
@@ -303,7 +332,7 @@
             </div>
 
             <div class="warning-text">
-                ⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU. <br>Tentativas de fraude bloqueiam sua carteira em nossa rede.
+                ⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU. <br>Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve estar no nome do titular.
             </div>
 
             <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishOrder()">
@@ -320,9 +349,13 @@
         let orderData = {};
 
         window.onload = () => {
-            fetchRate();
+            fetchRate(); // Primeira busca
             fetchTicker();
             generateQR();
+            
+            // ATUALIZAÇÃO AUTOMÁTICA A CADA 30 SEGUNDOS
+            setInterval(fetchRate, 60000); 
+            setInterval(fetchTicker, 60000);
         };
 
         function goToScreen(num) {
@@ -333,11 +366,17 @@
 
         async function fetchRate() {
             try {
-                const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL');
+                // Adicionado timestamp (?t=...) para evitar cache do navegador
+                const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL?t=' + Date.now());
                 const data = await res.json();
-                realUsdRate = parseFloat(data.USDBRL.bid);
-                calculate();
-            } catch (e) { console.error("Erro API Dólar"); }
+                if(data.USDBRL) {
+                    realUsdRate = parseFloat(data.USDBRL.bid);
+                    console.log("Cotação Atualizada: R$", realUsdRate);
+                    calculate(); // Recalcula na tela se o usuário estiver simulando
+                }
+            } catch (e) {
+                console.error("Erro ao buscar cotação. Mantendo última taxa segura.");
+            }
         }
 
         async function fetchTicker() {
@@ -346,7 +385,7 @@
                 const data = await res.json();
                 const ticker = document.getElementById('ticker-content');
                 const coins = { bitcoin:'BTC', ethereum:'ETH', binancecoin:'BNB', solana:'SOL', tron:'TRX' };
-                let html = '<span class="ticker-item">GUAX P2P: A MOEDA DO FUTURO</span>';
+                let html = '<span class="ticker-item">GUAX P2P: COTAÇÕES EM TEMPO REAL</span>';
                 Object.keys(coins).forEach(c => {
                     html += `<span class="ticker-item">${coins[c]}: $${data[c].usd.toLocaleString()}</span>`;
                 });
@@ -354,17 +393,16 @@
             } catch (e) {}
         }
 
-        // --- MATEMÁTICA DE PRECISÃO P2P ---
         function calculate() {
             const brl = parseFloat(document.getElementById('brl-input').value) || 0;
             const coin = document.getElementById('coin-select').value;
             
-            // 1. Cotação Real + Spread (0.5%) e ARREDONDA para 2 casas (Ex: 5.19585 -> 5.20)
+            // 1. Cotação Real + Spread (0.5%) e ARREDONDA para 2 casas
             const rateWithSpread = Math.round((realUsdRate * (1 + spread)) * 100) / 100;
             document.getElementById('rate-display').innerText = `R$ ${rateWithSpread.toFixed(2)}`;
 
             if (brl >= 50 && brl <= 500) {
-                // 2. Converte BRL para Cripto e ARREDONDA para 2 casas (Ex: 96.1538 -> 96.15)
+                // 2. Converte BRL para Cripto e ARREDONDA para 2 casas
                 const cryptoGross = Math.round((brl / rateWithSpread) * 100) / 100;
                 
                 // 3. Calcula a Taxa de Rede (1%) sobre o valor bruto e ARREDONDA
