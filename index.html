@@ -144,9 +144,16 @@
             width: 100%;
             text-transform: uppercase;
             transition: 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .btn-sell {
+            background: linear-gradient(90deg, #ff4d4d, #b30000);
+            color: #fff;
         }
 
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 242, 255, 0.4); }
+        .btn-sell:hover { box-shadow: 0 10px 30px rgba(255, 77, 77, 0.4); }
 
         .btn-back {
             background: transparent;
@@ -170,7 +177,6 @@
             position: relative;
         }
 
-        /* INDICADOR LIVE */
         .live-indicator {
             position: absolute;
             top: 10px;
@@ -199,6 +205,7 @@
 
         .math-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
         .math-total { font-size: 1.2rem; font-weight: 900; color: var(--neon-blue); margin-top: 10px; border-top: 1px solid #333; padding-top: 10px; }
+        .math-total.sell { color: var(--danger); }
 
         .warning-text {
             color: var(--danger);
@@ -208,9 +215,29 @@
             margin: 20px 0;
             line-height: 1.4;
             background: rgba(255, 77, 77, 0.1);
-            padding: 10px;
+            padding: 15px;
             border-radius: 10px;
         }
+
+        .wallet-list {
+            background: #0d1117;
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #30363d;
+        }
+
+        .wallet-item {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 0;
+            border-bottom: 1px solid #222;
+        }
+        .wallet-item:last-child { border-bottom: none; }
+        .wallet-item span { font-size: 0.7rem; color: var(--gold); margin-bottom: 4px; font-weight: bold; }
+        .wallet-row { display: flex; gap: 8px; align-items: center; }
+        .wallet-row input { padding: 8px; font-size: 0.75rem; background: #05070a; }
+        .btn-copy-small { background: var(--gold); border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.7rem; }
 
         #qrcode { background: #fff; padding: 10px; border-radius: 12px; margin: 20px 0; }
     </style>
@@ -223,10 +250,10 @@
             <span class="ticker-item">BTC: $...</span>
             <span class="ticker-item">ETH: $...</span>
             <span class="ticker-item">USDT: $1.00</span>
-            <span class="ticker-item">SOL: $...</span>
         </div>
     </header>
 
+    <!-- TELA 1: HOME -->
     <section id="screen-1" class="screen active">
         <div class="guax-logo-container">
             <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -241,121 +268,117 @@
         </div>
         <h1 class="hero-title">GUAX P2P</h1>
         <p style="color: var(--text-dim); margin-bottom: 40px; text-align: center; font-weight: 600; letter-spacing: 1px;">SISTEMA INTERNACIONAL DE CÂMBIO</p>
+        
         <button class="btn-primary" onclick="goToScreen(2)">Iniciar Compra</button>
+        <button class="btn-primary btn-sell" onclick="goToScreen(4)">Iniciar Venda</button>
     </section>
 
+    <!-- TELA 2: FORMULÁRIO COMPRA -->
     <section id="screen-2" class="screen">
         <div class="card">
-            <h2 style="margin-bottom: 25px; color: var(--neon-blue); text-align: center;">Efetuar Ordem</h2>
-            
-            <div class="input-group">
-                <label>Nome Completo (Sem abreviações)</label>
-                <input type="text" id="name-input" placeholder="Ex: Joao Maria Jose">
-            </div>
-
-            <div class="input-group">
-                <label>E-mail Obrigatório</label>
-                <input type="email" id="email-input" placeholder="seu@email.com">
-            </div>
-
-            <div class="input-group">
-                <label>WhatsApp (DDD + Número)</label>
-                <input type="tel" id="whatsapp-input" placeholder="(11) 999999999">
-            </div>
-
+            <h2 style="margin-bottom: 25px; color: var(--neon-blue); text-align: center;">Ordem de Compra</h2>
+            <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="name-input" placeholder="Joao Maria Jose"></div>
+            <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="email-input" placeholder="seu@email.com"></div>
+            <div class="input-group"><label>WhatsApp (DDD + Número)</label><input type="tel" id="whatsapp-input" placeholder="(11) 999999999"></div>
             <div style="display: flex; gap: 10px;">
-                <div class="input-group" style="flex: 1;">
-                    <label>Moeda</label>
-                    <select id="coin-select" onchange="calculate()">
-                        <option value="USDT">USDT</option>
-                        <option value="USDC">USDC</option>
-                    </select>
-                </div>
-                <div class="input-group" style="flex: 1;">
-                    <label>Valor BRL (50-500)</label>
-                    <input type="number" id="brl-input" placeholder="100" oninput="calculate()">
-                </div>
+                <div class="input-group" style="flex: 1;"><label>Moeda</label><select id="coin-select" onchange="calculate()"><option value="USDT">USDT</option><option value="USDC">USDC</option></select></div>
+                <div class="input-group" style="flex: 1;"><label>Valor BRL (50 - 500)</label><input type="number" id="brl-input" placeholder="100" oninput="calculate()"></div>
             </div>
-
             <div class="math-box">
                 <div class="live-indicator"><div class="dot"></div> LIVE</div>
-                <div class="math-row">
-
-                    <span>Cotação USD (flutuação):</span>
-                    <span id="rate-display">Buscando...</span>
-                </div>
-                <div class="math-row">
-                    <span>Taxa de Rede:</span>
-                    <span style="color: var(--white);"> 1%</span>
-                </div>
-                <div class="math-total">
-                    <span>Você recebe:</span>
-                    <span id="receive-display">0.00 USDT</span>
-                </div>
+                <div class="math-row"><span>Cotação USD (flutuação):</span><span id="rate-display">Buscando...</span></div>
+                <div class="math-row"><span>Taxa de Rede:</span><span style="color: var(--white);"> 1%</span></div>
+                <div class="math-total"><span>Você recebe:</span><span id="receive-display">0.00 USDT</span></div>
             </div>
-
-            <div class="input-group">
-                <label>Rede de Envio</label>
-                <select id="network-select">
-                    
-                    <option value="BNB (BEP20)">BNB (BEP20)</option>
+            <div class="input-group"><label>Rede de Envio</label><select id="network-select">
+                <option value="BNB (BEP20)">BNB (BEP20)</option>
                     <option value="POL (Polygon)">POL (Polygon)</option>
                     <option value="SOL (SOLANA)">SOL (Solana)</option>
                     <option value="ARB (ARBITRUM)">ARB (Arbitrum one)</option>
                 </select>
-            </div>
-
-            <div class="input-group">
-                <label>Endereço da Carteira (Wallet)</label>
-                <input type="text" id="wallet-input" placeholder="0x... ou T...">
-            </div>
-
+            <div class="input-group"><label>Endereço da Carteira (Wallet)</label><input type="text" id="wallet-input" placeholder="0x... ou T..."></div>
             <button class="btn-primary" onclick="validateStep2()">Avançar para Pix</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
         </div>
     </section>
 
+    <!-- TELA 3: PAGAMENTO COMPRA -->
     <section id="screen-3" class="screen">
         <div class="card" style="text-align: center;">
             <h2 style="color: var(--gold);">Pagamento Pix</h2>
             <p style="margin: 15px 0; font-size: 0.9rem; color: var(--text-dim);">Transfira exatamente:</p>
-            <p id="final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff;">R$ 0,00</p>
-            
+            <p id="final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
             <canvas id="qrcode"></canvas>
-
-            <div class="input-group" style="text-align: left;">
-                <label>Pix Copia e Cola</label>
-                <div style="display: flex; gap: 5px;">
-                    <input type="text" id="pix-code" value="00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839" readonly>
-                    <button onclick="copyPix()" style="background: var(--gold); border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold;">Copiar</button>
-                </div>
-            </div>
-
-            <div class="warning-text">
-                ⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU. <br>Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve estar no nome do titular.
-            </div>
-
-            <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishOrder()">
-                Paguei, Enviar Comprovante
-            </button>
+            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pix-code" value="00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839" readonly><button onclick="copyPix('pix-code')" class="btn-copy-small">Copiar</button></div></div>
+            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU.
+                <br> Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve estar no nome do titular.</div>
+            <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishOrder('buy')">Paguei, Enviar Comprovante</button>
             <button class="btn-back" onclick="goToScreen(2)">Corrigir Dados</button>
+        </div>
+    </section>
+
+    <!-- TELA 4: FORMULÁRIO VENDA -->
+    <section id="screen-4" class="screen">
+        <div class="card">
+            <h2 style="margin-bottom: 25px; color: var(--danger); text-align: center;">Ordem de Venda</h2>
+            <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="sell-name" placeholder=" Seu Nome Completo"></div>
+            <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="sell-email" placeholder="seu@email.com"></div>
+            
+            <div style="display: flex; gap: 10px;">
+                <div class="input-group" style="flex: 1;"><label>Moeda</label><select id="sell-coin-select" onchange="calculateSell()"><option value="USDT">USDT</option><option value="USDC">USDC</option></select></div>
+                <div class="input-group" style="flex: 1;"><label>Quantia USD (10 - 10k)</label><input type="number" id="sell-usd-input" placeholder="100" oninput="calculateSell()"></div>
+            </div>
+
+            <div class="math-box">
+                <div class="live-indicator"><div class="dot"></div> LIVE</div>
+                <div class="math-row"><span>Preço USD Pago:</span><span id="sell-rate-display">Buscando...</span></div>
+                <div class="math-total sell" style="color: #00ff88; display: flex; justify-content: space-between; align-items: center; padding-top: 10px;">
+    <span style="color: #00ff88; font-weight: 600;">Você recebe:</span>
+    <span id="sell-receive-display" style="color: #00ff88; font-weight: 800; text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);">R$ 0,00</span>
+</div>
+            </div>
+
+            <label>Envie para um dos endereços abaixo:</label>
+            <div class="wallet-list">
+                <div class="wallet-item"><span>ETH / BNB / ARB / POLYGON</span><div class="wallet-row"><input type="text" id="w-evm" value="0x92cbaa0e1a6ab68ab8e7acc8d5458a42f7011cba" readonly><button onclick="copyPix('w-evm')" class="btn-copy-small">Copiar</button></div></div>
+                <div class="wallet-item"><span>TRON (TRC20)</span><div class="wallet-row"><input type="text" id="w-tron" value="TRbWTwUkcWwbKMRGh9syLZtZ2FyGL6HQYh" readonly><button onclick="copyPix('w-tron')" class="btn-copy-small">Copiar</button></div></div>
+                <div class="wallet-item"><span>SOLANA</span><div class="wallet-row"><input type="text" id="w-sol" value="5mNoQw3swYAT5654vcPKTSTJK1YAEhreHGoiAamfEJjK" readonly><button onclick="copyPix('w-sol')" class="btn-copy-small">Copiar</button></div></div>
+                <div class="wallet-item"><span>APTOS</span><div class="wallet-row"><input type="text" id="w-apt" value="0x34171672f22c93250b7ee29061103f5d809dec3ff9124ecd1767e100def0434f" readonly><button onclick="copyPix('w-apt')" class="btn-copy-small">Copiar</button></div></div>
+            </div>
+
+            <div class="input-group" style="margin-top: 20px;"><label>Sua Chave PIX (Para receber)</label><input type="text" id="sell-pix-key" placeholder="CPF, Email, Cel ou Aleatória"></div>
+            
+            <button class="btn-primary btn-sell" onclick="validateSellStep()">Ordem de Venda</button>
+            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
+        </div>
+    </section>
+
+    <!-- TELA 5: RESUMO VENDA -->
+    <section id="screen-5" class="screen">
+        <div class="card">
+            <h2 style="color: var(--gold); text-align: center; margin-bottom: 20px;">Resumo da Venda</h2>
+            <div id="sell-summary-content" style="font-size: 0.9rem; line-height: 1.6; color: var(--text-dim);"></div>
+            
+            <div class="warning-text">
+                ⚠️ REVISE TODO O PEDIDO ANTES DE ENVIAR SEUS ATIVOS. NÃO CLIQUE NO BOTÃO CASO NÃO TENHA ENVIADO OS ATIVOS. EM CASO DE ENVIO PARA CARTEIRA OU REDE ERRADA OS ATIVOS SERÃO PERDIDOS.⚠️
+            </div>
+
+            <button class="btn-primary btn-sell" onclick="finishOrder('sell')">Envio Confirmado</button>
+            <button class="btn-back" onclick="goToScreen(4)">Corrigir Dados</button>
         </div>
     </section>
 
     <script>
         let realUsdRate = 5.20;
-        const spread = 0.005; // 0.5%
-        const networkFee = 0.01; // 1%
+        const spreadBuy = 0.005; 
+        const spreadSell = 0.04; // 4%
+        const networkFee = 0.01; 
         let orderData = {};
 
         window.onload = () => {
-            fetchRate(); // Primeira busca
+            fetchRate();
             fetchTicker();
-            generateQR();
-            
-            // ATUALIZAÇÃO AUTOMÁTICA A CADA 30 SEGUNDOS
             setInterval(fetchRate, 60000); 
-            setInterval(fetchTicker, 60000);
         };
 
         function goToScreen(num) {
@@ -366,17 +389,14 @@
 
         async function fetchRate() {
             try {
-                // Adicionado timestamp (?t=...) para evitar cache do navegador
                 const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL?t=' + Date.now());
                 const data = await res.json();
                 if(data.USDBRL) {
                     realUsdRate = parseFloat(data.USDBRL.bid);
-                    console.log("Cotação Atualizada: R$", realUsdRate);
-                    calculate(); // Recalcula na tela se o usuário estiver simulando
+                    calculate();
+                    calculateSell();
                 }
-            } catch (e) {
-                console.error("Erro ao buscar cotação. Mantendo última taxa segura.");
-            }
+            } catch (e) {}
         }
 
         async function fetchTicker() {
@@ -386,85 +406,78 @@
                 const ticker = document.getElementById('ticker-content');
                 const coins = { bitcoin:'BTC', ethereum:'ETH', binancecoin:'BNB', solana:'SOL', tron:'TRX' };
                 let html = '<span class="ticker-item">GUAX P2P: COTAÇÕES EM TEMPO REAL</span>';
-                Object.keys(coins).forEach(c => {
-                    html += `<span class="ticker-item">${coins[c]}: $${data[c].usd.toLocaleString()}</span>`;
-                });
+                Object.keys(coins).forEach(c => { html += `<span class="ticker-item">${coins[c]}: $${data[c].usd.toLocaleString()}</span>`; });
                 ticker.innerHTML = html + html;
             } catch (e) {}
         }
 
         function calculate() {
             const brl = parseFloat(document.getElementById('brl-input').value) || 0;
-            const coin = document.getElementById('coin-select').value;
-            
-            // 1. Cotação Real + Spread (0.5%) e ARREDONDA para 2 casas
-            const rateWithSpread = Math.round((realUsdRate * (1 + spread)) * 100) / 100;
+            const rateWithSpread = Math.round((realUsdRate * (1 + spreadBuy)) * 100) / 100;
             document.getElementById('rate-display').innerText = `R$ ${rateWithSpread.toFixed(2)}`;
-
             if (brl >= 50 && brl <= 500) {
-                // 2. Converte BRL para Cripto e ARREDONDA para 2 casas
                 const cryptoGross = Math.round((brl / rateWithSpread) * 100) / 100;
-                
-                // 3. Calcula a Taxa de Rede (1%) sobre o valor bruto e ARREDONDA
-                const feeAmount = Math.round((cryptoGross * networkFee) * 100) / 100;
-                
-                // 4. Valor Final
-                const finalReceive = cryptoGross - feeAmount;
-                
-                document.getElementById('receive-display').innerText = `${finalReceive.toFixed(2)} ${coin}`;
-            } else {
-                document.getElementById('receive-display').innerText = `0.00 ${coin}`;
-            }
+                const finalReceive = cryptoGross - Math.round((cryptoGross * networkFee) * 100) / 100;
+                document.getElementById('receive-display').innerText = `${finalReceive.toFixed(2)} ${document.getElementById('coin-select').value}`;
+            } else { document.getElementById('receive-display').innerText = `0.00`; }
+        }
+
+        function calculateSell() {
+            const usd = parseFloat(document.getElementById('sell-usd-input').value) || 0;
+            // Matemática: Preço - 4%, arredondado para baixo (Math.floor)
+            const sellRate = Math.floor((realUsdRate * (1 - spreadSell)) * 100) / 100;
+            document.getElementById('sell-rate-display').innerText = `R$ ${sellRate.toFixed(2)}`;
+            if (usd >= 10 && usd <= 10000) {
+                const finalBrl = usd * sellRate;
+                document.getElementById('sell-receive-display').innerText = `R$ ${finalBrl.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            } else { document.getElementById('sell-receive-display').innerText = `R$ 0,00`; }
         }
 
         function validateStep2() {
             const name = document.getElementById('name-input').value;
             const email = document.getElementById('email-input').value;
             const brl = parseFloat(document.getElementById('brl-input').value);
-            const wallet = document.getElementById('wallet-input').value;
-            const whatsapp = document.getElementById('whatsapp-input').value;
-
-            if (name.trim().split(' ').length < 2) return alert("Insira seu NOME COMPLETO.");
-            if (!email.includes('@') || email.length < 5) return alert("Insira um E-MAIL válido.");
-            if (brl < 50 || brl > 500 || isNaN(brl)) return alert("Valor entre R$ 50 e R$ 500.");
-            if (wallet.length < 10) return alert("Endereço de carteira inválido.");
-            if (whatsapp.length < 8) return alert("WhatsApp obrigatório.");
-
-            orderData = {
-                name, email, brl, wallet, whatsapp,
-                coin: document.getElementById('coin-select').value,
-                network: document.getElementById('network-select').value,
-                receive: document.getElementById('receive-display').innerText
-            };
-
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 500) return alert("Verifique os campos (Min R$ 50)");
+            orderData = { type: 'COMPRA', name, email, brl, wallet: document.getElementById('wallet-input').value, coin: document.getElementById('coin-select').value, network: document.getElementById('network-select').value, receive: document.getElementById('receive-display').innerText };
             document.getElementById('final-brl').innerText = `R$ ${brl.toFixed(2)}`;
+            new QRious({ element: document.getElementById('qrcode'), value: document.getElementById('pix-code').value, size: 220 });
             goToScreen(3);
         }
 
-        function generateQR() {
-            new QRious({
-                element: document.getElementById('qrcode'),
-                value: document.getElementById('pix-code').value,
-                size: 220
-            });
+        function validateSellStep() {
+            const name = document.getElementById('sell-name').value;
+            const email = document.getElementById('sell-email').value;
+            const usd = parseFloat(document.getElementById('sell-usd-input').value);
+            const pix = document.getElementById('sell-pix-key').value;
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || usd < 10 || usd > 10000 || !pix) return alert("Verifique os campos (Min 10 USD)");
+            
+            orderData = { type: 'VENDA', name, email, usd, pix, coin: document.getElementById('sell-coin-select').value, receive: document.getElementById('sell-receive-display').innerText, rate: document.getElementById('sell-rate-display').innerText };
+            
+            document.getElementById('sell-summary-content').innerHTML = `
+                <p><b>Cliente:</b> ${orderData.name}</p>
+                <p><b>Email:</b> ${orderData.email}</p>
+                <p><b>Venda de:</b> ${orderData.usd} ${orderData.coin}</p>
+                <p><b>Cotação Aplicada:</b> ${orderData.rate}</p>
+                <p><b>Valor a Receber:</b> ${orderData.receive}</p>
+                <p><b>Sua Chave Pix:</b> ${orderData.pix}</p>
+            `;
+            goToScreen(5);
         }
 
-        function copyPix() {
-            const input = document.getElementById('pix-code');
+        function copyPix(id) {
+            const input = document.getElementById(id);
             input.select();
             navigator.clipboard.writeText(input.value);
-            alert("Código Pix Copiado!");
+            alert("Copiado!");
         }
 
-        function finishOrder() {
-            const msg = `Hola confira meu pagamento do meu pedido.
-Nome: ${orderData.name}
-Email: ${orderData.email}
-Valor final: ${orderData.receive}
-Valor em Reais: R$ ${orderData.brl.toFixed(2)}
-Endereço da carteira: ${orderData.wallet}
-Rede: ${orderData.network}`;
-            
+        function finishOrder(type) {
+            let msg = "";
+            if(type === 'buy') {
+                msg = `Hola confira meu pagamento do meu pedido.\nNome: ${orderData.name}\nEmail: ${orderData.email}\nValor final: ${orderData.receive}\nValor em Reais: R$ ${orderData.brl.toFixed(2)}\nEndereço: ${orderData.wallet}\nRede: ${orderData.network}`;
+            } else {
+                msg = `ORDEM DE VENDA CONFIRMADA\nNome: ${orderData.name}\nEmail: ${orderData.email}\nEnviado: ${orderData.usd} ${orderData.coin}\nReceber: ${orderData.receive}\nChave Pix: ${orderData.pix}`;
+            }
             window.open(`https://api.whatsapp.com/send?phone=595991398215&text=${encodeURIComponent(msg)}`);
         }
     </script>
