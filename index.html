@@ -203,9 +203,26 @@
             100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
         }
 
-        .math-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
+        .math-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 0.9rem; }
         .math-total { font-size: 1.2rem; font-weight: 900; color: var(--neon-blue); margin-top: 10px; border-top: 1px solid #333; padding-top: 10px; }
         .math-total.sell { color: var(--danger); }
+
+        /* BOTÃO REFRESH */
+        .refresh-trigger {
+            background: transparent;
+            border: none;
+            color: var(--neon-blue);
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin: 0;
+            display: inline-flex;
+            align-items: center;
+            vertical-align: middle;
+            transition: transform 0.3s ease;
+        }
+        .refresh-trigger:hover { color: var(--gold); }
+        .refresh-trigger.spinning { animation: spin-once 0.6s ease-in-out; }
+        @keyframes spin-once { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         .warning-text {
             color: var(--danger);
@@ -215,7 +232,7 @@
             margin: 20px 0;
             line-height: 1.4;
             background: rgba(255, 77, 77, 0.1);
-            padding: 15px;
+            padding: 10px;
             border-radius: 10px;
         }
 
@@ -286,8 +303,14 @@
             </div>
             <div class="math-box">
                 <div class="live-indicator"><div class="dot"></div> LIVE</div>
-                <div class="math-row"><span>Cotação USD (flutuação):</span><span id="rate-display">Buscando...</span></div>
-                <div class="math-row"><span>Taxa de Rede:</span><span style="color: var(--white);"> 1%</span></div>
+                <div class="math-row">
+                    <span>Cotação USD:</span>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <button onclick="manualRefresh(this)" class="refresh-trigger" title="Atualizar Preço">↻</button>
+                        <span id="rate-display" style="color: var(--gold); font-weight: bold;">Buscando...</span>
+                    </div>
+                </div>
+                <div class="math-row"><span>Taxa de Rede:</span><span style="color: white;"> 1%</span></div>
                 <div class="math-total"><span>Você recebe:</span><span id="receive-display">0.00 USDT</span></div>
             </div>
             <div class="input-group"><label>Rede de Envio</label><select id="network-select">
@@ -295,7 +318,7 @@
                     <option value="POL (Polygon)">POL (Polygon)</option>
                     <option value="SOL (SOLANA)">SOL (Solana)</option>
                     <option value="ARB (ARBITRUM)">ARB (Arbitrum one)</option>
-                </select>
+                </select></div>
             <div class="input-group"><label>Endereço da Carteira (Wallet)</label><input type="text" id="wallet-input" placeholder="0x... ou T..."></div>
             <button class="btn-primary" onclick="validateStep2()">Avançar para Pix</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
@@ -331,11 +354,17 @@
 
             <div class="math-box">
                 <div class="live-indicator"><div class="dot"></div> LIVE</div>
-                <div class="math-row"><span>Preço USD Pago:</span><span id="sell-rate-display">Buscando...</span></div>
+                <div class="math-row">
+                    <span>Preço USD Pago:</span>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <button onclick="manualRefresh(this)" class="refresh-trigger" title="Atualizar Preço">↻</button>
+                        <span id="sell-rate-display" style="color: var(--gold); font-weight: bold;">Buscando...</span>
+                    </div>
+                </div>
                 <div class="math-total sell" style="color: #00ff88; display: flex; justify-content: space-between; align-items: center; padding-top: 10px;">
-    <span style="color: #00ff88; font-weight: 600;">Você recebe:</span>
-    <span id="sell-receive-display" style="color: #00ff88; font-weight: 800; text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);">R$ 0,00</span>
-</div>
+                    <span style="color: #00ff88; font-weight: 600;">Você recebe:</span>
+                    <span id="sell-receive-display" style="color: #00ff88; font-weight: 800; text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);">R$ 0,00</span>
+                </div>
             </div>
 
             <label>Envie para um dos endereços abaixo:</label>
@@ -388,26 +417,28 @@
         }
 
         async function fetchRate() {
-    try {
-        // Busca o preço real do USDT/BRL na Binance (Preço de Corretora)
-        const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTBRL');
-        const data = await res.json();
-        
-        if(data.price) {
-            realUsdRate = parseFloat(data.price);
-            console.log("Preço USDT Binance: R$", realUsdRate);
-            calculate();
-            if(typeof calculateSell === "function") calculateSell();
+            try {
+                const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTBRL');
+                const data = await res.json();
+                
+                if(data.price) {
+                    realUsdRate = parseFloat(data.price);
+                    calculate();
+                    if(typeof calculateSell === "function") calculateSell();
+                }
+            } catch (e) {
+                const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL');
+                const data = await res.json();
+                realUsdRate = parseFloat(data.USDBRL.bid) * 1.02;
+                calculate();
+            }
         }
-    } catch (e) {
-        console.error("Erro Binance. Tentando Fallback...");
-        // Fallback para AwesomeAPI caso a Binance falhe (adicionando margem de segurança)
-        const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL');
-        const data = await res.json();
-        realUsdRate = parseFloat(data.USDBRL.bid) * 1.02; // +2% de segurança no fallback
-        calculate();
-    }
-}
+
+        async function manualRefresh(btn) {
+            btn.classList.add('spinning');
+            await fetchRate();
+            setTimeout(() => btn.classList.remove('spinning'), 600);
+        }
 
         async function fetchTicker() {
             try {
@@ -422,36 +453,25 @@
         }
 
         function calculate() {
-    const brl = parseFloat(document.getElementById('brl-input').value) || 0;
-    const coin = document.getElementById('coin-select').value;
-    
-    // 1. Cotação + 0.5% Spread
-    const rawRateWithSpread = realUsdRate * (1 + spreadBuy);
-    
-    // 2. ARREDONDA SEMPRE PARA CIMA (Ex: 5.291 -> 5.30)
-    const rateFinal = Math.ceil(rawRateWithSpread * 100) / 100;
-    
-    document.getElementById('rate-display').innerText = `R$ ${rateFinal.toFixed(2)}`;
+            const brl = parseFloat(document.getElementById('brl-input').value) || 0;
+            const coin = document.getElementById('coin-select').value;
+            const rawRateWithSpread = realUsdRate * (1 + spreadBuy);
+            const rateFinal = Math.ceil(rawRateWithSpread * 100) / 100;
+            
+            document.getElementById('rate-display').innerText = `R$ ${rateFinal.toFixed(2)}`;
 
-    if (brl >= 50 && brl <= 500) {
-        // 3. Cálculo Bruto: BRL / Taxa
-        const cryptoGross = brl / rateFinal;
-        
-        // 4. Subtrai Taxa de Rede de 1%
-        const cryptoNet = cryptoGross * (1 - networkFee);
-        
-        // 5. ARREDONDA PARA BAIXO / TRUNCA (Ex: 94.379 -> 94.37)
-        const finalReceive = Math.floor(cryptoNet * 100) / 100;
-        
-        document.getElementById('receive-display').innerText = `${finalReceive.toFixed(2)} ${coin}`;
-    } else {
-        document.getElementById('receive-display').innerText = `0.00`;
-    }
-}
+            if (brl >= 50 && brl <= 500) {
+                const cryptoGross = brl / rateFinal;
+                const cryptoNet = cryptoGross * (1 - networkFee);
+                const finalReceive = Math.floor(cryptoNet * 100) / 100;
+                document.getElementById('receive-display').innerText = `${finalReceive.toFixed(2)} ${coin}`;
+            } else {
+                document.getElementById('receive-display').innerText = `0.00`;
+            }
+        }
 
         function calculateSell() {
             const usd = parseFloat(document.getElementById('sell-usd-input').value) || 0;
-            // Matemática: Preço - 4%, arredondado para baixo (Math.floor)
             const sellRate = Math.floor((realUsdRate * (1 - spreadSell)) * 100) / 100;
             document.getElementById('sell-rate-display').innerText = `R$ ${sellRate.toFixed(2)}`;
             if (usd >= 10 && usd <= 10000) {
