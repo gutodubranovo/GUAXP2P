@@ -152,7 +152,6 @@
             color: #fff;
         }
 
-        /* BOTÃO GUARANI VERDE */
         .btn-pyg {
             background: linear-gradient(90deg, #00ff88, #008044);
             color: #fff;
@@ -298,7 +297,7 @@
         <button class="btn-primary btn-pyg" onclick="goToScreen(6)">Comprar Guaranis</button>
     </section>
 
-    <!-- TELA 2: FORMULÁRIO COMPRA -->
+    <!-- TELA 2: FORMULÁRIO COMPRA USDT -->
     <section id="screen-2" class="screen">
         <div class="card">
             <h2 style="margin-bottom: 25px; color: var(--neon-blue); text-align: center;">Ordem de Compra</h2>
@@ -307,7 +306,7 @@
             <div class="input-group"><label>WhatsApp (DDD + Número)</label><input type="tel" id="whatsapp-input" placeholder="(11) 999999999"></div>
             <div style="display: flex; gap: 10px;">
                 <div class="input-group" style="flex: 1;"><label>Moeda</label><select id="coin-select" onchange="calculate()"><option value="USDT">USDT</option><option value="USDC">USDC</option></select></div>
-                <div class="input-group" style="flex: 1;"><label>Valor BRL (50 - 500)</label><input type="number" id="brl-input" placeholder="100" oninput="calculate()"></div>
+                <div class="input-group" style="flex: 1;"><label>Valor BRL (50 - 5000)</label><input type="number" id="brl-input" placeholder="100" oninput="calculate()"></div>
             </div>
             <div class="math-box">
                 <div class="live-indicator"><div class="dot"></div> LIVE</div>
@@ -341,7 +340,7 @@
             <h2 style="margin-bottom: 25px; color: var(--success); text-align: center;">Comprar Guaranis (PYG)</h2>
             <div class="input-group"><label>Nome Completo</label><input type="text" id="pyg-name" placeholder="Nome Completo"></div>
             <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="pyg-email" placeholder="seu@email.com"></div>
-            <div class="input-group"><label>WhatsApp (DDD + Número)</label><input type="tel" id="pyg-whatsapp" placeholder="DDD + Número"></div>
+            <div class="input-group"><label>WhatsApp</label><input type="tel" id="pyg-whatsapp" placeholder="DDD + Número"></div>
             <div class="input-group"><label>Valor em Reais (BRL) - Min 50 / Max 5.000</label><input type="number" id="pyg-brl-input" placeholder="100" oninput="calculatePyg()"></div>
             
             <div class="math-box">
@@ -350,7 +349,7 @@
                     <span>Cotação Guarani:</span>
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <button onclick="manualRefresh(this)" class="refresh-trigger">↻</button>
-                        <span id="pyg-rate-display" style="color: var(--gold); font-weight: bold;">1.270 GS</span>
+                        <span id="pyg-rate-display" style="color: var(--gold); font-weight: bold;">1.200 GS</span>
                     </div>
                 </div>
                 <div class="math-row"><span>Taxa de Conversão:</span><span>1%</span></div>
@@ -458,10 +457,8 @@
 
     <script>
         let realUsdRate = 5.20;
-        let realPygRate = 1270; // Base Cambios Chaco
         const spreadBuy = 0.005; 
         const spreadSell = 0.04; 
-        const spreadPyg = 0.01; // 1%
         const networkFee = 0.01; 
         let orderData = {};
 
@@ -519,7 +516,7 @@
             const rawRateWithSpread = realUsdRate * (1 + spreadBuy);
             const rateFinal = Math.ceil(rawRateWithSpread * 100) / 100;
             document.getElementById('rate-display').innerText = `R$ ${rateFinal.toFixed(2)}`;
-            if (brl >= 50 && brl <= 500) {
+            if (brl >= 50 && brl <= 5000) {
                 const cryptoGross = brl / rateFinal;
                 const cryptoNet = cryptoGross * (1 - networkFee);
                 const finalReceive = Math.floor(cryptoNet * 100) / 100;
@@ -537,23 +534,27 @@
             } else { document.getElementById('sell-receive-display').innerText = `R$ 0,00`; }
         }
 
-        // MATEMÁTICA DO GUARANI CORRIGIDA (1.270 + 1% Spread)
+        // MATEMÁTICA DO GUARANI CORRIGIDA (1.200 - 1% Spread)
         function calculatePyg() {
             const brl = parseFloat(document.getElementById('pyg-brl-input').value) || 0;
             const delivery = document.getElementById('pyg-delivery').value;
-            const rate = 1270;
-            const spread = 0.01; // 1%
+            const rate = 1200; // Valor de compra Cambios Chaco
+            const spread = 0.01; // 1% de taxa (sua margem)
 
             document.getElementById('pyg-rate-display').innerText = `${rate.toLocaleString()} GS`;
 
             if (brl >= 50 && brl <= 5000) {
-                // Cálculo: (BRL * 1270) + 1% de Spread
-                let total = (brl * rate) * (1 + spread);
+                // 1. Valor Bruto: BRL * 1200
+                let bruto = brl * rate;
                 
-                // Se Delivery, subtrai 10.000 PYG do montante final
-                if (delivery === "DELIVERY") total -= 10000;
+                // 2. Subtrai 1% de taxa (Spread)
+                let liquido = bruto * (1 - spread);
+                
+                // 3. Subtrai Delivery se necessário (10.000 PYG)
+                if (delivery === "DELIVERY") liquido -= 10000;
 
-                document.getElementById('pyg-receive-display').innerText = `${Math.floor(total).toLocaleString()} GS`;
+                // Arredonda para baixo para evitar centavos de guaranis
+                document.getElementById('pyg-receive-display').innerText = `${Math.floor(liquido).toLocaleString()} GS`;
             } else {
                 document.getElementById('pyg-receive-display').innerText = `0 GS`;
             }
@@ -582,7 +583,7 @@
             const name = document.getElementById('name-input').value;
             const email = document.getElementById('email-input').value;
             const brl = parseFloat(document.getElementById('brl-input').value);
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 500) return alert("Verifique os campos (Min R$ 50)");
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 5000) return alert("Verifique os campos (Min R$ 50)");
             orderData = { type: 'COMPRA', name, email, brl, wallet: document.getElementById('wallet-input').value, coin: document.getElementById('coin-select').value, network: document.getElementById('network-select').value, receive: document.getElementById('receive-display').innerText };
             document.getElementById('final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('qrcode'), value: document.getElementById('pix-code').value, size: 220 });
