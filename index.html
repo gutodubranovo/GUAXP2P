@@ -525,14 +525,19 @@
         }
 
         function calculateSell() {
-            const usd = parseFloat(document.getElementById('sell-usd-input').value) || 0;
-            const sellRate = Math.floor((realUsdRate * (1 - spreadSell)) * 100) / 100;
-            document.getElementById('sell-rate-display').innerText = `R$ ${sellRate.toFixed(2)}`;
-            if (usd >= 10 && usd <= 10000) {
-                const finalBrl = usd * sellRate;
-                document.getElementById('sell-receive-display').innerText = `R$ ${finalBrl.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-            } else { document.getElementById('sell-receive-display').innerText = `R$ 0,00`; }
-        }
+    const usd = parseFloat(document.getElementById('sell-usd-input').value) || 0;
+    
+    // APAGUE A LINHA ANTIGA E COLOQUE ESSA ABAIXO:
+    const sellRate = 5.02; // Exemplo: Agora você paga sempre 5,25 fixo
+    
+    document.getElementById('sell-rate-display').innerText = `R$ ${sellRate.toFixed(2)}`;
+    if (usd >= 10 && usd <= 10000) {
+        const finalBrl = usd * sellRate;
+        document.getElementById('sell-receive-display').innerText = `R$ ${finalBrl.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+    } else { 
+        document.getElementById('sell-receive-display').innerText = `R$ 0,00`; 
+    }
+}
 
         // MATEMÁTICA DO GUARANI CORRIGIDA (1.200 - 1% Spread)
         function calculatePyg() {
