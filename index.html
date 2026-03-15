@@ -329,6 +329,10 @@
                     <option value="TRON (TRC20)">TRON (TRC20) -1 USD TAXA</option>
                 </select></div>
             <div class="input-group"><label>Endereço da Carteira (Wallet)</label><input type="text" id="wallet-input" placeholder="0x... ou T..."></div>
+            
+            <!-- CAMPO VENDEDOR ADICIONADO -->
+            <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="buy-seller-code" placeholder="#0000"></div>
+
             <button class="btn-primary" onclick="validateStep2()">Avançar para Pix</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
         </div>
@@ -361,44 +365,18 @@
                 <select id="pyg-delivery" onchange="calculatePyg()">
                     <option value="DELIVERY">DELIVERY (Taxa 10.000 PYG)</option>
                     <option value="RETIRAR EM MÃOS">RETIRAR EM MÃOS (Grátis)</option>
-                    
                 </select>
             </div>
+
+            <!-- CAMPO VENDEDOR ADICIONADO -->
+            <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="pyg-seller-code" placeholder="#0000"></div>
 
             <button class="btn-primary btn-pyg" onclick="validatePygStep()">Avançar para Pix</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
         </div>
     </section>
 
-    <!-- TELA 7: PAGAMENTO GUARANIS -->
-    <section id="screen-7" class="screen">
-        <div class="card" style="text-align: center;">
-            <h2 style="color: var(--gold);">Pagamento Pix (PYG)</h2>
-            <p id="pyg-final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
-            <canvas id="pyg-qrcode"></canvas>
-            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pyg-pix-code" value="00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839" readonly><button onclick="copyPix('pyg-pix-code')" class="btn-copy-small">Copiar</button></div></div>
-            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO CASO NÃO TENHA EFETUADO O PAGAMENTO.</div>
-            <button class="btn-primary btn-pyg" onclick="finishOrder('pyg')">Pagamento Concluído</button>
-            <button class="btn-back" onclick="goToScreen(6)">Voltar e Corrigir</button>
-        </div>
-    </section>
-
-    <!-- TELA 3: PAGAMENTO COMPRA USDT -->
-    <section id="screen-3" class="screen">
-        <div class="card" style="text-align: center;">
-            <h2 style="color: var(--gold);">Pagamento Pix</h2>
-            <p style="margin: 15px 0; font-size: 0.9rem; color: var(--text-dim);">Transfira exatamente:</p>
-            <p id="final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
-            <canvas id="qrcode"></canvas>
-            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pix-code" value="00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839" readonly><button onclick="copyPix('pix-code')" class="btn-copy-small">Copiar</button></div></div>
-            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU.
-                <br> Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve estar no nome do titular.</div>
-            <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishOrder('buy')">Paguei, Enviar Comprovante</button>
-            <button class="btn-back" onclick="goToScreen(2)">Corrigir Dados</button>
-        </div>
-    </section>
-
-    <!-- TELA 4: FORMULÁRIO VENDA -->
+    <!-- TELA 4: FORMULÁRIO VENDA USDT -->
     <section id="screen-4" class="screen">
         <div class="card">
             <h2 style="margin-bottom: 25px; color: var(--danger); text-align: center;">Ordem de Venda</h2>
@@ -435,8 +413,39 @@
 
             <div class="input-group" style="margin-top: 20px;"><label>Sua Chave PIX (Para receber)</label><input type="text" id="sell-pix-key" placeholder="CPF, Email, Cel ou Aleatória"></div>
             
+            <!-- CAMPO VENDEDOR ADICIONADO -->
+            <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="sell-seller-code" placeholder="#0000"></div>
+
             <button class="btn-primary btn-sell" onclick="validateSellStep()">Ordem de Venda</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
+        </div>
+    </section>
+
+    <!-- TELA 7: PAGAMENTO GUARANIS -->
+    <section id="screen-7" class="screen">
+        <div class="card" style="text-align: center;">
+            <h2 style="color: var(--gold);">Pagamento Pix (PYG)</h2>
+            <p id="pyg-final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
+            <canvas id="pyg-qrcode"></canvas>
+            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pyg-pix-code" value="00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839" readonly><button onclick="copyPix('pyg-pix-code')" class="btn-copy-small">Copiar</button></div></div>
+            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO CASO NÃO TENHA EFETUADO O PAGAMENTO.</div>
+            <button class="btn-primary btn-pyg" onclick="finishOrder('pyg')">Pagamento Concluído</button>
+            <button class="btn-back" onclick="goToScreen(6)">Voltar e Corrigir</button>
+        </div>
+    </section>
+
+    <!-- TELA 3: PAGAMENTO COMPRA USDT -->
+    <section id="screen-3" class="screen">
+        <div class="card" style="text-align: center;">
+            <h2 style="color: var(--gold);">Pagamento Pix</h2>
+            <p style="margin: 15px 0; font-size: 0.9rem; color: var(--text-dim);">Transfira exatamente:</p>
+            <p id="final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
+            <canvas id="qrcode"></canvas>
+            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pix-code" value="00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839" readonly><button onclick="copyPix('pix-code')" class="btn-copy-small">Copiar</button></div></div>
+            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU.
+                <br> Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve estar no nome do titular.</div>
+            <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishOrder('buy')">Paguei, Enviar Comprovante</button>
+            <button class="btn-back" onclick="goToScreen(2)">Corrigir Dados</button>
         </div>
     </section>
 
@@ -525,44 +534,27 @@
         }
 
         function calculateSell() {
-    const usd = parseFloat(document.getElementById('sell-usd-input').value) || 0;
-    
-    // APAGUE A LINHA ANTIGA E COLOQUE ESSA ABAIXO:
-    const sellRate = 5.02; // Exemplo: Agora você paga sempre 5,25 fixo
-    
-    document.getElementById('sell-rate-display').innerText = `R$ ${sellRate.toFixed(2)}`;
-    if (usd >= 10 && usd <= 10000) {
-        const finalBrl = usd * sellRate;
-        document.getElementById('sell-receive-display').innerText = `R$ ${finalBrl.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-    } else { 
-        document.getElementById('sell-receive-display').innerText = `R$ 0,00`; 
-    }
-}
+            const usd = parseFloat(document.getElementById('sell-usd-input').value) || 0;
+            const sellRate = 5.02; 
+            document.getElementById('sell-rate-display').innerText = `R$ ${sellRate.toFixed(2)}`;
+            if (usd >= 10 && usd <= 10000) {
+                const finalBrl = usd * sellRate;
+                document.getElementById('sell-receive-display').innerText = `R$ ${finalBrl.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            } else { document.getElementById('sell-receive-display').innerText = `R$ 0,00`; }
+        }
 
-        // MATEMÁTICA DO GUARANI CORRIGIDA (1.200 - 1% Spread)
         function calculatePyg() {
             const brl = parseFloat(document.getElementById('pyg-brl-input').value) || 0;
             const delivery = document.getElementById('pyg-delivery').value;
-            const rate = 1200; // Valor de compra Cambios Chaco
-            const spread = 0.01; // 1% de taxa (sua margem)
-
+            const rate = 1200; 
+            const spread = 0.01; 
             document.getElementById('pyg-rate-display').innerText = `${rate.toLocaleString()} GS`;
-
             if (brl >= 50 && brl <= 5000) {
-                // 1. Valor Bruto: BRL * 1200
                 let bruto = brl * rate;
-                
-                // 2. Subtrai 1% de taxa (Spread)
                 let liquido = bruto * (1 - spread);
-                
-                // 3. Subtrai Delivery se necessário (10.000 PYG)
                 if (delivery === "DELIVERY") liquido -= 10000;
-
-                // Arredonda para baixo para evitar centavos de guaranis
                 document.getElementById('pyg-receive-display').innerText = `${Math.floor(liquido).toLocaleString()} GS`;
-            } else {
-                document.getElementById('pyg-receive-display').innerText = `0 GS`;
-            }
+            } else { document.getElementById('pyg-receive-display').innerText = `0 GS`; }
         }
 
         function validatePygStep() {
@@ -576,7 +568,8 @@
                 name, email, brl, 
                 whatsapp: document.getElementById('pyg-whatsapp').value,
                 delivery: document.getElementById('pyg-delivery').value,
-                receive: document.getElementById('pyg-receive-display').innerText 
+                receive: document.getElementById('pyg-receive-display').innerText,
+                sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum'
             };
             
             document.getElementById('pyg-final-brl').innerText = `R$ ${brl.toFixed(2)}`;
@@ -589,9 +582,18 @@
             const email = document.getElementById('email-input').value;
             const brl = parseFloat(document.getElementById('brl-input').value);
             if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 5000) return alert("Verifique os campos (Min R$ 50)");
-            orderData = { type: 'COMPRA', name, email, brl, wallet: document.getElementById('wallet-input').value, coin: document.getElementById('coin-select').value, network: document.getElementById('network-select').value, receive: document.getElementById('receive-display').innerText };
+            
+            orderData = { 
+                type: 'COMPRA USDT', name, email, brl, 
+                wallet: document.getElementById('wallet-input').value, 
+                coin: document.getElementById('coin-select').value, 
+                network: document.getElementById('network-select').value, 
+                receive: document.getElementById('receive-display').innerText,
+                sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum'
+            };
+            
             document.getElementById('final-brl').innerText = `R$ ${brl.toFixed(2)}`;
-            new QRious({ element: document.getElementById('qrcode'), value: document.getElementById('pix-code').value, size: 220 });
+            new QRious({ element: document.getElementById('qrcode'), value: "00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839", size: 220 });
             goToScreen(3);
         }
 
@@ -601,8 +603,16 @@
             const usd = parseFloat(document.getElementById('sell-usd-input').value);
             const pix = document.getElementById('sell-pix-key').value;
             if (name.trim().split(' ').length < 2 || !email.includes('@') || usd < 10 || usd > 10000 || !pix) return alert("Verifique os campos (Min 10 USD)");
-            orderData = { type: 'VENDA', name, email, usd, pix, coin: document.getElementById('sell-coin-select').value, receive: document.getElementById('sell-receive-display').innerText, rate: document.getElementById('sell-rate-display').innerText };
-            document.getElementById('sell-summary-content').innerHTML = `<p><b>Cliente:</b> ${orderData.name}</p><p><b>Email:</b> ${orderData.email}</p><p><b>Venda de:</b> ${orderData.usd} ${orderData.coin}</p><p><b>Cotação:</b> ${orderData.rate}</p><p><b>Receber:</b> ${orderData.receive}</p><p><b>Pix:</b> ${orderData.pix}</p>`;
+            
+            orderData = { 
+                type: 'VENDA USDT', name, email, usd, pix, 
+                coin: document.getElementById('sell-coin-select').value, 
+                receive: document.getElementById('sell-receive-display').innerText, 
+                rate: document.getElementById('sell-rate-display').innerText,
+                sellerCode: document.getElementById('sell-seller-code').value || 'Nenhum'
+            };
+            
+            document.getElementById('sell-summary-content').innerHTML = `<p><b>Cliente:</b> ${orderData.name}</p><p><b>Email:</b> ${orderData.email}</p><p><b>Venda de:</b> ${orderData.usd} ${orderData.coin}</p><p><b>Cotação:</b> ${orderData.rate}</p><p><b>Receber:</b> ${orderData.receive}</p><p><b>Pix:</b> ${orderData.pix}</p><p><b>Cód. Vendedor:</b> ${orderData.sellerCode}</p>`;
             goToScreen(5);
         }
 
@@ -616,11 +626,11 @@
         function finishOrder(type) {
             let msg = "";
             if(type === 'buy') {
-                msg = `ORDEM DE COMPRA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nValor: R$ ${orderData.brl.toFixed(2)}\nRecebe: ${orderData.receive}\nCarteira: ${orderData.wallet}\nRede: ${orderData.network}`;
+                msg = `ORDEM DE COMPRA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nValor: R$ ${orderData.brl.toFixed(2)}\nRecebe: ${orderData.receive}\nCarteira: ${orderData.wallet}\nRede: ${orderData.network}\nCód. Vendedor: ${orderData.sellerCode}`;
             } else if(type === 'sell') {
-                msg = `ORDEM DE VENDA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nEnviado: ${orderData.usd} ${orderData.coin}\nReceber: ${orderData.receive}\nChave Pix: ${orderData.pix}`;
+                msg = `ORDEM DE VENDA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nEnviado: ${orderData.usd} ${orderData.coin}\nReceber: ${orderData.receive}\nChave Pix: ${orderData.pix}\nCód. Vendedor: ${orderData.sellerCode}`;
             } else if(type === 'pyg') {
-                msg = `ORDEM COMPRA GUARANIS\nNome: ${orderData.name}\nEmail: ${orderData.email}\nValor: R$ ${orderData.brl.toFixed(2)}\nRecebe: ${orderData.receive}\nRetirada: ${orderData.delivery}\nWhatsApp: ${orderData.whatsapp}`;
+                msg = `ORDEM COMPRA GUARANIS\nNome: ${orderData.name}\nEmail: ${orderData.email}\nValor: R$ ${orderData.brl.toFixed(2)}\nRecebe: ${orderData.receive}\nRetirada: ${orderData.delivery}\nWhatsApp: ${orderData.whatsapp}\nCód. Vendedor: ${orderData.sellerCode}`;
             }
             window.open(`https://api.whatsapp.com/send?phone=595991398215&text=${encodeURIComponent(msg)}`);
         }
