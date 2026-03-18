@@ -147,14 +147,28 @@
             margin-bottom: 10px;
         }
 
-        .btn-sell {
-            background: linear-gradient(90deg, #ff4d4d, #b30000);
-            color: #fff;
-        }
+        .btn-sell { background: linear-gradient(90deg, #ff4d4d, #b30000); color: #fff; }
+        .btn-pyg { background: linear-gradient(90deg, #00ff88, #008044); color: #fff; }
 
-        .btn-pyg {
-            background: linear-gradient(90deg, #00ff88, #008044);
-            color: #fff;
+        /* BOTÃO DISCRETO */
+        .btn-discreet {
+            background: transparent;
+            color: var(--text-dim);
+            border: 1px solid #333;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            width: auto;
+            text-transform: uppercase;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+        .btn-discreet:hover {
+            color: var(--gold);
+            border-color: var(--gold);
+            background: rgba(255, 204, 0, 0.05);
         }
 
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 242, 255, 0.4); }
@@ -226,7 +240,6 @@
             vertical-align: middle;
             transition: transform 0.3s ease;
         }
-        .refresh-trigger:hover { color: var(--gold); }
         .refresh-trigger.spinning { animation: spin-once 0.6s ease-in-out; }
         @keyframes spin-once { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
@@ -295,6 +308,25 @@
         <button class="btn-primary" onclick="goToScreen(2)">Iniciar Compra</button>
         <button class="btn-primary btn-sell" onclick="goToScreen(4)">Iniciar Venda</button>
         <button class="btn-primary btn-pyg" onclick="goToScreen(6)">Comprar Guaranis</button>
+
+        <!-- BOTÃO DISCRETO CADASTRO VENDEDOR -->
+        <button class="btn-discreet" onclick="goToScreen(8)">Cadastro Vendedor</button>
+    </section>
+
+    <!-- TELA 8: INFORMAÇÃO VENDEDOR -->
+    <section id="screen-8" class="screen">
+        <div class="card">
+            <h2 style="color: var(--gold); text-align: center; margin-bottom: 20px;">Seja um Parceiro GUAX</h2>
+            <p style="text-align: center; color: var(--text-dim); line-height: 1.6; margin-bottom: 30px; font-size: 1rem;">
+                Ganhe uma comissão usando seu código de vendedor! Você recebe uma % em cada venda que o cliente usar seu código. Cadastre-se agora, é de graça!
+            </p>
+            
+            <button class="btn-primary" style="background: #25d366; color: white;" onclick="window.open('https://api.whatsapp.com/send?phone=595991398215&text=Quero%20Cadastrar%20meu%20Cod.%20Vendedor.', '_blank')">
+                Cadastre-se agora
+            </button>
+            
+            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
+        </div>
     </section>
 
     <!-- TELA 2: FORMULÁRIO COMPRA USDT -->
@@ -329,10 +361,7 @@
                     <option value="TRON (TRC20)">TRON (TRC20) -1 USD TAXA</option>
                 </select></div>
             <div class="input-group"><label>Endereço da Carteira (Wallet)</label><input type="text" id="wallet-input" placeholder="0x... ou T..."></div>
-            
-            <!-- CAMPO VENDEDOR ADICIONADO -->
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="buy-seller-code" placeholder="#0000"></div>
-
             <button class="btn-primary" onclick="validateStep2()">Avançar para Pix</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
         </div>
@@ -367,16 +396,41 @@
                     <option value="RETIRAR EM MÃOS">RETIRAR EM MÃOS (Grátis)</option>
                 </select>
             </div>
-
-            <!-- CAMPO VENDEDOR ADICIONADO -->
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="pyg-seller-code" placeholder="#0000"></div>
-
             <button class="btn-primary btn-pyg" onclick="validatePygStep()">Avançar para Pix</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
         </div>
     </section>
 
-    <!-- TELA 4: FORMULÁRIO VENDA USDT -->
+    <!-- TELA 7: PAGAMENTO GUARANIS -->
+    <section id="screen-7" class="screen">
+        <div class="card" style="text-align: center;">
+            <h2 style="color: var(--gold);">Pagamento Pix (PYG)</h2>
+            <p id="pyg-final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
+            <canvas id="pyg-qrcode"></canvas>
+            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pyg-pix-code" value="00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839" readonly><button onclick="copyPix('pyg-pix-code')" class="btn-copy-small">Copiar</button></div></div>
+            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO CASO NÃO TENHA EFETUADO O PAGAMENTO.</div>
+            <button class="btn-primary btn-pyg" onclick="finishOrder('pyg')">Pagamento Concluído</button>
+            <button class="btn-back" onclick="goToScreen(6)">Voltar e Corrigir</button>
+        </div>
+    </section>
+
+    <!-- TELA 3: PAGAMENTO COMPRA USDT -->
+    <section id="screen-3" class="screen">
+        <div class="card" style="text-align: center;">
+            <h2 style="color: var(--gold);">Pagamento Pix</h2>
+            <p style="margin: 15px 0; font-size: 0.9rem; color: var(--text-dim);">Transfira exatamente:</p>
+            <p id="final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
+            <canvas id="qrcode"></canvas>
+            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pix-code" value="00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839" readonly><button onclick="copyPix('pix-code')" class="btn-copy-small">Copiar</button></div></div>
+            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU.
+                <br> Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve estar no nome do titular.</div>
+            <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishOrder('buy')">Paguei, Enviar Comprovante</button>
+            <button class="btn-back" onclick="goToScreen(2)">Corrigir Dados</button>
+        </div>
+    </section>
+
+    <!-- TELA 4: FORMULÁRIO VENDA -->
     <section id="screen-4" class="screen">
         <div class="card">
             <h2 style="margin-bottom: 25px; color: var(--danger); text-align: center;">Ordem de Venda</h2>
@@ -412,40 +466,9 @@
             </div>
 
             <div class="input-group" style="margin-top: 20px;"><label>Sua Chave PIX (Para receber)</label><input type="text" id="sell-pix-key" placeholder="CPF, Email, Cel ou Aleatória"></div>
-            
-            <!-- CAMPO VENDEDOR ADICIONADO -->
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="sell-seller-code" placeholder="#0000"></div>
-
             <button class="btn-primary btn-sell" onclick="validateSellStep()">Ordem de Venda</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
-        </div>
-    </section>
-
-    <!-- TELA 7: PAGAMENTO GUARANIS -->
-    <section id="screen-7" class="screen">
-        <div class="card" style="text-align: center;">
-            <h2 style="color: var(--gold);">Pagamento Pix (PYG)</h2>
-            <p id="pyg-final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
-            <canvas id="pyg-qrcode"></canvas>
-            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pyg-pix-code" value="00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839" readonly><button onclick="copyPix('pyg-pix-code')" class="btn-copy-small">Copiar</button></div></div>
-            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO CASO NÃO TENHA EFETUADO O PAGAMENTO.</div>
-            <button class="btn-primary btn-pyg" onclick="finishOrder('pyg')">Pagamento Concluído</button>
-            <button class="btn-back" onclick="goToScreen(6)">Voltar e Corrigir</button>
-        </div>
-    </section>
-
-    <!-- TELA 3: PAGAMENTO COMPRA USDT -->
-    <section id="screen-3" class="screen">
-        <div class="card" style="text-align: center;">
-            <h2 style="color: var(--gold);">Pagamento Pix</h2>
-            <p style="margin: 15px 0; font-size: 0.9rem; color: var(--text-dim);">Transfira exatamente:</p>
-            <p id="final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
-            <canvas id="qrcode"></canvas>
-            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pix-code" value="00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839" readonly><button onclick="copyPix('pix-code')" class="btn-copy-small">Copiar</button></div></div>
-            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU.
-                <br> Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve estar no nome do titular.</div>
-            <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishOrder('buy')">Paguei, Enviar Comprovante</button>
-            <button class="btn-back" onclick="goToScreen(2)">Corrigir Dados</button>
         </div>
     </section>
 
@@ -468,7 +491,7 @@
         let realUsdRate = 5.20;
         const spreadBuy = 0.005; 
         const spreadSell = 0.04; 
-        const networkFee = 0.01; 
+        const networkFee = 0.045; 
         let orderData = {};
 
         window.onload = () => {
@@ -564,8 +587,7 @@
             if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 5000) return alert("Verifique os campos (Min R$ 50 / Max R$ 5.000)");
             
             orderData = { 
-                type: 'COMPRA GUARANIS', 
-                name, email, brl, 
+                type: 'COMPRA GUARANIS', name, email, brl, 
                 whatsapp: document.getElementById('pyg-whatsapp').value,
                 delivery: document.getElementById('pyg-delivery').value,
                 receive: document.getElementById('pyg-receive-display').innerText,
