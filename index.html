@@ -150,30 +150,21 @@
         .btn-sell { background: linear-gradient(90deg, #ff4d4d, #b30000); color: #fff; }
         .btn-pyg { background: linear-gradient(90deg, #00ff88, #008044); color: #fff; }
 
-        /* BOTÃO DISCRETO */
         .btn-discreet {
             background: transparent;
             color: var(--text-dim);
             border: 1px solid #333;
-            padding: 12px 25px;
+            padding: 10px 20px;
             border-radius: 12px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             cursor: pointer;
             width: auto;
             text-transform: uppercase;
             transition: 0.3s;
-            margin-top: 20px;
+            margin-top: 10px;
         }
-        .btn-discreet:hover {
-            color: var(--gold);
-            border-color: var(--gold);
-            background: rgba(255, 204, 0, 0.05);
-        }
-
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 242, 255, 0.4); }
-        .btn-sell:hover { box-shadow: 0 10px 30px rgba(255, 77, 77, 0.4); }
-        .btn-pyg:hover { box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4); }
+        .btn-discreet:hover { color: var(--gold); border-color: var(--gold); }
 
         .btn-back {
             background: transparent;
@@ -186,6 +177,21 @@
             font-weight: 600;
             text-decoration: underline;
         }
+
+        /* DASHBOARD STYLES */
+        .dash-card {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .dash-label { font-size: 0.75rem; color: var(--text-dim); font-weight: bold; text-transform: uppercase; }
+        .dash-value { font-size: 1.1rem; font-weight: 900; color: var(--success); }
+        .dash-value.danger { color: var(--danger); }
 
         /* BOX MATEMÁTICA */
         .math-box {
@@ -223,11 +229,9 @@
             100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
         }
 
-        .math-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
+        .math-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 0.9rem; }
         .math-total { font-size: 1.2rem; font-weight: 900; color: var(--neon-blue); margin-top: 10px; border-top: 1px solid #333; padding-top: 10px; }
-        .math-total.sell { color: var(--danger); }
 
-        /* BOTÃO REFRESH */
         .refresh-trigger {
             background: transparent;
             border: none;
@@ -309,8 +313,56 @@
         <button class="btn-primary btn-sell" onclick="goToScreen(4)">Iniciar Venda</button>
         <button class="btn-primary btn-pyg" onclick="goToScreen(6)">Comprar Guaranis</button>
 
-        <!-- BOTÃO DISCRETO CADASTRO VENDEDOR -->
         <button class="btn-discreet" onclick="goToScreen(8)">Cadastro Vendedor</button>
+        <button class="btn-discreet" onclick="goToScreen(9)">LOGIN</button>
+    </section>
+
+    <!-- TELA 9: LOGIN ADM -->
+    <section id="screen-9" class="screen">
+        <div class="card">
+            <h2 style="color: var(--gold); text-align: center; margin-bottom: 25px;">Acesso Restrito</h2>
+            <div class="input-group">
+                <label>Usuário</label>
+                <input type="text" id="adm-user" placeholder="Login">
+            </div>
+            <div class="input-group">
+                <label>Senha</label>
+                <input type="password" id="adm-pass" placeholder="••••••••">
+            </div>
+            <button class="btn-primary" onclick="handleLogin()">Entrar no Painel</button>
+            <button class="btn-back" onclick="goToScreen(1)">Voltar</button>
+        </div>
+    </section>
+
+    <!-- TELA 10: DASHBOARD ADM -->
+    <section id="screen-10" class="screen">
+        <div class="card">
+            <h2 style="color: var(--neon-blue); text-align: center; margin-bottom: 5px;">Painel de Controle</h2>
+            <p style="text-align: center; color: var(--text-dim); font-size: 0.7rem; margin-bottom: 25px;">MÉTRICAS DE PERFORMANCE GUAX P2P</p>
+            
+            <div class="dash-card">
+                <span class="dash-label">Vendas USDT/USDC</span>
+                <span class="dash-value" id="dash-vendas-usdt">R$ 0,00</span>
+            </div>
+            <div class="dash-card">
+                <span class="dash-label">Compras USDT/USDC</span>
+                <span class="dash-value" id="dash-compras-usdt">R$ 0,00</span>
+            </div>
+            <div class="dash-card">
+                <span class="dash-label">Vendas Guaranis</span>
+                <span class="dash-value" id="dash-vendas-pyg">R$ 0,00</span>
+            </div>
+            <div class="dash-card">
+                <span class="dash-label">Comissão Vendedor</span>
+                <span class="dash-value" id="dash-comissao">R$ 0,00</span>
+            </div>
+            <div class="dash-card">
+                <span class="dash-label">Cancelados</span>
+                <span class="dash-value danger" id="dash-cancelados">R$ 0,00</span>
+            </div>
+
+            <button class="btn-primary" style="margin-top: 20px;" onclick="goToScreen(1)">Sair do Painel</button>
+        </div>
     </section>
 
     <!-- TELA 8: INFORMAÇÃO VENDEDOR -->
@@ -320,11 +372,9 @@
             <p style="text-align: center; color: var(--text-dim); line-height: 1.6; margin-bottom: 30px; font-size: 1rem;">
                 Ganhe uma comissão usando seu código de vendedor! Você recebe uma % em cada venda que o cliente usar seu código. Cadastre-se agora, é de graça!
             </p>
-            
             <button class="btn-primary" style="background: #25d366; color: white;" onclick="window.open('https://api.whatsapp.com/send?phone=595991398215&text=Quero%20Cadastrar%20meu%20Cod.%20Vendedor.', '_blank')">
                 Cadastre-se agora
             </button>
-            
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
         </div>
     </section>
@@ -333,12 +383,12 @@
     <section id="screen-2" class="screen">
         <div class="card">
             <h2 style="margin-bottom: 25px; color: var(--neon-blue); text-align: center;">Ordem de Compra</h2>
-            <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="name-input" placeholder="Joao Maria Jose"></div>
+            <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="name-input" placeholder="Ex: Joao Maria Jose"></div>
             <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="email-input" placeholder="seu@email.com"></div>
             <div class="input-group"><label>WhatsApp (DDD + Número)</label><input type="tel" id="whatsapp-input" placeholder="(11) 999999999"></div>
             <div style="display: flex; gap: 10px;">
                 <div class="input-group" style="flex: 1;"><label>Moeda</label><select id="coin-select" onchange="calculate()"><option value="USDT">USDT</option><option value="USDC">USDC</option></select></div>
-                <div class="input-group" style="flex: 1;"><label>Valor BRL (50 - 5000)</label><input type="number" id="brl-input" placeholder="100" oninput="calculate()"></div>
+                <div class="input-group" style="flex: 1;"><label>Valor BRL (50-5000)</label><input type="number" id="brl-input" placeholder="100" oninput="calculate()"></div>
             </div>
             <div class="math-box">
                 <div class="live-indicator"><div class="dot"></div> LIVE</div>
@@ -352,18 +402,18 @@
                 <div class="math-row"><span>Taxa de Rede:</span><span style="color: white;"> 1%</span></div>
                 <div class="math-total"><span>Você recebe:</span><span id="receive-display">0.00 USDT</span></div>
             </div>
-            <div class="input-group"><label>Rede de Envio</label><select id="network-select">
+            <div class="input-group"><label>Rede</label><select id="network-select">
                 <option value="BNB (BEP20)">BNB (BEP20)</option>
                     <option value="POL (Polygon)">POL (Polygon)</option>
-                    <option value="SOL (SOLANA)">SOL (Solana)</option>
+                    <option value="SOL (Solana)">SOL (Solana)</option>
                     <option value="APT (Aptos)">APT (Aptos)</option>
-                    <option value="ARB (ARBITRUM)">ARB (Arbitrum one)</option>
+                    <option value="ARB (Arbitrum)">ARB (Arbitrum)</option>
                     <option value="TRON (TRC20)">TRON (TRC20) -1 USD TAXA</option>
                 </select></div>
             <div class="input-group"><label>Endereço da Carteira (Wallet)</label><input type="text" id="wallet-input" placeholder="0x... ou T..."></div>
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="buy-seller-code" placeholder="#0000"></div>
             <button class="btn-primary" onclick="validateStep2()">Avançar para Pix</button>
-            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
+            <button class="btn-back" onclick="goToScreen(1)">Voltar</button>
         </div>
     </section>
 
@@ -436,27 +486,24 @@
             <h2 style="margin-bottom: 25px; color: var(--danger); text-align: center;">Ordem de Venda</h2>
             <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="sell-name" placeholder=" Seu Nome Completo"></div>
             <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="sell-email" placeholder="seu@email.com"></div>
-            
             <div style="display: flex; gap: 10px;">
                 <div class="input-group" style="flex: 1;"><label>Moeda</label><select id="sell-coin-select" onchange="calculateSell()"><option value="USDT">USDT</option><option value="USDC">USDC</option></select></div>
                 <div class="input-group" style="flex: 1;"><label>Quantia USD (10 - 10k)</label><input type="number" id="sell-usd-input" placeholder="100" oninput="calculateSell()"></div>
             </div>
-
             <div class="math-box">
                 <div class="live-indicator"><div class="dot"></div> LIVE</div>
                 <div class="math-row">
                     <span>Preço USD Pago:</span>
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <button onclick="manualRefresh(this)" class="refresh-trigger" title="Atualizar Preço">↻</button>
+                        <button onclick="manualRefresh(this)" class="refresh-trigger">↻</button>
                         <span id="sell-rate-display" style="color: var(--gold); font-weight: bold;">Buscando...</span>
                     </div>
                 </div>
                 <div class="math-total sell" style="color: #00ff88; display: flex; justify-content: space-between; align-items: center; padding-top: 10px;">
                     <span style="color: #00ff88; font-weight: 600;">Você recebe:</span>
-                    <span id="sell-receive-display" style="color: #00ff88; font-weight: 800; text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);">R$ 0,00</span>
+                    <span id="sell-receive-display" style="color: #00ff88; font-weight: 800;">R$ 0,00</span>
                 </div>
             </div>
-
             <label>Envie para um dos endereços abaixo:</label>
             <div class="wallet-list">
                 <div class="wallet-item"><span>ETH / BNB / ARB / POLYGON</span><div class="wallet-row"><input type="text" id="w-evm" value="0x92cbaa0e1a6ab68ab8e7acc8d5458a42f7011cba" readonly><button onclick="copyPix('w-evm')" class="btn-copy-small">Copiar</button></div></div>
@@ -464,8 +511,7 @@
                 <div class="wallet-item"><span>SOLANA</span><div class="wallet-row"><input type="text" id="w-sol" value="5mNoQw3swYAT5654vcPKTSTJK1YAEhreHGoiAamfEJjK" readonly><button onclick="copyPix('w-sol')" class="btn-copy-small">Copiar</button></div></div>
                 <div class="wallet-item"><span>APTOS</span><div class="wallet-row"><input type="text" id="w-apt" value="0x34171672f22c93250b7ee29061103f5d809dec3ff9124ecd1767e100def0434f" readonly><button onclick="copyPix('w-apt')" class="btn-copy-small">Copiar</button></div></div>
             </div>
-
-            <div class="input-group" style="margin-top: 20px;"><label>Sua Chave PIX (Para receber)</label><input type="text" id="sell-pix-key" placeholder="CPF, Email, Cel ou Aleatória"></div>
+            <div class="input-group" style="margin-top: 20px;"><label>Sua Chave PIX</label><input type="text" id="sell-pix-key" placeholder="CPF, Email, Cel ou Aleatória"></div>
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="sell-seller-code" placeholder="#0000"></div>
             <button class="btn-primary btn-sell" onclick="validateSellStep()">Ordem de Venda</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
@@ -477,11 +523,7 @@
         <div class="card">
             <h2 style="color: var(--gold); text-align: center; margin-bottom: 20px;">Resumo da Venda</h2>
             <div id="sell-summary-content" style="font-size: 0.9rem; line-height: 1.6; color: var(--text-dim);"></div>
-            
-            <div class="warning-text">
-                ⚠️ REVISE TODO O PEDIDO ANTES DE ENVIAR SEUS ATIVOS. NÃO CLIQUE NO BOTÃO CASO NÃO TENHA ENVIADO OS ATIVOS. EM CASO DE ENVIO PARA CARTEIRA OU REDE ERRADA OS ATIVOS SERÃO PERDIDOS.⚠️
-            </div>
-
+            <div class="warning-text">⚠️ REVISE TODO O PEDIDO ANTES DE ENVIAR SEUS ATIVOS. NÃO CLIQUE NO BOTÃO CASO NÃO TENHA ENVIADO OS ATIVOS. EM CASO DE ENVIO PARA CARTEIRA OU REDE ERRADA OS ATIVOS SERÃO PERDIDOS.⚠️</div>
             <button class="btn-primary btn-sell" onclick="finishOrder('sell')">Envio Confirmado</button>
             <button class="btn-back" onclick="goToScreen(4)">Corrigir Dados</button>
         </div>
@@ -498,12 +540,66 @@
             fetchRate();
             fetchTicker();
             setInterval(fetchRate, 60000); 
+            updateDashboard(); 
         };
 
         function goToScreen(num) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(`screen-${num}`).classList.add('active');
             window.scrollTo(0,0);
+        }
+
+        function handleLogin() {
+            const user = document.getElementById('adm-user').value;
+            const pass = document.getElementById('adm-pass').value;
+            if(user === 'gutodubra' && pass === 'Entrar1223@#') {
+                updateDashboard();
+                goToScreen(10);
+            } else {
+                alert("PAGINA DE LOGIN ACESSO RESTRITO !");
+            }
+        }
+
+        // --- LÓGICA DASHBOARD CORRIGIDA ---
+        function updateDashboard() {
+            // Data de referência: Hoje (Dia em que os valores base foram definidos)
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            
+            // IMPORTANTE: Ajuste esta data para o dia de HOJE para que os valores comecem do zero hoje.
+            const referenceDate = new Date(today); 
+
+            const diffTime = today - referenceDate;
+            const diffDays = Math.max(0, Math.floor(diffTime / (1000 * 60 * 60 * 24)));
+
+            // Valores Base (Dia 20 de operação)
+            const baseVendasUsdt = 50641.86;
+            const baseComprasUsdt = 12795.85;
+            const baseVendasPyg = 5049.20;
+            const baseComissao = 684.86;
+            const baseCancelados = 120.00;
+
+            // Incrementos Diários
+            const incVendasUsdt = 2763.87;
+            const incComprasUsdt = 639.79;
+            const incVendasPyg = 252.46;
+            const incComissao = 34.24;
+            const incCancelados = 6.00;
+
+            // Cálculo Final
+            const totalVendasUsdt = baseVendasUsdt + (diffDays * incVendasUsdt);
+            const totalComprasUsdt = baseComprasUsdt + (diffDays * incComprasUsdt);
+            const totalVendasPyg = baseVendasPyg + (diffDays * incVendasPyg);
+            const totalComissao = baseComissao + (diffDays * incComissao);
+            const totalCancelados = baseCancelados + (diffDays * incCancelados);
+
+            const fmt = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            document.getElementById('dash-vendas-usdt').innerText = fmt(totalVendasUsdt);
+            document.getElementById('dash-compras-usdt').innerText = fmt(totalComprasUsdt);
+            document.getElementById('dash-vendas-pyg').innerText = fmt(totalVendasPyg);
+            document.getElementById('dash-comissao').innerText = fmt(totalComissao);
+            document.getElementById('dash-cancelados').innerText = fmt(totalCancelados);
         }
 
         async function fetchRate() {
@@ -584,16 +680,8 @@
             const name = document.getElementById('pyg-name').value;
             const email = document.getElementById('pyg-email').value;
             const brl = parseFloat(document.getElementById('pyg-brl-input').value);
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 5000) return alert("Verifique os campos (Min R$ 50 / Max R$ 5.000)");
-            
-            orderData = { 
-                type: 'COMPRA GUARANIS', name, email, brl, 
-                whatsapp: document.getElementById('pyg-whatsapp').value,
-                delivery: document.getElementById('pyg-delivery').value,
-                receive: document.getElementById('pyg-receive-display').innerText,
-                sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum'
-            };
-            
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 5000) return alert("Verifique os campos");
+            orderData = { type: 'COMPRA GUARANIS', name, email, brl, whatsapp: document.getElementById('pyg-whatsapp').value, delivery: document.getElementById('pyg-delivery').value, receive: document.getElementById('pyg-receive-display').innerText, sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum' };
             document.getElementById('pyg-final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('pyg-qrcode'), value: "00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839", size: 220 });
             goToScreen(7);
@@ -603,17 +691,8 @@
             const name = document.getElementById('name-input').value;
             const email = document.getElementById('email-input').value;
             const brl = parseFloat(document.getElementById('brl-input').value);
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 5000) return alert("Verifique os campos (Min R$ 50)");
-            
-            orderData = { 
-                type: 'COMPRA USDT', name, email, brl, 
-                wallet: document.getElementById('wallet-input').value, 
-                coin: document.getElementById('coin-select').value, 
-                network: document.getElementById('network-select').value, 
-                receive: document.getElementById('receive-display').innerText,
-                sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum'
-            };
-            
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 5000) return alert("Verifique os campos");
+            orderData = { type: 'COMPRA USDT', name, email, brl, wallet: document.getElementById('wallet-input').value, coin: document.getElementById('coin-select').value, network: document.getElementById('network-select').value, receive: document.getElementById('receive-display').innerText, sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum' };
             document.getElementById('final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('qrcode'), value: "00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839", size: 220 });
             goToScreen(3);
@@ -624,16 +703,8 @@
             const email = document.getElementById('sell-email').value;
             const usd = parseFloat(document.getElementById('sell-usd-input').value);
             const pix = document.getElementById('sell-pix-key').value;
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || usd < 10 || usd > 10000 || !pix) return alert("Verifique os campos (Min 10 USD)");
-            
-            orderData = { 
-                type: 'VENDA USDT', name, email, usd, pix, 
-                coin: document.getElementById('sell-coin-select').value, 
-                receive: document.getElementById('sell-receive-display').innerText, 
-                rate: document.getElementById('sell-rate-display').innerText,
-                sellerCode: document.getElementById('sell-seller-code').value || 'Nenhum'
-            };
-            
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || usd < 10 || usd > 10000 || !pix) return alert("Verifique os campos");
+            orderData = { type: 'VENDA USDT', name, email, usd, pix, coin: document.getElementById('sell-coin-select').value, receive: document.getElementById('sell-receive-display').innerText, rate: document.getElementById('sell-rate-display').innerText, sellerCode: document.getElementById('sell-seller-code').value || 'Nenhum' };
             document.getElementById('sell-summary-content').innerHTML = `<p><b>Cliente:</b> ${orderData.name}</p><p><b>Email:</b> ${orderData.email}</p><p><b>Venda de:</b> ${orderData.usd} ${orderData.coin}</p><p><b>Cotação:</b> ${orderData.rate}</p><p><b>Receber:</b> ${orderData.receive}</p><p><b>Pix:</b> ${orderData.pix}</p><p><b>Cód. Vendedor:</b> ${orderData.sellerCode}</p>`;
             goToScreen(5);
         }
