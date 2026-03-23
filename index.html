@@ -229,7 +229,7 @@
             100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
         }
 
-        .math-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 0.9rem; }
+        .math-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
         .math-total { font-size: 1.2rem; font-weight: 900; color: var(--neon-blue); margin-top: 10px; border-top: 1px solid #333; padding-top: 10px; }
 
         .refresh-trigger {
@@ -402,12 +402,12 @@
                 <div class="math-row"><span>Taxa de Rede:</span><span style="color: white;"> 1%</span></div>
                 <div class="math-total"><span>Você recebe:</span><span id="receive-display">0.00 USDT</span></div>
             </div>
-            <div class="input-group"><label>Rede</label><select id="network-select">
+            <div class="input-group"><label>Rede de Envio</label><select id="network-select">
                 <option value="BNB (BEP20)">BNB (BEP20)</option>
                     <option value="POL (Polygon)">POL (Polygon)</option>
-                    <option value="SOL (Solana)">SOL (Solana)</option>
+                    <option value="SOL (SOLANA)">SOL (Solana)</option>
                     <option value="APT (Aptos)">APT (Aptos)</option>
-                    <option value="ARB (Arbitrum)">ARB (Arbitrum)</option>
+                    <option value="ARB (ARBITRUM)">ARB (Arbitrum one)</option>
                     <option value="TRON (TRC20)">TRON (TRC20) -1 USD TAXA</option>
                 </select></div>
             <div class="input-group"><label>Endereço da Carteira (Wallet)</label><input type="text" id="wallet-input" placeholder="0x... ou T..."></div>
@@ -459,7 +459,7 @@
             <p id="pyg-final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
             <canvas id="pyg-qrcode"></canvas>
             <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pyg-pix-code" value="00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839" readonly><button onclick="copyPix('pyg-pix-code')" class="btn-copy-small">Copiar</button></div></div>
-            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO CASO NÃO TENHA EFETUADO O PAGAMENTO.</div>
+            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO CASO NÃO TENHA EFETUADO O PAGAMENTO.⚠️</div>
             <button class="btn-primary btn-pyg" onclick="finishOrder('pyg')">Pagamento Concluído</button>
             <button class="btn-back" onclick="goToScreen(6)">Voltar e Corrigir</button>
         </div>
@@ -474,7 +474,7 @@
             <canvas id="qrcode"></canvas>
             <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pix-code" value="00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839" readonly><button onclick="copyPix('pix-code')" class="btn-copy-small">Copiar</button></div></div>
             <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU.
-                <br> Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve estar no nome do titular.</div>
+                <br> Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve estar no nome do titular.⚠️</div>
             <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishOrder('buy')">Paguei, Enviar Comprovante</button>
             <button class="btn-back" onclick="goToScreen(2)">Corrigir Dados</button>
         </div>
@@ -562,15 +562,17 @@
 
         // --- LÓGICA DASHBOARD CORRIGIDA ---
         function updateDashboard() {
-            // Data de referência: Hoje (Dia em que os valores base foram definidos)
             const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            
-            // IMPORTANTE: Ajuste esta data para o dia de HOJE para que os valores comecem do zero hoje.
-            const referenceDate = new Date(today); 
+            const today = new Date(now.toLocaleString("en-US", {timeZone: "America/Sao_Paulo"}));
+            today.setHours(0, 0, 0, 0);
+
+            // Data em que os valores base de 20 dias foram definidos (20 de Março de 2026)
+            const referenceDate = new Date(2026, 2, 20); 
+            referenceDate.setHours(0, 0, 0, 0);
 
             const diffTime = today - referenceDate;
-            const diffDays = Math.max(0, Math.floor(diffTime / (1000 * 60 * 60 * 24)));
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const daysToIncrement = diffDays > 0 ? diffDays : 0;
 
             // Valores Base (Dia 20 de operação)
             const baseVendasUsdt = 50641.86;
@@ -587,11 +589,11 @@
             const incCancelados = 6.00;
 
             // Cálculo Final
-            const totalVendasUsdt = baseVendasUsdt + (diffDays * incVendasUsdt);
-            const totalComprasUsdt = baseComprasUsdt + (diffDays * incComprasUsdt);
-            const totalVendasPyg = baseVendasPyg + (diffDays * incVendasPyg);
-            const totalComissao = baseComissao + (diffDays * incComissao);
-            const totalCancelados = baseCancelados + (diffDays * incCancelados);
+            const totalVendasUsdt = baseVendasUsdt + (daysToIncrement * incVendasUsdt);
+            const totalComprasUsdt = baseComprasUsdt + (daysToIncrement * incComprasUsdt);
+            const totalVendasPyg = baseVendasPyg + (daysToIncrement * incVendasPyg);
+            const totalComissao = baseComissao + (daysToIncrement * incComissao);
+            const totalCancelados = baseCancelados + (daysToIncrement * incCancelados);
 
             const fmt = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
@@ -680,8 +682,16 @@
             const name = document.getElementById('pyg-name').value;
             const email = document.getElementById('pyg-email').value;
             const brl = parseFloat(document.getElementById('pyg-brl-input').value);
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 5000) return alert("Verifique os campos");
-            orderData = { type: 'COMPRA GUARANIS', name, email, brl, whatsapp: document.getElementById('pyg-whatsapp').value, delivery: document.getElementById('pyg-delivery').value, receive: document.getElementById('pyg-receive-display').innerText, sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum' };
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 5000) return alert("Verifique os campos (Min R$ 50 / Max R$ 5.000)");
+            
+            orderData = { 
+                type: 'COMPRA GUARANIS', name, email, brl, 
+                whatsapp: document.getElementById('pyg-whatsapp').value,
+                delivery: document.getElementById('pyg-delivery').value,
+                receive: document.getElementById('pyg-receive-display').innerText,
+                sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum'
+            };
+            
             document.getElementById('pyg-final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('pyg-qrcode'), value: "00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839", size: 220 });
             goToScreen(7);
@@ -691,8 +701,17 @@
             const name = document.getElementById('name-input').value;
             const email = document.getElementById('email-input').value;
             const brl = parseFloat(document.getElementById('brl-input').value);
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 5000) return alert("Verifique os campos");
-            orderData = { type: 'COMPRA USDT', name, email, brl, wallet: document.getElementById('wallet-input').value, coin: document.getElementById('coin-select').value, network: document.getElementById('network-select').value, receive: document.getElementById('receive-display').innerText, sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum' };
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 5000) return alert("Verifique os campos (Min R$ 50)");
+            
+            orderData = { 
+                type: 'COMPRA USDT', name, email, brl, 
+                wallet: document.getElementById('wallet-input').value, 
+                coin: document.getElementById('coin-select').value, 
+                network: document.getElementById('network-select').value, 
+                receive: document.getElementById('receive-display').innerText,
+                sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum'
+            };
+            
             document.getElementById('final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('qrcode'), value: "00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839", size: 220 });
             goToScreen(3);
@@ -703,8 +722,16 @@
             const email = document.getElementById('sell-email').value;
             const usd = parseFloat(document.getElementById('sell-usd-input').value);
             const pix = document.getElementById('sell-pix-key').value;
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || usd < 10 || usd > 10000 || !pix) return alert("Verifique os campos");
-            orderData = { type: 'VENDA USDT', name, email, usd, pix, coin: document.getElementById('sell-coin-select').value, receive: document.getElementById('sell-receive-display').innerText, rate: document.getElementById('sell-rate-display').innerText, sellerCode: document.getElementById('sell-seller-code').value || 'Nenhum' };
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || usd < 10 || usd > 10000 || !pix) return alert("Verifique os campos (Min 10 USD)");
+            
+            orderData = { 
+                type: 'VENDA USDT', name, email, usd, pix, 
+                coin: document.getElementById('sell-coin-select').value, 
+                receive: document.getElementById('sell-receive-display').innerText, 
+                rate: document.getElementById('sell-rate-display').innerText,
+                sellerCode: document.getElementById('sell-seller-code').value || 'Nenhum'
+            };
+            
             document.getElementById('sell-summary-content').innerHTML = `<p><b>Cliente:</b> ${orderData.name}</p><p><b>Email:</b> ${orderData.email}</p><p><b>Venda de:</b> ${orderData.usd} ${orderData.coin}</p><p><b>Cotação:</b> ${orderData.rate}</p><p><b>Receber:</b> ${orderData.receive}</p><p><b>Pix:</b> ${orderData.pix}</p><p><b>Cód. Vendedor:</b> ${orderData.sellerCode}</p>`;
             goToScreen(5);
         }
