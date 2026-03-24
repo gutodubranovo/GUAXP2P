@@ -330,7 +330,7 @@
                 <input type="password" id="adm-pass" placeholder="••••••••">
             </div>
             <button class="btn-primary" onclick="handleLogin()">Entrar no Painel</button>
-            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
+            <button class="btn-back" onclick="goToScreen(1)">Voltar</button>
         </div>
     </section>
 
@@ -407,7 +407,7 @@
                     <option value="POL (Polygon)">POL (Polygon)</option>
                     <option value="SOL (SOLANA)">SOL (Solana)</option>
                     <option value="APT (Aptos)">APT (Aptos)</option>
-                    <option value="ARB (ARBITRUM)">ARB (Arbitrum one)</option>
+                    <option value="ARB (Arbitrum)">ARB (Arbitrum one)</option>
                     <option value="TRON (TRC20)">TRON (TRC20) -1 USD TAXA</option>
                 </select></div>
             <div class="input-group"><label>Endereço da Carteira (Wallet)</label><input type="text" id="wallet-input" placeholder="0x... ou T..."></div>
@@ -458,7 +458,7 @@
             <h2 style="color: var(--gold);">Pagamento Pix (PYG)</h2>
             <p id="pyg-final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
             <canvas id="pyg-qrcode"></canvas>
-            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pyg-pix-code" value="00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839" readonly><button onclick="copyPix('pyg-pix-code')" class="btn-copy-small">Copiar</button></div></div>
+            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pyg-pix-code" value="00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248" readonly><button onclick="copyPix('pyg-pix-code')" class="btn-copy-small">Copiar</button></div></div>
             <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO CASO NÃO TENHA EFETUADO O PAGAMENTO.⚠️</div>
             <button class="btn-primary btn-pyg" onclick="finishOrder('pyg')">Pagamento Concluído</button>
             <button class="btn-back" onclick="goToScreen(6)">Voltar e Corrigir</button>
@@ -472,7 +472,7 @@
             <p style="margin: 15px 0; font-size: 0.9rem; color: var(--text-dim);">Transfira exatamente:</p>
             <p id="final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
             <canvas id="qrcode"></canvas>
-            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pix-code" value="00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839" readonly><button onclick="copyPix('pix-code')" class="btn-copy-small">Copiar</button></div></div>
+            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pix-code" value="00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248" readonly><button onclick="copyPix('pix-code')" class="btn-copy-small">Copiar</button></div></div>
             <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU.
                 <br> Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve estar no nome do titular.⚠️</div>
             <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishOrder('buy')">Paguei, Enviar Comprovante</button>
@@ -560,13 +560,11 @@
             }
         }
 
-        // --- LÓGICA DASHBOARD CORRIGIDA ---
         function updateDashboard() {
             const now = new Date();
             const today = new Date(now.toLocaleString("en-US", {timeZone: "America/Sao_Paulo"}));
             today.setHours(0, 0, 0, 0);
 
-            // Data em que os valores base de 20 dias foram definidos (20 de Março de 2026)
             const referenceDate = new Date(2026, 2, 20); 
             referenceDate.setHours(0, 0, 0, 0);
 
@@ -574,21 +572,18 @@
             const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
             const daysToIncrement = diffDays > 0 ? diffDays : 0;
 
-            // Valores Base (Dia 20 de operação)
             const baseVendasUsdt = 50641.86;
             const baseComprasUsdt = 12795.85;
             const baseVendasPyg = 5049.20;
             const baseComissao = 684.86;
             const baseCancelados = 120.00;
 
-            // Incrementos Diários
             const incVendasUsdt = 2763.87;
             const incComprasUsdt = 639.79;
             const incVendasPyg = 252.46;
             const incComissao = 34.24;
             const incCancelados = 6.00;
 
-            // Cálculo Final
             const totalVendasUsdt = baseVendasUsdt + (daysToIncrement * incVendasUsdt);
             const totalComprasUsdt = baseComprasUsdt + (daysToIncrement * incComprasUsdt);
             const totalVendasPyg = baseVendasPyg + (daysToIncrement * incVendasPyg);
@@ -693,7 +688,7 @@
             };
             
             document.getElementById('pyg-final-brl').innerText = `R$ ${brl.toFixed(2)}`;
-            new QRious({ element: document.getElementById('pyg-qrcode'), value: "00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839", size: 220 });
+            new QRious({ element: document.getElementById('pyg-qrcode'), value: "00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248", size: 220 });
             goToScreen(7);
         }
 
@@ -713,7 +708,7 @@
             };
             
             document.getElementById('final-brl').innerText = `R$ ${brl.toFixed(2)}`;
-            new QRious({ element: document.getElementById('qrcode'), value: "00020126700014br.gov.bcb.pix01361cd043c1-4835-477e-82ca-c6971712846a0208GUAX P2P5204000053039865802BR5925Gustavo Henrique Elias Sa6009Sao Paulo62110507GUAXP2P63049839", size: 220 });
+            new QRious({ element: document.getElementById('qrcode'), value: "00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248", size: 220 });
             goToScreen(3);
         }
 
