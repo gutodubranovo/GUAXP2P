@@ -149,6 +149,7 @@
 
         .btn-sell { background: linear-gradient(90deg, #ff4d4d, #b30000); color: #fff; }
         .btn-pyg { background: linear-gradient(90deg, #00ff88, #008044); color: #fff; }
+        .btn-consult { background: linear-gradient(90deg, var(--gold), #b38f00); color: #000; }
 
         .btn-discreet {
             background: transparent;
@@ -192,6 +193,26 @@
         .dash-label { font-size: 0.75rem; color: var(--text-dim); font-weight: bold; text-transform: uppercase; }
         .dash-value { font-size: 1.1rem; font-weight: 900; color: var(--success); }
         .dash-value.danger { color: var(--danger); }
+
+        /* CONSULTORIA STYLES */
+        .consult-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.85rem;
+        }
+        .consult-table th { color: var(--gold); padding: 10px; border-bottom: 1px solid #333; text-align: left; }
+        .consult-table td { padding: 12px 10px; border-bottom: 1px solid #222; }
+        .col-bank { color: var(--danger); font-weight: bold; }
+        .col-guax { color: var(--success); font-weight: bold; }
+
+        .highlight-box {
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid var(--success);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 15px 0;
+        }
 
         /* BOX MATEMÁTICA */
         .math-box {
@@ -309,26 +330,86 @@
         <h1 class="hero-title">GUAX P2P</h1>
         <p style="color: var(--text-dim); margin-bottom: 40px; text-align: center; font-weight: 600; letter-spacing: 1px;">SISTEMA INTERNACIONAL DE CÂMBIO</p>
         
-        <button class="btn-primary" onclick="goToScreen(2)">Iniciar Compra</button>
-        <button class="btn-primary btn-sell" onclick="goToScreen(4)">Iniciar Venda</button>
+        <!-- BOTÕES USD LADO A LADO -->
+        <div style="display: flex; gap: 10px; width: 100%; margin-bottom: 10px;">
+            <button class="btn-primary" style="margin-bottom: 0; flex: 1;" onclick="goToScreen(2)">COMPRAR USD</button>
+            <button class="btn-primary btn-sell" style="margin-bottom: 0; flex: 1;" onclick="goToScreen(4)">VENDER USD</button>
+        </div>
+
         <button class="btn-primary btn-pyg" onclick="goToScreen(6)">Comprar Guaranis</button>
+        
+        <!-- BOTÃO CONSULTORIA -->
+        <button class="btn-primary btn-consult" onclick="goToScreen(11)">CONSULTORIA</button>
 
         <button class="btn-discreet" onclick="goToScreen(8)">Cadastro Vendedor</button>
         <button class="btn-discreet" onclick="goToScreen(9)">LOGIN</button>
+    </section>
+
+    <!-- TELA 11: CONSULTORIA (NOVA) -->
+    <section id="screen-11" class="screen">
+        <div class="card">
+            <h2 style="color: var(--gold); text-align: center; margin-bottom: 10px;">PARE DE PERDER DINHEIRO</h2>
+            <p style="text-align: center; color: var(--danger); font-weight: 800; font-size: 0.9rem; margin-bottom: 20px;">O sistema bancário tradicional está drenando seu patrimônio.</p>
+            
+            <table class="consult-table">
+                <thead>
+                    <tr>
+                        <th>FATOR</th>
+                        <th>BANCOS / SWIFT</th>
+                        <th>GUAX P2P</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Taxas Totais</td>
+                        <td class="col-bank">10% a 25%</td>
+                        <td class="col-guax">Taxa Mínima</td>
+                    </tr>
+                    <tr>
+                        <td>Tempo</td>
+                        <td class="col-bank">5 a 45 dias</td>
+                        <td class="col-guax">Minutos</td>
+                    </tr>
+                    <tr>
+                        <td>Burocracia</td>
+                        <td class="col-bank">Gigantesca</td>
+                        <td class="col-guax">Zero</td>
+                    </tr>
+                    <tr>
+                        <td>Privacidade</td>
+                        <td class="col-bank">Exposição Total</td>
+                        <td class="col-guax">Alto Nível</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box">
+                <h3 style="color: var(--success); font-size: 1rem; margin-bottom: 10px;">Nossa Consultoria Oferece:</h3>
+                <ul style="list-style: none; font-size: 0.85rem; color: var(--text-dim); line-height: 1.6;">
+                    <li>✅ 100% de Segurança e Agilidade no Capital</li>
+                    <li>✅ Cartão de Crédito Internacional Stablecoin</li>
+                    <li>✅ Autocustódia (Você é o seu próprio banco)</li>
+                    <li>✅ Renda Passiva de 4% a 6% ao ANO em Dólar</li>
+                    <li>✅ Envio BR para PY em minutos sem perguntas</li>
+                </ul>
+            </div>
+
+            <p style="text-align: center; font-size: 0.8rem; color: var(--text-dim); margin: 15px 0;">Fazer orçamento sem compromisso:</p>
+            
+            <button class="btn-primary" style="background: #25d366; color: white;" onclick="window.open('https://api.whatsapp.com/send?phone=595991398215&text=CONSULTORIA', '_blank')">
+                TENHO INTERESSE
+            </button>
+            
+            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
+        </div>
     </section>
 
     <!-- TELA 9: LOGIN ADM -->
     <section id="screen-9" class="screen">
         <div class="card">
             <h2 style="color: var(--gold); text-align: center; margin-bottom: 25px;">Acesso Restrito</h2>
-            <div class="input-group">
-                <label>Usuário</label>
-                <input type="text" id="adm-user" placeholder="Login">
-            </div>
-            <div class="input-group">
-                <label>Senha</label>
-                <input type="password" id="adm-pass" placeholder="••••••••">
-            </div>
+            <div class="input-group"><label>Usuário</label><input type="text" id="adm-user" placeholder="Login"></div>
+            <div class="input-group"><label>Senha</label><input type="password" id="adm-pass" placeholder="••••••••"></div>
             <button class="btn-primary" onclick="handleLogin()">Entrar no Painel</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar</button>
         </div>
@@ -339,28 +420,11 @@
         <div class="card">
             <h2 style="color: var(--neon-blue); text-align: center; margin-bottom: 5px;">Painel de Controle</h2>
             <p style="text-align: center; color: var(--text-dim); font-size: 0.7rem; margin-bottom: 25px;">MÉTRICAS DE PERFORMANCE GUAX P2P</p>
-            
-            <div class="dash-card">
-                <span class="dash-label">Vendas USDT/USDC</span>
-                <span class="dash-value" id="dash-vendas-usdt">R$ 0,00</span>
-            </div>
-            <div class="dash-card">
-                <span class="dash-label">Compras USDT/USDC</span>
-                <span class="dash-value" id="dash-compras-usdt">R$ 0,00</span>
-            </div>
-            <div class="dash-card">
-                <span class="dash-label">Vendas Guaranis</span>
-                <span class="dash-value" id="dash-vendas-pyg">R$ 0,00</span>
-            </div>
-            <div class="dash-card">
-                <span class="dash-label">Comissão Vendedor</span>
-                <span class="dash-value" id="dash-comissao">R$ 0,00</span>
-            </div>
-            <div class="dash-card">
-                <span class="dash-label">Cancelados</span>
-                <span class="dash-value danger" id="dash-cancelados">R$ 0,00</span>
-            </div>
-
+            <div class="dash-card"><span class="dash-label">Vendas USDT/USDC</span><span class="dash-value" id="dash-vendas-usdt">R$ 0,00</span></div>
+            <div class="dash-card"><span class="dash-label">Compras USDT/USDC</span><span class="dash-value" id="dash-compras-usdt">R$ 0,00</span></div>
+            <div class="dash-card"><span class="dash-label">Vendas Guaranis</span><span class="dash-value" id="dash-vendas-pyg">R$ 0,00</span></div>
+            <div class="dash-card"><span class="dash-label">Comissão Vendedor</span><span class="dash-value" id="dash-comissao">R$ 0,00</span></div>
+            <div class="dash-card"><span class="dash-label">Cancelados</span><span class="dash-value danger" id="dash-cancelados">R$ 0,00</span></div>
             <button class="btn-primary" style="margin-top: 20px;" onclick="goToScreen(1)">Sair do Painel</button>
         </div>
     </section>
@@ -369,12 +433,8 @@
     <section id="screen-8" class="screen">
         <div class="card">
             <h2 style="color: var(--gold); text-align: center; margin-bottom: 20px;">Seja um Parceiro GUAX</h2>
-            <p style="text-align: center; color: var(--text-dim); line-height: 1.6; margin-bottom: 30px; font-size: 1rem;">
-                Ganhe uma comissão usando seu código de vendedor! Você recebe uma % em cada venda que o cliente usar seu código. Cadastre-se agora, é de graça!
-            </p>
-            <button class="btn-primary" style="background: #25d366; color: white;" onclick="window.open('https://api.whatsapp.com/send?phone=595991398215&text=Quero%20Cadastrar%20meu%20Cod.%20Vendedor.', '_blank')">
-                Cadastre-se agora
-            </button>
+            <p style="text-align: center; color: var(--text-dim); line-height: 1.6; margin-bottom: 30px; font-size: 1rem;">Ganhe uma comissão usando seu código de vendedor! Você recebe uma % em cada venda que o cliente usar seu código. Cadastre-se agora, é de graça!</p>
+            <button class="btn-primary" style="background: #25d366; color: white;" onclick="window.open('https://api.whatsapp.com/send?phone=595991398215&text=Quero%20Cadastrar%20meu%20Cod.%20Vendedor.', '_blank')">Cadastre-se agora</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
         </div>
     </section>
@@ -392,24 +452,11 @@
             </div>
             <div class="math-box">
                 <div class="live-indicator"><div class="dot"></div> LIVE</div>
-                <div class="math-row">
-                    <span>Cotação USD:</span>
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <button onclick="manualRefresh(this)" class="refresh-trigger" title="Atualizar Preço">↻</button>
-                        <span id="rate-display" style="color: var(--gold); font-weight: bold;">Buscando...</span>
-                    </div>
-                </div>
+                <div class="math-row"><span>Cotação USD:</span><div style="display: flex; align-items: center; gap: 8px;"><button onclick="manualRefresh(this)" class="refresh-trigger">↻</button><span id="rate-display" style="color: var(--gold); font-weight: bold;">Buscando...</span></div></div>
                 <div class="math-row"><span>Taxa de Rede:</span><span style="color: white;"> 1%</span></div>
                 <div class="math-total"><span>Você recebe:</span><span id="receive-display">0.00 USDT</span></div>
             </div>
-            <div class="input-group"><label>Rede de Envio</label><select id="network-select">
-                <option value="BNB (BEP20)">BNB (BEP20)</option>
-                    <option value="POL (Polygon)">POL (Polygon)</option>
-                    <option value="SOL (SOLANA)">SOL (Solana)</option>
-                    <option value="APT (Aptos)">APT (Aptos)</option>
-                    <option value="ARB (Arbitrum)">ARB (Arbitrum one)</option>
-                    <option value="TRON (TRC20)">TRON (TRC20) -1 USD TAXA</option>
-                </select></div>
+            <div class="input-group"><label>Rede</label><select id="network-select"><option value="BNB (BEP20)">BNB (BEP20)</option><option value="POL (Polygon)">POL (Polygon)</option><option value="SOL (Solana)">SOL (Solana)</option><option value="APT (Aptos)">APT (Aptos)</option><option value="ARB (Arbitrum)">ARB (Arbitrum)</option><option value="TRON (TRC20)">TRON (TRC20) -1 USD TAXA</option></select></div>
             <div class="input-group"><label>Endereço da Carteira (Wallet)</label><input type="text" id="wallet-input" placeholder="0x... ou T..."></div>
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="buy-seller-code" placeholder="#0000"></div>
             <button class="btn-primary" onclick="validateStep2()">Avançar para Pix</button>
@@ -421,31 +468,12 @@
     <section id="screen-6" class="screen">
         <div class="card">
             <h2 style="margin-bottom: 25px; color: var(--success); text-align: center;">Comprar Guaranis (PYG)</h2>
-            <div class="input-group"><label>Nome Completo</label><input type="text" id="pyg-name" placeholder="Nome Completo"></div>
+            <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="pyg-name" placeholder="Nome Completo"></div>
             <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="pyg-email" placeholder="seu@email.com"></div>
             <div class="input-group"><label>WhatsApp</label><input type="tel" id="pyg-whatsapp" placeholder="DDD + Número"></div>
             <div class="input-group"><label>Valor em Reais (BRL) - Min 50 / Max 5.000</label><input type="number" id="pyg-brl-input" placeholder="100" oninput="calculatePyg()"></div>
-            
-            <div class="math-box">
-                <div class="live-indicator"><div class="dot"></div> LIVE</div>
-                <div class="math-row">
-                    <span>Cotação Guarani:</span>
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <button onclick="manualRefresh(this)" class="refresh-trigger">↻</button>
-                        <span id="pyg-rate-display" style="color: var(--gold); font-weight: bold;">1.200 GS</span>
-                    </div>
-                </div>
-                <div class="math-row"><span>Taxa de Conversão:</span><span>1%</span></div>
-                <div class="math-total"><span>Você recebe:</span><span id="pyg-receive-display">0 GS</span></div>
-            </div>
-
-            <div class="input-group">
-                <label>Forma de Retirada</label>
-                <select id="pyg-delivery" onchange="calculatePyg()">
-                    <option value="DELIVERY">DELIVERY (Taxa 10.000 PYG)</option>
-                    <option value="RETIRAR EM MÃOS">RETIRAR EM MÃOS (Grátis)</option>
-                </select>
-            </div>
+            <div class="math-box"><div class="live-indicator"><div class="dot"></div> LIVE</div><div class="math-row"><span>Cotação Guarani:</span><div style="display: flex; align-items: center; gap: 8px;"><button onclick="manualRefresh(this)" class="refresh-trigger">↻</button><span id="pyg-rate-display" style="color: var(--gold); font-weight: bold;">1.200 GS</span></div></div><div class="math-row"><span>Taxa de Conversão:</span><span>1%</span></div><div class="math-total"><span>Você recebe:</span><span id="pyg-receive-display">0 GS</span></div></div>
+            <div class="input-group"><label>Forma de Retirada</label><select id="pyg-delivery" onchange="calculatePyg()"><option value="DELIVERY">DELIVERY (Taxa 10.000 PYG)</option><option value="RETIRAR EM MÃOS">RETIRAR EM MÃOS (Grátis)</option></select></div>
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="pyg-seller-code" placeholder="#0000"></div>
             <button class="btn-primary btn-pyg" onclick="validatePygStep()">Avançar para Pix</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
@@ -469,41 +497,24 @@
     <section id="screen-3" class="screen">
         <div class="card" style="text-align: center;">
             <h2 style="color: var(--gold);">Pagamento Pix</h2>
-            <p style="margin: 15px 0; font-size: 0.9rem; color: var(--text-dim);">Transfira exatamente:</p>
             <p id="final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
             <canvas id="qrcode"></canvas>
             <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pix-code" value="00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248" readonly><button onclick="copyPix('pix-code')" class="btn-copy-small">Copiar</button></div></div>
             <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU.
-                <br> Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve estar no nome do titular.⚠️</div>
+Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve estar no nome do titular.⚠️</div>
             <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishOrder('buy')">Paguei, Enviar Comprovante</button>
             <button class="btn-back" onclick="goToScreen(2)">Corrigir Dados</button>
         </div>
     </section>
 
-    <!-- TELA 4: FORMULÁRIO VENDA -->
+    <!-- TELA 4: FORMULÁRIO VENDA USDT -->
     <section id="screen-4" class="screen">
         <div class="card">
             <h2 style="margin-bottom: 25px; color: var(--danger); text-align: center;">Ordem de Venda</h2>
             <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="sell-name" placeholder=" Seu Nome Completo"></div>
             <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="sell-email" placeholder="seu@email.com"></div>
-            <div style="display: flex; gap: 10px;">
-                <div class="input-group" style="flex: 1;"><label>Moeda</label><select id="sell-coin-select" onchange="calculateSell()"><option value="USDT">USDT</option><option value="USDC">USDC</option></select></div>
-                <div class="input-group" style="flex: 1;"><label>Quantia USD (10 - 10k)</label><input type="number" id="sell-usd-input" placeholder="100" oninput="calculateSell()"></div>
-            </div>
-            <div class="math-box">
-                <div class="live-indicator"><div class="dot"></div> LIVE</div>
-                <div class="math-row">
-                    <span>Preço USD Pago:</span>
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <button onclick="manualRefresh(this)" class="refresh-trigger">↻</button>
-                        <span id="sell-rate-display" style="color: var(--gold); font-weight: bold;">Buscando...</span>
-                    </div>
-                </div>
-                <div class="math-total sell" style="color: #00ff88; display: flex; justify-content: space-between; align-items: center; padding-top: 10px;">
-                    <span style="color: #00ff88; font-weight: 600;">Você recebe:</span>
-                    <span id="sell-receive-display" style="color: #00ff88; font-weight: 800;">R$ 0,00</span>
-                </div>
-            </div>
+            <div style="display: flex; gap: 10px;"><div class="input-group" style="flex: 1;"><label>Moeda</label><select id="sell-coin-select" onchange="calculateSell()"><option value="USDT">USDT</option><option value="USDC">USDC</option></select></div><div class="input-group" style="flex: 1;"><label>Quantia USD (10 - 10k)</label><input type="number" id="sell-usd-input" placeholder="100" oninput="calculateSell()"></div></div>
+            <div class="math-box"><div class="live-indicator"><div class="dot"></div> LIVE</div><div class="math-row"><span>Preço USD Pago:</span><div style="display: flex; align-items: center; gap: 8px;"><button onclick="manualRefresh(this)" class="refresh-trigger">↻</button><span id="sell-rate-display" style="color: var(--gold); font-weight: bold;">Buscando...</span></div></div><div class="math-total sell" style="color: #00ff88; display: flex; justify-content: space-between; align-items: center; padding-top: 10px;"><span style="color: #00ff88; font-weight: 600;">Você recebe:</span><span id="sell-receive-display" style="color: #00ff88; font-weight: 800;">R$ 0,00</span></div></div>
             <label>Envie para um dos endereços abaixo:</label>
             <div class="wallet-list">
                 <div class="wallet-item"><span>ETH / BNB / ARB / POLYGON</span><div class="wallet-row"><input type="text" id="w-evm" value="0x92cbaa0e1a6ab68ab8e7acc8d5458a42f7011cba" readonly><button onclick="copyPix('w-evm')" class="btn-copy-small">Copiar</button></div></div>
@@ -564,10 +575,8 @@
             const now = new Date();
             const today = new Date(now.toLocaleString("en-US", {timeZone: "America/Sao_Paulo"}));
             today.setHours(0, 0, 0, 0);
-
             const referenceDate = new Date(2026, 2, 20); 
             referenceDate.setHours(0, 0, 0, 0);
-
             const diffTime = today - referenceDate;
             const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
             const daysToIncrement = diffDays > 0 ? diffDays : 0;
@@ -579,10 +588,10 @@
             const baseCancelados = 120.00;
 
             const incVendasUsdt = 3763.87;
-            const incComprasUsdt = 2639.79;
+            const incComprasUsdt = 3639.79;
             const incVendasPyg = 252.46;
             const incComissao = 34.24;
-            const incCancelados = 6.00;
+            const incCancelados = 5.10;
 
             const totalVendasUsdt = baseVendasUsdt + (daysToIncrement * incVendasUsdt);
             const totalComprasUsdt = baseComprasUsdt + (daysToIncrement * incComprasUsdt);
@@ -591,7 +600,6 @@
             const totalCancelados = baseCancelados + (daysToIncrement * incCancelados);
 
             const fmt = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-
             document.getElementById('dash-vendas-usdt').innerText = fmt(totalVendasUsdt);
             document.getElementById('dash-compras-usdt').innerText = fmt(totalComprasUsdt);
             document.getElementById('dash-vendas-pyg').innerText = fmt(totalVendasPyg);
@@ -651,7 +659,7 @@
 
         function calculateSell() {
             const usd = parseFloat(document.getElementById('sell-usd-input').value) || 0;
-            const sellRate = 5.02; 
+            const sellRate = 5.00; 
             document.getElementById('sell-rate-display').innerText = `R$ ${sellRate.toFixed(2)}`;
             if (usd >= 10 && usd <= 10000) {
                 const finalBrl = usd * sellRate;
@@ -678,15 +686,7 @@
             const email = document.getElementById('pyg-email').value;
             const brl = parseFloat(document.getElementById('pyg-brl-input').value);
             if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 5000) return alert("Verifique os campos (Min R$ 50 / Max R$ 5.000)");
-            
-            orderData = { 
-                type: 'COMPRA GUARANIS', name, email, brl, 
-                whatsapp: document.getElementById('pyg-whatsapp').value,
-                delivery: document.getElementById('pyg-delivery').value,
-                receive: document.getElementById('pyg-receive-display').innerText,
-                sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum'
-            };
-            
+            orderData = { type: 'COMPRA GUARANIS', name, email, brl, whatsapp: document.getElementById('pyg-whatsapp').value, delivery: document.getElementById('pyg-delivery').value, receive: document.getElementById('pyg-receive-display').innerText, sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum' };
             document.getElementById('pyg-final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('pyg-qrcode'), value: "00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248", size: 220 });
             goToScreen(7);
@@ -697,16 +697,7 @@
             const email = document.getElementById('email-input').value;
             const brl = parseFloat(document.getElementById('brl-input').value);
             if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 5000) return alert("Verifique os campos (Min R$ 50)");
-            
-            orderData = { 
-                type: 'COMPRA USDT', name, email, brl, 
-                wallet: document.getElementById('wallet-input').value, 
-                coin: document.getElementById('coin-select').value, 
-                network: document.getElementById('network-select').value, 
-                receive: document.getElementById('receive-display').innerText,
-                sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum'
-            };
-            
+            orderData = { type: 'COMPRA USDT', name, email, brl, wallet: document.getElementById('wallet-input').value, coin: document.getElementById('coin-select').value, network: document.getElementById('network-select').value, receive: document.getElementById('receive-display').innerText, sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum' };
             document.getElementById('final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('qrcode'), value: "00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248", size: 220 });
             goToScreen(3);
@@ -718,15 +709,7 @@
             const usd = parseFloat(document.getElementById('sell-usd-input').value);
             const pix = document.getElementById('sell-pix-key').value;
             if (name.trim().split(' ').length < 2 || !email.includes('@') || usd < 10 || usd > 10000 || !pix) return alert("Verifique os campos (Min 10 USD)");
-            
-            orderData = { 
-                type: 'VENDA USDT', name, email, usd, pix, 
-                coin: document.getElementById('sell-coin-select').value, 
-                receive: document.getElementById('sell-receive-display').innerText, 
-                rate: document.getElementById('sell-rate-display').innerText,
-                sellerCode: document.getElementById('sell-seller-code').value || 'Nenhum'
-            };
-            
+            orderData = { type: 'VENDA USDT', name, email, usd, pix, coin: document.getElementById('sell-coin-select').value, receive: document.getElementById('sell-receive-display').innerText, rate: document.getElementById('sell-rate-display').innerText, sellerCode: document.getElementById('sell-seller-code').value || 'Nenhum' };
             document.getElementById('sell-summary-content').innerHTML = `<p><b>Cliente:</b> ${orderData.name}</p><p><b>Email:</b> ${orderData.email}</p><p><b>Venda de:</b> ${orderData.usd} ${orderData.coin}</p><p><b>Cotação:</b> ${orderData.rate}</p><p><b>Receber:</b> ${orderData.receive}</p><p><b>Pix:</b> ${orderData.pix}</p><p><b>Cód. Vendedor:</b> ${orderData.sellerCode}</p>`;
             goToScreen(5);
         }
