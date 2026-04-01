@@ -330,22 +330,19 @@
         <h1 class="hero-title">GUAX P2P</h1>
         <p style="color: var(--text-dim); margin-bottom: 40px; text-align: center; font-weight: 600; letter-spacing: 1px;">SISTEMA INTERNACIONAL DE CÂMBIO</p>
         
-        <!-- BOTÕES USD LADO A LADO -->
         <div style="display: flex; gap: 10px; width: 100%; margin-bottom: 10px;">
             <button class="btn-primary" style="margin-bottom: 0; flex: 1;" onclick="goToScreen(2)">COMPRAR USD</button>
             <button class="btn-primary btn-sell" style="margin-bottom: 0; flex: 1;" onclick="goToScreen(4)">VENDER USD</button>
         </div>
 
         <button class="btn-primary btn-pyg" onclick="goToScreen(6)">Comprar Guaranis</button>
-        
-        <!-- BOTÃO CONSULTORIA -->
         <button class="btn-primary btn-consult" onclick="goToScreen(11)">CONSULTORIA</button>
 
         <button class="btn-discreet" onclick="goToScreen(8)">Cadastro Vendedor</button>
         <button class="btn-discreet" onclick="goToScreen(9)">LOGIN</button>
     </section>
 
-    <!-- TELA 11: CONSULTORIA (NOVA) -->
+    <!-- TELA 11: CONSULTORIA -->
     <section id="screen-11" class="screen">
         <div class="card">
             <h2 style="color: var(--gold); text-align: center; margin-bottom: 10px;">PARE DE PERDER DINHEIRO</h2>
@@ -353,33 +350,13 @@
             
             <table class="consult-table">
                 <thead>
-                    <tr>
-                        <th>FATOR</th>
-                        <th>BANCOS / SWIFT</th>
-                        <th>GUAX P2P</th>
-                    </tr>
+                    <tr><th>FATOR</th><th>BANCOS / SWIFT</th><th>GUAX P2P</th></tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Taxas Totais</td>
-                        <td class="col-bank">10% a 25%</td>
-                        <td class="col-guax">Taxa Mínima</td>
-                    </tr>
-                    <tr>
-                        <td>Tempo</td>
-                        <td class="col-bank">5 a 45 dias</td>
-                        <td class="col-guax">Minutos</td>
-                    </tr>
-                    <tr>
-                        <td>Burocracia</td>
-                        <td class="col-bank">Gigantesca</td>
-                        <td class="col-guax">Zero</td>
-                    </tr>
-                    <tr>
-                        <td>Privacidade</td>
-                        <td class="col-bank">Exposição Total</td>
-                        <td class="col-guax">Alto Nível</td>
-                    </tr>
+                    <tr><td>Taxas Totais</td><td class="col-bank">10% a 25%</td><td class="col-guax">Taxa Mínima</td></tr>
+                    <tr><td>Tempo</td><td class="col-bank">7 a 45 dias</td><td class="col-guax">Minutos</td></tr>
+                    <tr><td>Burocracia</td><td class="col-bank">Gigantesca</td><td class="col-guax">Zero</td></tr>
+                    <tr><td>Privacidade</td><td class="col-bank">Exposição Total</td><td class="col-guax">Alto Nível</td></tr>
                 </tbody>
             </table>
 
@@ -390,16 +367,11 @@
                     <li>✅ Cartão de Crédito Internacional Stablecoin</li>
                     <li>✅ Autocustódia (Você é o seu próprio banco)</li>
                     <li>✅ Renda Passiva de 4% a 6% ao ANO em Dólar</li>
-                    <li>✅ Envio BR para PY em minutos sem perguntas</li>
+                    <li>✅ Envio BR para Exterior em minutos sem perguntas</li>
                 </ul>
             </div>
 
-            <p style="text-align: center; font-size: 0.8rem; color: var(--text-dim); margin: 15px 0;">Fazer orçamento sem compromisso:</p>
-            
-            <button class="btn-primary" style="background: #25d366; color: white;" onclick="window.open('https://api.whatsapp.com/send?phone=595991398215&text=CONSULTORIA', '_blank')">
-                TENHO INTERESSE
-            </button>
-            
+            <button class="btn-primary" style="background: #25d366; color: white;" onclick="window.open('https://api.whatsapp.com/send?phone=595991398215&text=CONSULTORIA', '_blank')">TENHO INTERESSE</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
         </div>
     </section>
@@ -443,7 +415,7 @@
     <section id="screen-2" class="screen">
         <div class="card">
             <h2 style="margin-bottom: 25px; color: var(--neon-blue); text-align: center;">Ordem de Compra</h2>
-            <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="name-input" placeholder="Ex: Joao Maria Jose"></div>
+            <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="name-input" placeholder="Joao Maria Jose"></div>
             <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="email-input" placeholder="seu@email.com"></div>
             <div class="input-group"><label>WhatsApp (DDD + Número)</label><input type="tel" id="whatsapp-input" placeholder="(11) 999999999"></div>
             <div style="display: flex; gap: 10px;">
@@ -456,7 +428,7 @@
                 <div class="math-row"><span>Taxa de Rede:</span><span style="color: white;"> 1%</span></div>
                 <div class="math-total"><span>Você recebe:</span><span id="receive-display">0.00 USDT</span></div>
             </div>
-            <div class="input-group"><label>Rede</label><select id="network-select"><option value="BNB (BEP20)">BNB (BEP20)</option><option value="POL (Polygon)">POL (Polygon)</option><option value="SOL (Solana)">SOL (Solana)</option><option value="APT (Aptos)">APT (Aptos)</option><option value="ARB (Arbitrum)">ARB (Arbitrum)</option><option value="TRON (TRC20)">TRON (TRC20) -1 USD TAXA</option></select></div>
+            <div class="input-group"><label>Rede de Envio</label><select id="network-select"><option value="BNB (BEP20)">BNB (BEP20)</option><option value="POL (Polygon)">POL (Polygon)</option><option value="SOL (Solana)">SOL (Solana)</option><option value="APT (Aptos)">APT (Aptos)</option><option value="ARB (Arbitrum)">ARB (Arbitrum)</option><option value="TRON (TRC20)">TRON (TRC20) -1 USD TAXA</option></select></div>
             <div class="input-group"><label>Endereço da Carteira (Wallet)</label><input type="text" id="wallet-input" placeholder="0x... ou T..."></div>
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="buy-seller-code" placeholder="#0000"></div>
             <button class="btn-primary" onclick="validateStep2()">Avançar para Pix</button>
@@ -500,8 +472,7 @@
             <p id="final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
             <canvas id="qrcode"></canvas>
             <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pix-code" value="00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248" readonly><button onclick="copyPix('pix-code')" class="btn-copy-small">Copiar</button></div></div>
-            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU.
-Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve estar no nome do titular.⚠️</div>
+            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU. Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve estar no nome do titular.⚠️</div>
             <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishOrder('buy')">Paguei, Enviar Comprovante</button>
             <button class="btn-back" onclick="goToScreen(2)">Corrigir Dados</button>
         </div>
@@ -681,6 +652,22 @@ Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve esta
             } else { document.getElementById('pyg-receive-display').innerText = `0 GS`; }
         }
 
+        function generateSecuritySig(value) {
+            const cleanValue = value.replace(/[^\d.]/g, '');
+            const parts = cleanValue.split('.');
+            const dollars = parts[0];
+            const cents = parts[1] || '00';
+            const isLarge = parseInt(dollars) >= 900;
+            const r = (n) => {
+                let res = '';
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                for (let i = 0; i < n; i++) res += chars.charAt(Math.floor(Math.random() * chars.length));
+                return res;
+            };
+            if (isLarge) return r(4) + cents + r(5) + dollars + r(4);
+            return r(2) + cents + r(2) + dollars + r(2);
+        }
+
         function validatePygStep() {
             const name = document.getElementById('pyg-name').value;
             const email = document.getElementById('pyg-email').value;
@@ -723,12 +710,16 @@ Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve esta
 
         function finishOrder(type) {
             let msg = "";
+            let sig = "";
             if(type === 'buy') {
-                msg = `ORDEM DE COMPRA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nValor: R$ ${orderData.brl.toFixed(2)}\nRecebe: ${orderData.receive}\nCarteira: ${orderData.wallet}\nRede: ${orderData.network}\nCód. Vendedor: ${orderData.sellerCode}`;
+                sig = generateSecuritySig(orderData.receive);
+                msg = `ORDEM DE COMPRA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nValor: R$ ${orderData.brl.toFixed(2)}\nRecebe: ${orderData.receive}\nCarteira: ${orderData.wallet}\nRede: ${orderData.network}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`;
             } else if(type === 'sell') {
                 msg = `ORDEM DE VENDA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nEnviado: ${orderData.usd} ${orderData.coin}\nReceber: ${orderData.receive}\nChave Pix: ${orderData.pix}\nCód. Vendedor: ${orderData.sellerCode}`;
             } else if(type === 'pyg') {
-                msg = `ORDEM COMPRA GUARANIS\nNome: ${orderData.name}\nEmail: ${orderData.email}\nValor: R$ ${orderData.brl.toFixed(2)}\nRecebe: ${orderData.receive}\nRetirada: ${orderData.delivery}\nWhatsApp: ${orderData.whatsapp}\nCód. Vendedor: ${orderData.sellerCode}`;
+                const cleanPyg = orderData.receive.replace(/[^\d]/g, '');
+                sig = "PYG" + Math.random().toString(36).substring(2, 4).toUpperCase() + cleanPyg.slice(-4);
+                msg = `ORDEM COMPRA GUARANIS\nNome: ${orderData.name}\nEmail: ${orderData.email}\nValor: R$ ${orderData.brl.toFixed(2)}\nRecebe: ${orderData.receive}\nRetirada: ${orderData.delivery}\nWhatsApp: ${orderData.whatsapp}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`;
             }
             window.open(`https://api.whatsapp.com/send?phone=595991398215&text=${encodeURIComponent(msg)}`);
         }
