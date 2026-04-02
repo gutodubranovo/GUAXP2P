@@ -642,7 +642,7 @@
             const brl = parseFloat(document.getElementById('pyg-brl-input').value) || 0;
             const delivery = document.getElementById('pyg-delivery').value;
             const rate = 1200; 
-            const spread = 0.05; 
+            const spread = 0.06; 
             document.getElementById('pyg-rate-display').innerText = `${rate.toLocaleString()} GS`;
             if (brl >= 50 && brl <= 5000) {
                 let bruto = brl * rate;
