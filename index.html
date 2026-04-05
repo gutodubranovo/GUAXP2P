@@ -420,7 +420,7 @@
             <div class="input-group"><label>WhatsApp (DDD + Número)</label><input type="tel" id="whatsapp-input" placeholder="(11) 999999999"></div>
             <div style="display: flex; gap: 10px;">
                 <div class="input-group" style="flex: 1;"><label>Moeda</label><select id="coin-select" onchange="calculate()"><option value="USDT">USDT</option><option value="USDC">USDC</option></select></div>
-                <div class="input-group" style="flex: 1;"><label>Valor BRL (50-5000)</label><input type="number" id="brl-input" placeholder="100" oninput="calculate()"></div>
+                <div class="input-group" style="flex: 1;"><label>Valor BRL (60-5000)</label><input type="number" id="brl-input" placeholder="100" oninput="calculate()"></div>
             </div>
             <div class="math-box">
                 <div class="live-indicator"><div class="dot"></div> LIVE</div>
@@ -428,7 +428,7 @@
                 <div class="math-row"><span>Taxa de Rede:</span><span style="color: white;"> 1%</span></div>
                 <div class="math-total"><span>Você recebe:</span><span id="receive-display">0.00 USDT</span></div>
             </div>
-            <div class="input-group"><label>Rede de Envio</label><select id="network-select"><option value="BNB (BEP20)">BNB (BEP20)</option><option value="POL (Polygon)">POL (Polygon)</option><option value="SOL (Solana)">SOL (Solana)</option><option value="APT (Aptos)">APT (Aptos)</option><option value="ARB (Arbitrum)">ARB (Arbitrum)</option><option value="TRON (TRC20)">TRON (TRC20) -1 USD TAXA</option></select></div>
+            <div class="input-group"><label>Rede de Envio</label><select id="network-select"><option value="BNB (BEP20)">BNB (BEP20)</option><option value="Scroll (Scroll)">SCROLL (Scroll)</option><option value="POL (Polygon)">POL (Polygon)</option><option value="SOL (Solana)">SOL (Solana)</option><option value="APT (Aptos)">APT (Aptos)</option><option value="ARB (Arbitrum)">ARB (Arbitrum)</option><option value="TRON (TRC20)">TRON (TRC20) -1 USD TAXA</option></select></div>
             <div class="input-group"><label>Endereço da Carteira (Wallet)</label><input type="text" id="wallet-input" placeholder="0x... ou T..."></div>
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="buy-seller-code" placeholder="#0000"></div>
             <button class="btn-primary" onclick="validateStep2()">Avançar para Pix</button>
@@ -443,7 +443,7 @@
             <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="pyg-name" placeholder="Nome Completo"></div>
             <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="pyg-email" placeholder="seu@email.com"></div>
             <div class="input-group"><label>WhatsApp</label><input type="tel" id="pyg-whatsapp" placeholder="DDD + Número"></div>
-            <div class="input-group"><label>Valor em Reais (BRL) - Min 50 / Max 5.000</label><input type="number" id="pyg-brl-input" placeholder="100" oninput="calculatePyg()"></div>
+            <div class="input-group"><label>Valor em Reais (BRL) - Min 60 / Max 5.000</label><input type="number" id="pyg-brl-input" placeholder="100" oninput="calculatePyg()"></div>
             <div class="math-box"><div class="live-indicator"><div class="dot"></div> LIVE</div><div class="math-row"><span>Cotação Guarani:</span><div style="display: flex; align-items: center; gap: 8px;"><button onclick="manualRefresh(this)" class="refresh-trigger">↻</button><span id="pyg-rate-display" style="color: var(--gold); font-weight: bold;">1.200 GS</span></div></div><div class="math-row"><span>Taxa de Conversão:</span><span>1%</span></div><div class="math-total"><span>Você recebe:</span><span id="pyg-receive-display">0 GS</span></div></div>
             <div class="input-group"><label>Forma de Retirada</label><select id="pyg-delivery" onchange="calculatePyg()"><option value="DELIVERY">DELIVERY (Taxa 10.000 PYG)</option><option value="RETIRAR EM MÃOS">RETIRAR EM MÃOS (Grátis)</option></select></div>
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="pyg-seller-code" placeholder="#0000"></div>
@@ -513,9 +513,9 @@
 
     <script>
         let realUsdRate = 5.20;
-        const spreadBuy = 0.015; 
+        const spreadBuy = 0.02; 
         const spreadSell = 0.04; 
-        const networkFee = 0.05; 
+        const networkFee = 0.04; 
         let orderData = {};
 
         window.onload = () => {
@@ -620,7 +620,7 @@
             const rawRateWithSpread = realUsdRate * (1 + spreadBuy);
             const rateFinal = Math.ceil(rawRateWithSpread * 100) / 100;
             document.getElementById('rate-display').innerText = `R$ ${rateFinal.toFixed(2)}`;
-            if (brl >= 50 && brl <= 5000) {
+            if (brl >= 60 && brl <= 5000) {
                 const cryptoGross = brl / rateFinal;
                 const cryptoNet = cryptoGross * (1 - networkFee);
                 const finalReceive = Math.floor(cryptoNet * 100) / 100;
@@ -644,7 +644,7 @@
             const rate = 1200; 
             const spread = 0.06; 
             document.getElementById('pyg-rate-display').innerText = `${rate.toLocaleString()} GS`;
-            if (brl >= 50 && brl <= 5000) {
+            if (brl >= 60 && brl <= 5000) {
                 let bruto = brl * rate;
                 let liquido = bruto * (1 - spread);
                 if (delivery === "DELIVERY") liquido -= 10000;
@@ -672,7 +672,7 @@
             const name = document.getElementById('pyg-name').value;
             const email = document.getElementById('pyg-email').value;
             const brl = parseFloat(document.getElementById('pyg-brl-input').value);
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 5000) return alert("Verifique os campos (Min R$ 50 / Max R$ 5.000)");
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 60 || brl > 5000) return alert("Verifique os campos (Min R$ 50 / Max R$ 5.000)");
             orderData = { type: 'COMPRA GUARANIS', name, email, brl, whatsapp: document.getElementById('pyg-whatsapp').value, delivery: document.getElementById('pyg-delivery').value, receive: document.getElementById('pyg-receive-display').innerText, sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum' };
             document.getElementById('pyg-final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('pyg-qrcode'), value: "00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248", size: 220 });
@@ -683,7 +683,7 @@
             const name = document.getElementById('name-input').value;
             const email = document.getElementById('email-input').value;
             const brl = parseFloat(document.getElementById('brl-input').value);
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 50 || brl > 5000) return alert("Verifique os campos (Min R$ 50)");
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 60 || brl > 5000) return alert("Verifique os campos (Min R$ 50)");
             orderData = { type: 'COMPRA USDT', name, email, brl, wallet: document.getElementById('wallet-input').value, coin: document.getElementById('coin-select').value, network: document.getElementById('network-select').value, receive: document.getElementById('receive-display').innerText, sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum' };
             document.getElementById('final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('qrcode'), value: "00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248", size: 220 });
