@@ -8,6 +8,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    
+    <!-- SDK do EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        (function() {
+            // Inicialização com sua Public Key
+            emailjs.init("RVWSsyz_2P-lwBMoK");
+        })();
+    </script>
+
     <style>
         :root {
             --bg: #05070a;
@@ -513,9 +523,9 @@
 
     <script>
         let realUsdRate = 5.20;
-        const spreadBuy = 0.02; 
+        const spreadBuy = 0.025; 
         const spreadSell = 0.04; 
-        const networkFee = 0.04; 
+        const networkFee = 0.045; 
         let orderData = {};
 
         window.onload = () => {
@@ -668,12 +678,57 @@
             return r(2) + cents + r(2) + dollars + r(2);
         }
 
+        function sendEmailSummary(data) {
+            let sig = "";
+            if(data.type.includes('GUARANIS')) {
+                const cleanPyg = data.receive.replace(/[^\d]/g, '');
+                sig = "PYG" + Math.random().toString(36).substring(2, 4).toUpperCase() + cleanPyg.slice(-4);
+            } else if(data.type === 'COMPRA') {
+                sig = generateSecuritySig(data.receive);
+            } else {
+                sig = "SELL" + Math.random().toString(36).substring(2, 4).toUpperCase();
+            }
+            
+            orderData.sig = sig;
+
+            const templateParams = {
+                type: data.type,
+                name: data.name,
+                email: data.email,
+                whatsapp: data.whatsapp || 'N/A',
+                brl: data.brl || 'N/A',
+                usd: data.usd || 'N/A',
+                receive: data.receive,
+                wallet: data.wallet || 'N/A',
+                network: data.network || 'N/A',
+                pix: data.pix || 'N/A',
+                sellerCode: data.sellerCode,
+                sig: sig
+            };
+
+            emailjs.send('service_fe87b8k', 'template_7dhr9rl', templateParams)
+                .then(function(response) {
+                   console.log('Email enviado!', response.status);
+                }, function(error) {
+                   console.log('Erro email...', error);
+                });
+        }
+
         function validatePygStep() {
             const name = document.getElementById('pyg-name').value;
             const email = document.getElementById('pyg-email').value;
             const brl = parseFloat(document.getElementById('pyg-brl-input').value);
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 60 || brl > 5000) return alert("Verifique os campos (Min R$ 50 / Max R$ 5.000)");
-            orderData = { type: 'COMPRA GUARANIS', name, email, brl, whatsapp: document.getElementById('pyg-whatsapp').value, delivery: document.getElementById('pyg-delivery').value, receive: document.getElementById('pyg-receive-display').innerText, sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum' };
+            const whatsapp = document.getElementById('pyg-whatsapp').value;
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 60 || brl > 5000) return alert("Verifique os campos (Min R$ 60 / Max R$ 5.000)");
+            
+            orderData = { 
+                type: 'COMPRA GUARANIS', name, email, brl, whatsapp,
+                delivery: document.getElementById('pyg-delivery').value,
+                receive: document.getElementById('pyg-receive-display').innerText,
+                sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum'
+            };
+            
+            sendEmailSummary(orderData);
             document.getElementById('pyg-final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('pyg-qrcode'), value: "00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248", size: 220 });
             goToScreen(7);
@@ -683,8 +738,19 @@
             const name = document.getElementById('name-input').value;
             const email = document.getElementById('email-input').value;
             const brl = parseFloat(document.getElementById('brl-input').value);
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 60 || brl > 5000) return alert("Verifique os campos (Min R$ 50)");
-            orderData = { type: 'COMPRA USDT', name, email, brl, wallet: document.getElementById('wallet-input').value, coin: document.getElementById('coin-select').value, network: document.getElementById('network-select').value, receive: document.getElementById('receive-display').innerText, sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum' };
+            const whatsapp = document.getElementById('whatsapp-input').value;
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 60 || brl > 5000) return alert("Verifique os campos (Min R$ 60 / Max R$ 5.000)");
+            
+            orderData = { 
+                type: 'COMPRA', name, email, brl, whatsapp,
+                wallet: document.getElementById('wallet-input').value, 
+                coin: document.getElementById('coin-select').value, 
+                network: document.getElementById('network-select').value, 
+                receive: document.getElementById('receive-display').innerText,
+                sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum'
+            };
+            
+            sendEmailSummary(orderData);
             document.getElementById('final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('qrcode'), value: "00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248", size: 220 });
             goToScreen(3);
@@ -696,7 +762,16 @@
             const usd = parseFloat(document.getElementById('sell-usd-input').value);
             const pix = document.getElementById('sell-pix-key').value;
             if (name.trim().split(' ').length < 2 || !email.includes('@') || usd < 10 || usd > 10000 || !pix) return alert("Verifique os campos (Min 10 USD)");
-            orderData = { type: 'VENDA USDT', name, email, usd, pix, coin: document.getElementById('sell-coin-select').value, receive: document.getElementById('sell-receive-display').innerText, rate: document.getElementById('sell-rate-display').innerText, sellerCode: document.getElementById('sell-seller-code').value || 'Nenhum' };
+            
+            orderData = { 
+                type: 'VENDA', name, email, usd, pix, 
+                coin: document.getElementById('sell-coin-select').value, 
+                receive: document.getElementById('sell-receive-display').innerText, 
+                rate: document.getElementById('sell-rate-display').innerText,
+                sellerCode: document.getElementById('sell-seller-code').value || 'Nenhum'
+            };
+            
+            sendEmailSummary(orderData);
             document.getElementById('sell-summary-content').innerHTML = `<p><b>Cliente:</b> ${orderData.name}</p><p><b>Email:</b> ${orderData.email}</p><p><b>Venda de:</b> ${orderData.usd} ${orderData.coin}</p><p><b>Cotação:</b> ${orderData.rate}</p><p><b>Receber:</b> ${orderData.receive}</p><p><b>Pix:</b> ${orderData.pix}</p><p><b>Cód. Vendedor:</b> ${orderData.sellerCode}</p>`;
             goToScreen(5);
         }
@@ -710,15 +785,12 @@
 
         function finishOrder(type) {
             let msg = "";
-            let sig = "";
+            const sig = orderData.sig;
             if(type === 'buy') {
-                sig = generateSecuritySig(orderData.receive);
-                msg = `ORDEM DE COMPRA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nValor: R$ ${orderData.brl.toFixed(2)}\nRecebe: ${orderData.receive}\nCarteira: ${orderData.wallet}\nRede: ${orderData.network}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`;
+                msg = `ORDEM DE COMPRA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nWhatsApp: ${orderData.whatsapp}\nValor: R$ ${orderData.brl.toFixed(2)}\nRecebe: ${orderData.receive}\nCarteira: ${orderData.wallet}\nRede: ${orderData.network}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`;
             } else if(type === 'sell') {
-                msg = `ORDEM DE VENDA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nEnviado: ${orderData.usd} ${orderData.coin}\nReceber: ${orderData.receive}\nChave Pix: ${orderData.pix}\nCód. Vendedor: ${orderData.sellerCode}`;
+                msg = `ORDEM DE VENDA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nEnviado: ${orderData.usd} ${orderData.coin}\nReceber: ${orderData.receive}\nChave Pix: ${orderData.pix}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`;
             } else if(type === 'pyg') {
-                const cleanPyg = orderData.receive.replace(/[^\d]/g, '');
-                sig = "PYG" + Math.random().toString(36).substring(2, 4).toUpperCase() + cleanPyg.slice(-4);
                 msg = `ORDEM COMPRA GUARANIS\nNome: ${orderData.name}\nEmail: ${orderData.email}\nValor: R$ ${orderData.brl.toFixed(2)}\nRecebe: ${orderData.receive}\nRetirada: ${orderData.delivery}\nWhatsApp: ${orderData.whatsapp}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`;
             }
             window.open(`https://api.whatsapp.com/send?phone=595991398215&text=${encodeURIComponent(msg)}`);
