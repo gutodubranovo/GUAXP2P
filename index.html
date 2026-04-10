@@ -13,7 +13,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>
         (function() {
-            // Inicialização com sua Public Key
             emailjs.init("RVWSsyz_2P-lwBMoK");
         })();
     </script>
@@ -468,7 +467,7 @@
             <h2 style="color: var(--gold);">Pagamento Pix (PYG)</h2>
             <p id="pyg-final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
             <canvas id="pyg-qrcode"></canvas>
-            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pyg-pix-code" value="00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248" readonly><button onclick="copyPix('pyg-pix-code')" class="btn-copy-small">Copiar</button></div></div>
+            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pyg-pix-code" value="00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC" readonly><button onclick="copyPix('pyg-pix-code')" class="btn-copy-small">Copiar</button></div></div>
             <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO CASO NÃO TENHA EFETUADO O PAGAMENTO.⚠️</div>
             <button class="btn-primary btn-pyg" onclick="finishOrder('pyg')">Pagamento Concluído</button>
             <button class="btn-back" onclick="goToScreen(6)">Voltar e Corrigir</button>
@@ -481,7 +480,7 @@
             <h2 style="color: var(--gold);">Pagamento Pix</h2>
             <p id="final-brl" style="font-size: 2.5rem; font-weight: 900; color: #fff; margin: 15px 0;">R$ 0,00</p>
             <canvas id="qrcode"></canvas>
-            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pix-code" value="00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248" readonly><button onclick="copyPix('pix-code')" class="btn-copy-small">Copiar</button></div></div>
+            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="pix-code" value="00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC" readonly><button onclick="copyPix('pix-code')" class="btn-copy-small">Copiar</button></div></div>
             <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU. Tentativas de fraude bloqueiam sua carteira em nossa rede, comprovante deve estar no nome do titular.⚠️</div>
             <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishOrder('buy')">Paguei, Enviar Comprovante</button>
             <button class="btn-back" onclick="goToScreen(2)">Corrigir Dados</button>
@@ -495,7 +494,7 @@
             <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="sell-name" placeholder=" Seu Nome Completo"></div>
             <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="sell-email" placeholder="seu@email.com"></div>
             <div style="display: flex; gap: 10px;"><div class="input-group" style="flex: 1;"><label>Moeda</label><select id="sell-coin-select" onchange="calculateSell()"><option value="USDT">USDT</option><option value="USDC">USDC</option></select></div><div class="input-group" style="flex: 1;"><label>Quantia USD (10 - 10k)</label><input type="number" id="sell-usd-input" placeholder="100" oninput="calculateSell()"></div></div>
-            <div class="math-box"><div class="live-indicator"><div class="dot"></div> LIVE</div><div class="math-row"><span>Preço USD Pago:</span><div style="display: flex; align-items: center; gap: 8px;"><button onclick="manualRefresh(this)" class="refresh-trigger">↻</button><span id="sell-rate-display" style="color: var(--gold); font-weight: bold;">Buscando...</span></div></div><div class="math-total sell" style="color: #00ff88; display: flex; justify-content: space-between; align-items: center; padding-top: 10px;"><span style="color: #00ff88; font-weight: 600;">Você recebe:</span><span id="sell-receive-display" style="color: #00ff88; font-weight: 800;">R$ 0,00</span></div></div>
+            <div class="math-box"><div class="live-indicator"><div class="dot"></div> LIVE</div><div class="math-row"><span>Preço USD Pago:</span><div style="display: flex; align-items: center; gap: 8px;"><button onclick="manualRefresh(this)" class="refresh-trigger">↻</button><span id="sell-rate-display" style="color: var(--gold); font-weight: bold;">R$ 5,00</span></div></div><div class="math-total sell" style="color: #00ff88; display: flex; justify-content: space-between; align-items: center; padding-top: 10px;"><span style="color: #00ff88; font-weight: 600;">Você recebe:</span><span id="sell-receive-display" style="color: #00ff88; font-weight: 800;">R$ 0,00</span></div></div>
             <label>Envie para um dos endereços abaixo:</label>
             <div class="wallet-list">
                 <div class="wallet-item"><span>ETH / BNB / ARB / POLYGON</span><div class="wallet-row"><input type="text" id="w-evm" value="0x92cbaa0e1a6ab68ab8e7acc8d5458a42f7011cba" readonly><button onclick="copyPix('w-evm')" class="btn-copy-small">Copiar</button></div></div>
@@ -523,9 +522,9 @@
 
     <script>
         let realUsdRate = 5.20;
-        const spreadBuy = 0.025; 
+        const spreadBuy = 0.003; 
         const spreadSell = 0.04; 
-        const networkFee = 0.045; 
+        const networkFee = 0.05; 
         let orderData = {};
 
         window.onload = () => {
@@ -590,7 +589,8 @@
 
         async function fetchRate() {
             try {
-                const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTBRL');
+                // Adicionado cache-buster para evitar preços congelados
+                const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTBRL&_=' + Date.now());
                 const data = await res.json();
                 if(data.price) {
                     realUsdRate = parseFloat(data.price);
@@ -692,18 +692,18 @@
             orderData.sig = sig;
 
             const templateParams = {
-                type: data.type,
-                name: data.name,
-                email: data.email,
-                whatsapp: data.whatsapp || 'N/A',
-                brl: data.brl || 'N/A',
-                usd: data.usd || 'N/A',
-                receive: data.receive,
-                wallet: data.wallet || 'N/A',
-                network: data.network || 'N/A',
-                pix: data.pix || 'N/A',
-                sellerCode: data.sellerCode,
-                sig: sig
+                type: String(data.type),
+                name: String(data.name),
+                email: String(data.email),
+                whatsapp: String(data.whatsapp || 'N/A'),
+                brl: String(data.brl || 'N/A'),
+                usd: String(data.usd || 'N/A'),
+                receive: String(data.receive),
+                wallet: String(data.wallet || 'N/A'),
+                network: String(data.network || 'N/A'),
+                pix: String(data.pix || 'N/A'),
+                sellerCode: String(data.sellerCode || 'Nenhum'),
+                sig: String(sig)
             };
 
             emailjs.send('service_fe87b8k', 'template_7dhr9rl', templateParams)
@@ -730,7 +730,7 @@
             
             sendEmailSummary(orderData);
             document.getElementById('pyg-final-brl').innerText = `R$ ${brl.toFixed(2)}`;
-            new QRious({ element: document.getElementById('pyg-qrcode'), value: "00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248", size: 220 });
+            new QRious({ element: document.getElementById('pyg-qrcode'), value: "00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC", size: 220 });
             goToScreen(7);
         }
 
@@ -752,7 +752,7 @@
             
             sendEmailSummary(orderData);
             document.getElementById('final-brl').innerText = `R$ ${brl.toFixed(2)}`;
-            new QRious({ element: document.getElementById('qrcode'), value: "00020126580014br.gov.bcb.pix013626b088c5-8163-4eb8-a6df-f3c8c4f170055204000053039865802BR5924GUSTAVO HENRIQUE ELIAS S6009Sao Paulo62230519daqr4110530079283766304B248", size: 220 });
+            new QRious({ element: document.getElementById('qrcode'), value: "00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC", size: 220 });
             goToScreen(3);
         }
 
