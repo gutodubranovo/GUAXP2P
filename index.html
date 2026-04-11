@@ -494,7 +494,7 @@
             <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="sell-name" placeholder=" Seu Nome Completo"></div>
             <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="sell-email" placeholder="seu@email.com"></div>
             <div style="display: flex; gap: 10px;"><div class="input-group" style="flex: 1;"><label>Moeda</label><select id="sell-coin-select" onchange="calculateSell()"><option value="USDT">USDT</option><option value="USDC">USDC</option></select></div><div class="input-group" style="flex: 1;"><label>Quantia USD (10 - 10k)</label><input type="number" id="sell-usd-input" placeholder="100" oninput="calculateSell()"></div></div>
-            <div class="math-box"><div class="live-indicator"><div class="dot"></div> LIVE</div><div class="math-row"><span>Preço USD Pago:</span><div style="display: flex; align-items: center; gap: 8px;"><button onclick="manualRefresh(this)" class="refresh-trigger">↻</button><span id="sell-rate-display" style="color: var(--gold); font-weight: bold;">R$ 5,00</span></div></div><div class="math-total sell" style="color: #00ff88; display: flex; justify-content: space-between; align-items: center; padding-top: 10px;"><span style="color: #00ff88; font-weight: 600;">Você recebe:</span><span id="sell-receive-display" style="color: #00ff88; font-weight: 800;">R$ 0,00</span></div></div>
+            <div class="math-box"><div class="live-indicator"><div class="dot"></div> LIVE</div><div class="math-row"><span>Preço USD Pago:</span><div style="display: flex; align-items: center; gap: 8px;"><button onclick="manualRefresh(this)" class="refresh-trigger">↻</button><span id="sell-rate-display" style="color: var(--gold); font-weight: bold;">R$ 4,90</span></div></div><div class="math-total sell" style="color: #00ff88; display: flex; justify-content: space-between; align-items: center; padding-top: 10px;"><span style="color: #00ff88; font-weight: 600;">Você recebe:</span><span id="sell-receive-display" style="color: #00ff88; font-weight: 800;">R$ 0,00</span></div></div>
             <label>Envie para um dos endereços abaixo:</label>
             <div class="wallet-list">
                 <div class="wallet-item"><span>ETH / BNB / ARB / POLYGON</span><div class="wallet-row"><input type="text" id="w-evm" value="0x92cbaa0e1a6ab68ab8e7acc8d5458a42f7011cba" readonly><button onclick="copyPix('w-evm')" class="btn-copy-small">Copiar</button></div></div>
@@ -522,7 +522,7 @@
 
     <script>
         let realUsdRate = 5.20;
-        const spreadBuy = 0.003; 
+        const spreadBuy = 0.015; 
         const spreadSell = 0.04; 
         const networkFee = 0.05; 
         let orderData = {};
@@ -640,7 +640,7 @@
 
         function calculateSell() {
             const usd = parseFloat(document.getElementById('sell-usd-input').value) || 0;
-            const sellRate = 5.00; 
+            const sellRate = 4.90; 
             document.getElementById('sell-rate-display').innerText = `R$ ${sellRate.toFixed(2)}`;
             if (usd >= 10 && usd <= 10000) {
                 const finalBrl = usd * sellRate;
