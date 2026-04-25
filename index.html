@@ -159,6 +159,7 @@
         .btn-sell { background: linear-gradient(90deg, #ff4d4d, #b30000); color: #fff; }
         .btn-pyg { background: linear-gradient(90deg, #00ff88, #008044); color: #fff; }
         .btn-consult { background: linear-gradient(90deg, var(--gold), #b38f00); color: #000; }
+        .btn-partner { background: linear-gradient(90deg, #6a11cb, #2575fc); color: #fff; }
 
         .btn-discreet {
             background: transparent;
@@ -222,6 +223,34 @@
             border-radius: 15px;
             margin: 15px 0;
         }
+
+        /* PARCEIROS STYLES */
+        .partner-item-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+        }
+        .partner-item-card:hover { border-color: var(--neon-blue); transform: scale(1.02); }
+        .partner-detail-img {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+        .partner-info-text {
+            text-align: left;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+        }
+        .partner-info-text b { color: var(--gold); }
 
         /* BOX MATEMÁTICA */
         .math-box {
@@ -309,7 +338,7 @@
         .wallet-row input { padding: 8px; font-size: 0.75rem; background: #05070a; }
         .btn-copy-small { background: var(--gold); border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.7rem; }
 
-        #qrcode, #pyg-qrcode { background: #fff; padding: 10px; border-radius: 12px; margin: 20px 0; }
+        #qrcode, #pyg-qrcode, #partner-qrcode { background: #fff; padding: 10px; border-radius: 12px; margin: 20px 0; }
     </style>
 </head>
 <body>
@@ -345,10 +374,82 @@
         </div>
 
         <button class="btn-primary btn-pyg" onclick="goToScreen(6)">Comprar Guaranis</button>
+        
+        <!-- NOVO BOTÃO PARCEIROS PAY -->
+        <button class="btn-primary btn-partner" onclick="goToScreen(12)">PARCEIROS PAY</button>
+        
         <button class="btn-primary btn-consult" onclick="goToScreen(11)">CONSULTORIA</button>
 
         <button class="btn-discreet" onclick="goToScreen(8)">Cadastro Vendedor</button>
         <button class="btn-discreet" onclick="goToScreen(9)">LOGIN</button>
+    </section>
+
+    <!-- TELA 12: LISTA DE PARCEIROS -->
+    <section id="screen-12" class="screen">
+        <div class="card">
+            <h2 style="color: var(--gold); text-align: center; margin-bottom: 25px;">Parceiros Oficiais</h2>
+            
+            <div class="partner-item-card" onclick="goToScreen(13)">
+                <h3 style="color: #fff;">SERGIO PESSOA ASSESSORIA</h3>
+                <p style="font-size: 0.75rem; color: var(--neon-blue);">Assessoria Jurídica e Imigração</p>
+            </div>
+
+            <div class="partner-item-card" onclick="goToScreen(14)">
+                <h3 style="color: #fff;">SU COSMETICOS</h3>
+                <p style="font-size: 0.75rem; color: var(--neon-blue);">Beleza e Estética</p>
+            </div>
+
+            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
+        </div>
+    </section>
+
+    <!-- TELA 13: DETALHE SERGIO PESSOA -->
+    <section id="screen-13" class="screen">
+        <div class="card">
+            <img src="https://i.ibb.co/SDg6YHnx/Captura-de-tela-2026-04-25-002604.png" class="partner-detail-img" alt="Sergio Pessoa">
+            <div class="partner-info-text">
+                <p><b>SERGIO PESSOA INMIGRACIÓN Y LAW FIRM</b></p>
+                <p>SERGIO PAULO PESSOA DE OLIVEIRA OAB/GO 11.218</p>
+                <p>sergiopaulopessoa@gmail.com</p>
+                <p>+595 983 615 345</p>
+                <p>R: Capitán Brizuela c/ c.29 de septiembre Ed. Andrés Oficina 404</p>
+                <p>Barrio Boquerón CDE-PY</p>
+            </div>
+            <button class="btn-primary" onclick="startPartnerPayment('SERGIO PESSOA ASSESSORIA')">PAGAR</button>
+            <button class="btn-back" onclick="goToScreen(12)">Voltar</button>
+        </div>
+    </section>
+
+    <!-- TELA 14: DETALHE SU COSMETICOS -->
+    <section id="screen-14" class="screen">
+        <div class="card">
+            <img src="https://i.ibb.co/Kp1sv4FV/Whats-App-Image-2026-04-16-at-14-28-23.jpg" class="partner-detail-img" alt="Su Cosmeticos">
+            <button class="btn-primary" onclick="startPartnerPayment('SU COSMETICOS')">PAGAR</button>
+            <button class="btn-back" onclick="goToScreen(12)">Voltar</button>
+        </div>
+    </section>
+
+    <!-- TELA 15: PAGAMENTO PARCEIROS -->
+    <section id="screen-15" class="screen">
+        <div class="card" style="text-align: center;">
+            <h2 style="color: var(--gold);">Pagamento Parceiros Pay</h2>
+            <p style="margin-top: 10px; font-size: 0.85rem; color: var(--neon-blue);" id="partner-paying-name"></p>
+            
+            <canvas id="partner-qrcode"></canvas>
+            
+            <div class="input-group" style="text-align: left;">
+                <label>Pix Copia e Cola</label>
+                <div style="display: flex; gap: 5px;">
+                    <input type="text" id="partner-pix-code" value="00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC" readonly>
+                    <button onclick="copyPix('partner-pix-code')" class="btn-copy-small">Copiar</button>
+                </div>
+            </div>
+
+            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU. Tentativas de fraude bloqueiam sua carteira em nossa rede.⚠️</div>
+            
+            <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishPartnerOrder()">PAGUEI</button>
+            <button class="btn-back" onclick="goToScreen(12)">Voltar</button>
+        </div>
     </section>
 
     <!-- TELA 11: CONSULTORIA -->
@@ -437,11 +538,11 @@
                 <div class="math-row"><span>Taxa de Rede:</span><span style="color: white;"> 1%</span></div>
                 <div class="math-total"><span>Você recebe:</span><span id="receive-display">0.00 USDT</span></div>
             </div>
-            <div class="input-group"><label>Rede de Envio</label><select id="network-select"><option value="BNB (BEP20)">BNB (BEP20)</option><option value="Scroll (Scroll)">SCROLL (Scroll)</option><option value="POL (Polygon)">POL (Polygon)</option><option value="SOL (Solana)">SOL (Solana)</option><option value="APT (Aptos)">APT (Aptos)</option><option value="ARB (Arbitrum)">ARB (Arbitrum)</option><option value="TRON (TRC20)">TRON (TRC20) -1 USD TAXA</option></select></div>
+            <div class="input-group"><label>Rede de Envio</label><select id="network-select"><option value="BNB (BEP20)">BNB (BEP20)</option><option value="Scroll (Scroll)">SCROLL (Scroll)</option><option value="POL (Polygon)">POL (Polygon)</option><option value="SOL (Solana)">SOL (Solana)</option><option value="APT (Aptos)">APT (Aptos)</option><option value="ARB (Arbitrum)">ARB (Arbitrum)</option><option value="REDOTPAY">REDOTPAY</option><option value="ETHER FI">ETHER FI</option><option value="TRON (TRC20)">TRON (TRC20) -1 USD TAXA</option></select></div>
             <div class="input-group"><label>Endereço da Carteira (Wallet)</label><input type="text" id="wallet-input" placeholder="0x... ou T..."></div>
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="buy-seller-code" placeholder="#0000"></div>
             <button class="btn-primary" onclick="validateStep2()">Avançar para Pix</button>
-            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
+            <button class="btn-back" onclick="goToScreen(1)">Voltar</button>
         </div>
     </section>
 
@@ -526,6 +627,7 @@
         const spreadSell = 0.04; 
         const networkFee = 0.05; 
         let orderData = {};
+        let selectedPartner = "";
 
         window.onload = () => {
             fetchRate();
@@ -567,7 +669,7 @@
             const baseComissao = 684.86;
             const baseCancelados = 120.00;
 
-            const incVendasUsdt = 3763.87;
+            const incVendasUsdt = 5763.87;
             const incComprasUsdt = 3639.79;
             const incVendasPyg = 252.46;
             const incComissao = 34.24;
@@ -589,7 +691,6 @@
 
         async function fetchRate() {
             try {
-                // Adicionado cache-buster para evitar preços congelados
                 const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTBRL&_=' + Date.now());
                 const data = await res.json();
                 if(data.price) {
@@ -774,6 +875,22 @@
             sendEmailSummary(orderData);
             document.getElementById('sell-summary-content').innerHTML = `<p><b>Cliente:</b> ${orderData.name}</p><p><b>Email:</b> ${orderData.email}</p><p><b>Venda de:</b> ${orderData.usd} ${orderData.coin}</p><p><b>Cotação:</b> ${orderData.rate}</p><p><b>Receber:</b> ${orderData.receive}</p><p><b>Pix:</b> ${orderData.pix}</p><p><b>Cód. Vendedor:</b> ${orderData.sellerCode}</p>`;
             goToScreen(5);
+        }
+
+        function startPartnerPayment(partnerName) {
+            selectedPartner = partnerName;
+            document.getElementById('partner-paying-name').innerText = "Pagamento para: " + partnerName;
+            new QRious({ 
+                element: document.getElementById('partner-qrcode'), 
+                value: "00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC", 
+                size: 220 
+            });
+            goToScreen(15);
+        }
+
+        function finishPartnerOrder() {
+            const msg = `Pagamento Parceiros Pay ${selectedPartner} aqui esta meu comprovante de pagamento.`;
+            window.open(`https://api.whatsapp.com/send?phone=595991398215&text=${encodeURIComponent(msg)}`);
         }
 
         function copyPix(id) {
