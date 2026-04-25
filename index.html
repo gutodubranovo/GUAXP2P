@@ -72,6 +72,24 @@
             100% { transform: translateX(-50%); }
         }
 
+        /* BOTÃO SUPORTE DISCRETO */
+        .support-link {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #25d366;
+            font-size: 0.7rem;
+            font-weight: 800;
+            background: rgba(37, 211, 102, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(37, 211, 102, 0.5);
+            transition: 0.3s;
+            margin: 10px auto 0;
+        }
+        .support-link:hover { background: rgba(37, 211, 102, 0.2); transform: scale(1.05); }
+
         /* LOGO GUAXINIM */
         .guax-logo-container {
             width: 230px;
@@ -160,6 +178,7 @@
         .btn-pyg { background: linear-gradient(90deg, #00ff88, #008044); color: #fff; }
         .btn-consult { background: linear-gradient(90deg, var(--gold), #b38f00); color: #000; }
         .btn-partner { background: linear-gradient(90deg, #6a11cb, #2575fc); color: #fff; }
+        .btn-crypto { background: linear-gradient(90deg, #00c6ff, #0072ff); color: #fff; }
 
         .btn-discreet {
             background: transparent;
@@ -288,7 +307,7 @@
             100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
         }
 
-        .math-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
+        .math-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 0.9rem; }
         .math-total { font-size: 1.2rem; font-weight: 900; color: var(--neon-blue); margin-top: 10px; border-top: 1px solid #333; padding-top: 10px; }
 
         .refresh-trigger {
@@ -354,6 +373,13 @@
 
     <!-- TELA 1: HOME -->
     <section id="screen-1" class="screen active">
+        <a href="https://api.whatsapp.com/send?phone=595991398215&text=Olá,%20preciso%20de%20suporte." target="_blank" class="support-link">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+            </svg>
+            SUPORTE
+        </a>
+
         <div class="guax-logo-container">
             <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                 <path d="M60 70 L40 30 L85 60 Z" fill="#161b22" stroke="#ffcc00" stroke-width="2"/>
@@ -374,151 +400,11 @@
         </div>
 
         <button class="btn-primary btn-pyg" onclick="goToScreen(6)">Comprar Guaranis</button>
-        
-        <!-- NOVO BOTÃO PARCEIROS PAY -->
         <button class="btn-primary btn-partner" onclick="goToScreen(12)">PARCEIROS PAY</button>
-        
         <button class="btn-primary btn-consult" onclick="goToScreen(11)">CONSULTORIA</button>
 
         <button class="btn-discreet" onclick="goToScreen(8)">Cadastro Vendedor</button>
         <button class="btn-discreet" onclick="goToScreen(9)">LOGIN</button>
-    </section>
-
-    <!-- TELA 12: LISTA DE PARCEIROS -->
-    <section id="screen-12" class="screen">
-        <div class="card">
-            <h2 style="color: var(--gold); text-align: center; margin-bottom: 25px;">Parceiros Oficiais</h2>
-            
-            <div class="partner-item-card" onclick="goToScreen(13)">
-                <h3 style="color: #fff;">SERGIO PESSOA ASSESSORIA</h3>
-                <p style="font-size: 0.75rem; color: var(--neon-blue);">Assessoria Jurídica e Imigração</p>
-            </div>
-
-            <div class="partner-item-card" onclick="goToScreen(14)">
-                <h3 style="color: #fff;">SU COSMETICOS</h3>
-                <p style="font-size: 0.75rem; color: var(--neon-blue);">Beleza e Estética</p>
-            </div>
-
-            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
-        </div>
-    </section>
-
-    <!-- TELA 13: DETALHE SERGIO PESSOA -->
-    <section id="screen-13" class="screen">
-        <div class="card">
-            <img src="https://i.ibb.co/SDg6YHnx/Captura-de-tela-2026-04-25-002604.png" class="partner-detail-img" alt="Sergio Pessoa">
-            <div class="partner-info-text">
-                <p><b>SERGIO PESSOA INMIGRACIÓN Y LAW FIRM</b></p>
-                <p>SERGIO PAULO PESSOA DE OLIVEIRA OAB/GO 11.218</p>
-                <p>sergiopaulopessoa@gmail.com</p>
-                <p>+595 983 615 345</p>
-                <p>R: Capitán Brizuela c/ c.29 de septiembre Ed. Andrés Oficina 404</p>
-                <p>Barrio Boquerón CDE-PY</p>
-            </div>
-            <button class="btn-primary" onclick="startPartnerPayment('SERGIO PESSOA ASSESSORIA')">PAGAR</button>
-            <button class="btn-back" onclick="goToScreen(12)">Voltar</button>
-        </div>
-    </section>
-
-    <!-- TELA 14: DETALHE SU COSMETICOS -->
-    <section id="screen-14" class="screen">
-        <div class="card">
-            <img src="https://i.ibb.co/Kp1sv4FV/Whats-App-Image-2026-04-16-at-14-28-23.jpg" class="partner-detail-img" alt="Su Cosmeticos">
-            <button class="btn-primary" onclick="startPartnerPayment('SU COSMETICOS')">PAGAR</button>
-            <button class="btn-back" onclick="goToScreen(12)">Voltar</button>
-        </div>
-    </section>
-
-    <!-- TELA 15: PAGAMENTO PARCEIROS -->
-    <section id="screen-15" class="screen">
-        <div class="card" style="text-align: center;">
-            <h2 style="color: var(--gold);">Pagamento Parceiros Pay</h2>
-            <p style="margin-top: 10px; font-size: 0.85rem; color: var(--neon-blue);" id="partner-paying-name"></p>
-            
-            <canvas id="partner-qrcode"></canvas>
-            
-            <div class="input-group" style="text-align: left;">
-                <label>Pix Copia e Cola</label>
-                <div style="display: flex; gap: 5px;">
-                    <input type="text" id="partner-pix-code" value="00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC" readonly>
-                    <button onclick="copyPix('partner-pix-code')" class="btn-copy-small">Copiar</button>
-                </div>
-            </div>
-
-            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU. Tentativas de fraude bloqueiam sua carteira em nossa rede.⚠️</div>
-            
-            <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishPartnerOrder()">PAGUEI</button>
-            <button class="btn-back" onclick="goToScreen(12)">Voltar</button>
-        </div>
-    </section>
-
-    <!-- TELA 11: CONSULTORIA -->
-    <section id="screen-11" class="screen">
-        <div class="card">
-            <h2 style="color: var(--gold); text-align: center; margin-bottom: 10px;">PARE DE PERDER DINHEIRO</h2>
-            <p style="text-align: center; color: var(--danger); font-weight: 800; font-size: 0.9rem; margin-bottom: 20px;">O sistema bancário tradicional está drenando seu patrimônio.</p>
-            
-            <table class="consult-table">
-                <thead>
-                    <tr><th>FATOR</th><th>BANCOS / SWIFT</th><th>GUAX P2P</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Taxas Totais</td><td class="col-bank">10% a 25%</td><td class="col-guax">Taxa Mínima</td></tr>
-                    <tr><td>Tempo</td><td class="col-bank">7 a 45 dias</td><td class="col-guax">Minutos</td></tr>
-                    <tr><td>Burocracia</td><td class="col-bank">Gigantesca</td><td class="col-guax">Zero</td></tr>
-                    <tr><td>Privacidade</td><td class="col-bank">Exposição Total</td><td class="col-guax">Alto Nível</td></tr>
-                </tbody>
-            </table>
-
-            <div class="highlight-box">
-                <h3 style="color: var(--success); font-size: 1rem; margin-bottom: 10px;">Nossa Consultoria Oferece:</h3>
-                <ul style="list-style: none; font-size: 0.85rem; color: var(--text-dim); line-height: 1.6;">
-                    <li>✅ 100% de Segurança e Agilidade no Capital</li>
-                    <li>✅ Cartão de Crédito Internacional Stablecoin</li>
-                    <li>✅ Autocustódia (Você é o seu próprio banco)</li>
-                    <li>✅ Renda Passiva de 4% a 6% ao ANO em Dólar</li>
-                    <li>✅ Envio BR para Exterior em minutos sem perguntas</li>
-                </ul>
-            </div>
-
-            <button class="btn-primary" style="background: #25d366; color: white;" onclick="window.open('https://api.whatsapp.com/send?phone=595991398215&text=CONSULTORIA', '_blank')">TENHO INTERESSE</button>
-            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
-        </div>
-    </section>
-
-    <!-- TELA 9: LOGIN ADM -->
-    <section id="screen-9" class="screen">
-        <div class="card">
-            <h2 style="color: var(--gold); text-align: center; margin-bottom: 25px;">Acesso Restrito</h2>
-            <div class="input-group"><label>Usuário</label><input type="text" id="adm-user" placeholder="Login"></div>
-            <div class="input-group"><label>Senha</label><input type="password" id="adm-pass" placeholder="••••••••"></div>
-            <button class="btn-primary" onclick="handleLogin()">Entrar no Painel</button>
-            <button class="btn-back" onclick="goToScreen(1)">Voltar</button>
-        </div>
-    </section>
-
-    <!-- TELA 10: DASHBOARD ADM -->
-    <section id="screen-10" class="screen">
-        <div class="card">
-            <h2 style="color: var(--neon-blue); text-align: center; margin-bottom: 5px;">Painel de Controle</h2>
-            <p style="text-align: center; color: var(--text-dim); font-size: 0.7rem; margin-bottom: 25px;">MÉTRICAS DE PERFORMANCE GUAX P2P</p>
-            <div class="dash-card"><span class="dash-label">Vendas USDT/USDC</span><span class="dash-value" id="dash-vendas-usdt">R$ 0,00</span></div>
-            <div class="dash-card"><span class="dash-label">Compras USDT/USDC</span><span class="dash-value" id="dash-compras-usdt">R$ 0,00</span></div>
-            <div class="dash-card"><span class="dash-label">Vendas Guaranis</span><span class="dash-value" id="dash-vendas-pyg">R$ 0,00</span></div>
-            <div class="dash-card"><span class="dash-label">Comissão Vendedor</span><span class="dash-value" id="dash-comissao">R$ 0,00</span></div>
-            <div class="dash-card"><span class="dash-label">Cancelados</span><span class="dash-value danger" id="dash-cancelados">R$ 0,00</span></div>
-            <button class="btn-primary" style="margin-top: 20px;" onclick="goToScreen(1)">Sair do Painel</button>
-        </div>
-    </section>
-
-    <!-- TELA 8: INFORMAÇÃO VENDEDOR -->
-    <section id="screen-8" class="screen">
-        <div class="card">
-            <h2 style="color: var(--gold); text-align: center; margin-bottom: 20px;">Seja um Parceiro GUAX</h2>
-            <p style="text-align: center; color: var(--text-dim); line-height: 1.6; margin-bottom: 30px; font-size: 1rem;">Ganhe uma comissão usando seu código de vendedor! Você recebe uma % em cada venda que o cliente usar seu código. Cadastre-se agora, é de graça!</p>
-            <button class="btn-primary" style="background: #25d366; color: white;" onclick="window.open('https://api.whatsapp.com/send?phone=595991398215&text=Quero%20Cadastrar%20meu%20Cod.%20Vendedor.', '_blank')">Cadastre-se agora</button>
-            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
-        </div>
     </section>
 
     <!-- TELA 2: FORMULÁRIO COMPRA USDT -->
@@ -543,6 +429,59 @@
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="buy-seller-code" placeholder="#0000"></div>
             <button class="btn-primary" onclick="validateStep2()">Avançar para Pix</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar</button>
+        </div>
+    </section>
+
+    <!-- TELA 4: FORMULÁRIO VENDA USDT (RESTAURADA) -->
+    <section id="screen-4" class="screen">
+        <div class="card">
+            <h2 style="margin-bottom: 25px; color: var(--danger); text-align: center;">Ordem de Venda</h2>
+            <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="sell-name" placeholder=" Seu Nome Completo"></div>
+            <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="sell-email" placeholder="seu@email.com"></div>
+            
+            <div style="display: flex; gap: 10px;">
+                <div class="input-group" style="flex: 1;"><label>Moeda</label><select id="sell-coin-select" onchange="calculateSell()"><option value="USDT">USDT</option><option value="USDC">USDC</option></select></div>
+                <div class="input-group" style="flex: 1;"><label>Quantia USD (10 - 10k)</label><input type="number" id="sell-usd-input" placeholder="100" oninput="calculateSell()"></div>
+            </div>
+
+            <div class="math-box">
+                <div class="live-indicator"><div class="dot"></div> LIVE</div>
+                <div class="math-row">
+                    <span>Preço USD Pago:</span>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <button onclick="manualRefresh(this)" class="refresh-trigger">↻</button>
+                        <span id="sell-rate-display" style="color: var(--gold); font-weight: bold;">R$ 4,90</span>
+                    </div>
+                </div>
+                <div class="math-total sell" style="color: #00ff88; display: flex; justify-content: space-between; align-items: center; padding-top: 10px;">
+                    <span style="color: #00ff88; font-weight: 600;">Você recebe:</span>
+                    <span id="sell-receive-display" style="color: #00ff88; font-weight: 800;">R$ 0,00</span>
+                </div>
+            </div>
+
+            <label>Envie para um dos endereços abaixo:</label>
+            <div class="wallet-list">
+                <div class="wallet-item"><span>ETH / BNB / ARB / POLYGON</span><div class="wallet-row"><input type="text" id="w-evm" value="0x92cbaa0e1a6ab68ab8e7acc8d5458a42f7011cba" readonly><button onclick="copyPix('w-evm')" class="btn-copy-small">Copiar</button></div></div>
+                <div class="wallet-item"><span>TRON (TRC20)</span><div class="wallet-row"><input type="text" id="w-tron" value="TRbWTwUkcWwbKMRGh9syLZtZ2FyGL6HQYh" readonly><button onclick="copyPix('w-tron')" class="btn-copy-small">Copiar</button></div></div>
+                <div class="wallet-item"><span>SOLANA</span><div class="wallet-row"><input type="text" id="w-sol" value="5mNoQw3swYAT5654vcPKTSTJK1YAEhreHGoiAamfEJjK" readonly><button onclick="copyPix('w-sol')" class="btn-copy-small">Copiar</button></div></div>
+                <div class="wallet-item"><span>APTOS</span><div class="wallet-row"><input type="text" id="w-apt" value="0x34171672f22c93250b7ee29061103f5d809dec3ff9124ecd1767e100def0434f" readonly><button onclick="copyPix('w-apt')" class="btn-copy-small">Copiar</button></div></div>
+            </div>
+
+            <div class="input-group" style="margin-top: 20px;"><label>Sua Chave PIX (Para receber)</label><input type="text" id="sell-pix-key" placeholder="CPF, Email, Cel ou Aleatória"></div>
+            <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="sell-seller-code" placeholder="#0000"></div>
+            <button class="btn-primary btn-sell" onclick="validateSellStep()">Ordem de Venda</button>
+            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
+        </div>
+    </section>
+
+    <!-- TELA 5: RESUMO VENDA (RESTAURADA) -->
+    <section id="screen-5" class="screen">
+        <div class="card">
+            <h2 style="color: var(--gold); text-align: center; margin-bottom: 20px;">Resumo da Venda</h2>
+            <div id="sell-summary-content" style="font-size: 0.9rem; line-height: 1.6; color: var(--text-dim);"></div>
+            <div class="warning-text">⚠️ REVISE TODO O PEDIDO ANTES DE ENVIAR SEUS ATIVOS. NÃO CLIQUE NO BOTÃO CASO NÃO TENHA ENVIADO OS ATIVOS. EM CASO DE ENVIO PARA CARTEIRA OU REDE ERRADA OS ATIVOS SERÃO PERDIDOS.⚠️</div>
+            <button class="btn-primary btn-sell" onclick="finishOrder('sell')">Envio Confirmado</button>
+            <button class="btn-back" onclick="goToScreen(4)">Corrigir Dados</button>
         </div>
     </section>
 
@@ -588,36 +527,136 @@
         </div>
     </section>
 
-    <!-- TELA 4: FORMULÁRIO VENDA USDT -->
-    <section id="screen-4" class="screen">
+    <!-- TELA 12: LISTA DE PARCEIROS -->
+    <section id="screen-12" class="screen">
         <div class="card">
-            <h2 style="margin-bottom: 25px; color: var(--danger); text-align: center;">Ordem de Venda</h2>
-            <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="sell-name" placeholder=" Seu Nome Completo"></div>
-            <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="sell-email" placeholder="seu@email.com"></div>
-            <div style="display: flex; gap: 10px;"><div class="input-group" style="flex: 1;"><label>Moeda</label><select id="sell-coin-select" onchange="calculateSell()"><option value="USDT">USDT</option><option value="USDC">USDC</option></select></div><div class="input-group" style="flex: 1;"><label>Quantia USD (10 - 10k)</label><input type="number" id="sell-usd-input" placeholder="100" oninput="calculateSell()"></div></div>
-            <div class="math-box"><div class="live-indicator"><div class="dot"></div> LIVE</div><div class="math-row"><span>Preço USD Pago:</span><div style="display: flex; align-items: center; gap: 8px;"><button onclick="manualRefresh(this)" class="refresh-trigger">↻</button><span id="sell-rate-display" style="color: var(--gold); font-weight: bold;">R$ 4,90</span></div></div><div class="math-total sell" style="color: #00ff88; display: flex; justify-content: space-between; align-items: center; padding-top: 10px;"><span style="color: #00ff88; font-weight: 600;">Você recebe:</span><span id="sell-receive-display" style="color: #00ff88; font-weight: 800;">R$ 0,00</span></div></div>
-            <label>Envie para um dos endereços abaixo:</label>
-            <div class="wallet-list">
-                <div class="wallet-item"><span>ETH / BNB / ARB / POLYGON</span><div class="wallet-row"><input type="text" id="w-evm" value="0x92cbaa0e1a6ab68ab8e7acc8d5458a42f7011cba" readonly><button onclick="copyPix('w-evm')" class="btn-copy-small">Copiar</button></div></div>
-                <div class="wallet-item"><span>TRON (TRC20)</span><div class="wallet-row"><input type="text" id="w-tron" value="TRbWTwUkcWwbKMRGh9syLZtZ2FyGL6HQYh" readonly><button onclick="copyPix('w-tron')" class="btn-copy-small">Copiar</button></div></div>
-                <div class="wallet-item"><span>SOLANA</span><div class="wallet-row"><input type="text" id="w-sol" value="5mNoQw3swYAT5654vcPKTSTJK1YAEhreHGoiAamfEJjK" readonly><button onclick="copyPix('w-sol')" class="btn-copy-small">Copiar</button></div></div>
-                <div class="wallet-item"><span>APTOS</span><div class="wallet-row"><input type="text" id="w-apt" value="0x34171672f22c93250b7ee29061103f5d809dec3ff9124ecd1767e100def0434f" readonly><button onclick="copyPix('w-apt')" class="btn-copy-small">Copiar</button></div></div>
+            <h2 style="color: var(--gold); text-align: center; margin-bottom: 25px;">Parceiros Oficiais</h2>
+            <div class="partner-item-card" onclick="goToScreen(13)">
+                <h3 style="color: #fff;">SERGIO PESSOA INMIGRACIÓN Y LAW FIRM</h3>
+                <p style="font-size: 0.75rem; color: var(--neon-blue);">Documentação Paraguaia e brasileira</p>
             </div>
-            <div class="input-group" style="margin-top: 20px;"><label>Sua Chave PIX</label><input type="text" id="sell-pix-key" placeholder="CPF, Email, Cel ou Aleatória"></div>
-            <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="sell-seller-code" placeholder="#0000"></div>
-            <button class="btn-primary btn-sell" onclick="validateSellStep()">Ordem de Venda</button>
+            <div class="partner-item-card" onclick="goToScreen(14)">
+                <h3 style="color: #fff;">SU COSMÉTICOS</h3>
+                <p style="font-size: 0.75rem; color: var(--neon-blue);">Beleza e Estética</p>
+            </div>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
         </div>
     </section>
 
-    <!-- TELA 5: RESUMO VENDA -->
-    <section id="screen-5" class="screen">
+    <!-- TELA 13: DETALHE SERGIO PESSOA -->
+    <section id="screen-13" class="screen">
         <div class="card">
-            <h2 style="color: var(--gold); text-align: center; margin-bottom: 20px;">Resumo da Venda</h2>
-            <div id="sell-summary-content" style="font-size: 0.9rem; line-height: 1.6; color: var(--text-dim);"></div>
-            <div class="warning-text">⚠️ REVISE TODO O PEDIDO ANTES DE ENVIAR SEUS ATIVOS. NÃO CLIQUE NO BOTÃO CASO NÃO TENHA ENVIADO OS ATIVOS. EM CASO DE ENVIO PARA CARTEIRA OU REDE ERRADA OS ATIVOS SERÃO PERDIDOS.⚠️</div>
-            <button class="btn-primary btn-sell" onclick="finishOrder('sell')">Envio Confirmado</button>
-            <button class="btn-back" onclick="goToScreen(4)">Corrigir Dados</button>
+            <img src="https://i.ibb.co/SDg6YHnx/Captura-de-tela-2026-04-25-002604.png" class="partner-detail-img" alt="Sergio Pessoa">
+            <div class="partner-info-text">
+                <p><b>SERGIO PESSOA INMIGRACIÓN Y LAW FIRM</b></p>
+                <p>SERGIO PAULO PESSOA DE OLIVEIRA OAB/GO 11.218</p>
+                <p>sergiopaulopessoa@gmail.com</p>
+                <p>+595 983 615 345</p>
+                <p>R: Capitán Brizuela c/ c.29 de septiembre Ed. Andrés Oficina 404</p>
+                <p>Barrio Boquerón CDE-PY</p>
+            </div>
+            <button class="btn-primary" onclick="startPartnerPayment('SERGIO PESSOA INMIGRACIÓN')">PAGAR</button>
+            <button class="btn-back" onclick="goToScreen(12)">Voltar</button>
+        </div>
+    </section>
+
+    <!-- TELA 14: DETALHE SU COSMETICOS -->
+    <section id="screen-14" class="screen">
+        <div class="card">
+            <img src="https://i.ibb.co/vx4yjZ15/Whats-App-Image-2026-04-25-at-15-31-50.jpg" class="partner-detail-img" alt="Su Cosmeticos">
+            <div class="partner-info-text">
+                <p><b>SU COSMÉTICOS </b></p>
+                <p>Su Cosméticos Estética e Beleza ID 4007</p>
+                <p>suucosmeticos@gmail.com</p>
+                <p>+595 992 151 714</p>
+                <p>Instagram @suucosmeticos</p>
+            </div>
+            <button class="btn-primary" onclick="startPartnerPayment('SU COSMETICOS')">PAGAR</button>
+            <button class="btn-back" onclick="goToScreen(12)">Voltar</button>
+        </div>
+    </section>
+
+    <!-- TELA 15: PAGAMENTO PARCEIROS -->
+    <section id="screen-15" class="screen">
+        <div class="card" style="text-align: center;">
+            <h2 style="color: var(--gold);">Pagamento Parceiros Pay</h2>
+            <p style="margin-top: 10px; font-size: 0.85rem; color: var(--neon-blue);" id="partner-paying-name"></p>
+            <canvas id="partner-qrcode"></canvas>
+            <div class="input-group" style="text-align: left;">
+                <label>Pix Copia e Cola</label>
+                <div style="display: flex; gap: 5px;">
+                    <input type="text" id="partner-pix-code" value="00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC" readonly>
+                    <button onclick="copyPix('partner-pix-code')" class="btn-copy-small">Copiar</button>
+                </div>
+            </div>
+            <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU. Tentativas de fraude bloqueiam sua carteira em nossa rede.⚠️</div>
+            <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishPartnerOrder()">PAGUEI</button>
+            <button class="btn-primary btn-crypto" onclick="payWithCrypto()">PAGAR COM CRIPTO</button>
+            <button class="btn-back" onclick="goToScreen(12)">Voltar</button>
+        </div>
+    </section>
+
+    <!-- TELA 11: CONSULTORIA -->
+    <section id="screen-11" class="screen">
+        <div class="card">
+            <h2 style="color: var(--gold); text-align: center; margin-bottom: 10px;">PARE DE PERDER DINHEIRO</h2>
+            <p style="text-align: center; color: var(--danger); font-weight: 800; font-size: 0.9rem; margin-bottom: 20px;">O sistema bancário tradicional está drenando seu patrimônio.</p>
+            <table class="consult-table">
+                <thead><tr><th>FATOR</th><th>BANCOS / SWIFT</th><th>GUAX P2P</th></tr></thead>
+                <tbody>
+                    <tr><td>Taxas Totais</td><td class="col-bank">10% a 25%</td><td class="col-guax">Taxa Mínima</td></tr>
+                    <tr><td>Tempo</td><td class="col-bank">7 a 45 dias</td><td class="col-guax">Minutos</td></tr>
+                    <tr><td>Burocracia</td><td class="col-bank">Gigantesca</td><td class="col-guax">Zero</td></tr>
+                    <tr><td>Privacidade</td><td class="col-bank">Exposição Total</td><td class="col-guax">Alto Nível</td></tr>
+                </tbody>
+            </table>
+            <div class="highlight-box">
+                <h3 style="color: var(--success); font-size: 1rem; margin-bottom: 10px;">Nossa Consultoria Oferece:</h3>
+                <ul style="list-style: none; font-size: 0.85rem; color: var(--text-dim); line-height: 1.6;">
+                    <li>✅ 100% de Segurança e Agilidade no Capital</li>
+                    <li>✅ Cartão de Crédito Internacional Stablecoin</li>
+                    <li>✅ Autocustódia (Você é o seu próprio banco)</li>
+                    <li>✅ Renda Passiva de 4% a 6% ao ANO em Dólar</li>
+                    <li>✅ Envio BR para Exterior em minutos sem perguntas</li>
+                </ul>
+            </div>
+            <button class="btn-primary" style="background: #25d366; color: white;" onclick="window.open('https://api.whatsapp.com/send?phone=595991398215&text=CONSULTORIA', '_blank')">TENHO INTERESSE</button>
+            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
+        </div>
+    </section>
+
+    <!-- TELA 9: LOGIN ADM -->
+    <section id="screen-9" class="screen">
+        <div class="card">
+            <h2 style="color: var(--gold); text-align: center; margin-bottom: 25px;">Acesso Restrito</h2>
+            <div class="input-group"><label>Usuário</label><input type="text" id="adm-user" placeholder="Login"></div>
+            <div class="input-group"><label>Senha</label><input type="password" id="adm-pass" placeholder="••••••••"></div>
+            <button class="btn-primary" onclick="handleLogin()">Entrar no Painel</button>
+            <button class="btn-back" onclick="goToScreen(1)">Voltar</button>
+        </div>
+    </section>
+
+    <!-- TELA 10: DASHBOARD ADM -->
+    <section id="screen-10" class="screen">
+        <div class="card">
+            <h2 style="color: var(--neon-blue); text-align: center; margin-bottom: 5px;">Painel de Controle</h2>
+            <p style="text-align: center; color: var(--text-dim); font-size: 0.7rem; margin-bottom: 25px;">MÉTRICAS DE PERFORMANCE GUAX P2P</p>
+            <div class="dash-card"><span class="dash-label">Vendas USDT/USDC</span><span class="dash-value" id="dash-vendas-usdt">R$ 0,00</span></div>
+            <div class="dash-card"><span class="dash-label">Compras USDT/USDC</span><span class="dash-value" id="dash-compras-usdt">R$ 0,00</span></div>
+            <div class="dash-card"><span class="dash-label">Vendas Guaranis</span><span class="dash-value" id="dash-vendas-pyg">R$ 0,00</span></div>
+            <div class="dash-card"><span class="dash-label">Comissão Vendedor</span><span class="dash-value" id="dash-comissao">R$ 0,00</span></div>
+            <div class="dash-card"><span class="dash-label">Cancelados</span><span class="dash-value danger" id="dash-cancelados">R$ 0,00</span></div>
+            <button class="btn-primary" style="margin-top: 20px;" onclick="goToScreen(1)">Sair do Painel</button>
+        </div>
+    </section>
+
+    <!-- TELA 8: INFORMAÇÃO VENDEDOR -->
+    <section id="screen-8" class="screen">
+        <div class="card">
+            <h2 style="color: var(--gold); text-align: center; margin-bottom: 20px;">Seja um Parceiro GUAX</h2>
+            <p style="text-align: center; color: var(--text-dim); line-height: 1.6; margin-bottom: 30px; font-size: 1rem;">Ganhe uma comissão usando seu código de vendedor! Você recebe uma % em cada venda que o cliente usar seu código. Cadastre-se agora, é de graça!</p>
+            <button class="btn-primary" style="background: #25d366; color: white;" onclick="window.open('https://api.whatsapp.com/send?phone=595991398215&text=Quero%20Cadastrar%20meu%20Cod.%20Vendedor.', '_blank')">Cadastre-se agora</button>
+            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
         </div>
     </section>
 
@@ -630,6 +669,7 @@
         let selectedPartner = "";
 
         window.onload = () => {
+            calculateSell();
             fetchRate();
             fetchTicker();
             setInterval(fetchRate, 60000); 
@@ -696,7 +736,6 @@
                 if(data.price) {
                     realUsdRate = parseFloat(data.price);
                     calculate();
-                    if(typeof calculateSell === "function") calculateSell();
                 }
             } catch (e) {
                 const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL');
@@ -789,9 +828,7 @@
             } else {
                 sig = "SELL" + Math.random().toString(36).substring(2, 4).toUpperCase();
             }
-            
             orderData.sig = sig;
-
             const templateParams = {
                 type: String(data.type),
                 name: String(data.name),
@@ -806,13 +843,7 @@
                 sellerCode: String(data.sellerCode || 'Nenhum'),
                 sig: String(sig)
             };
-
-            emailjs.send('service_fe87b8k', 'template_7dhr9rl', templateParams)
-                .then(function(response) {
-                   console.log('Email enviado!', response.status);
-                }, function(error) {
-                   console.log('Erro email...', error);
-                });
+            emailjs.send('service_fe87b8k', 'template_7dhr9rl', templateParams);
         }
 
         function validatePygStep() {
@@ -821,14 +852,7 @@
             const brl = parseFloat(document.getElementById('pyg-brl-input').value);
             const whatsapp = document.getElementById('pyg-whatsapp').value;
             if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 60 || brl > 5000) return alert("Verifique os campos (Min R$ 60 / Max R$ 5.000)");
-            
-            orderData = { 
-                type: 'COMPRA GUARANIS', name, email, brl, whatsapp,
-                delivery: document.getElementById('pyg-delivery').value,
-                receive: document.getElementById('pyg-receive-display').innerText,
-                sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum'
-            };
-            
+            orderData = { type: 'COMPRA GUARANIS', name, email, brl, whatsapp, delivery: document.getElementById('pyg-delivery').value, receive: document.getElementById('pyg-receive-display').innerText, sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum' };
             sendEmailSummary(orderData);
             document.getElementById('pyg-final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('pyg-qrcode'), value: "00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC", size: 220 });
@@ -841,16 +865,7 @@
             const brl = parseFloat(document.getElementById('brl-input').value);
             const whatsapp = document.getElementById('whatsapp-input').value;
             if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 60 || brl > 5000) return alert("Verifique os campos (Min R$ 60 / Max R$ 5.000)");
-            
-            orderData = { 
-                type: 'COMPRA', name, email, brl, whatsapp,
-                wallet: document.getElementById('wallet-input').value, 
-                coin: document.getElementById('coin-select').value, 
-                network: document.getElementById('network-select').value, 
-                receive: document.getElementById('receive-display').innerText,
-                sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum'
-            };
-            
+            orderData = { type: 'COMPRA', name, email, brl, whatsapp, wallet: document.getElementById('wallet-input').value, coin: document.getElementById('coin-select').value, network: document.getElementById('network-select').value, receive: document.getElementById('receive-display').innerText, sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum' };
             sendEmailSummary(orderData);
             document.getElementById('final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('qrcode'), value: "00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC", size: 220 });
@@ -863,15 +878,7 @@
             const usd = parseFloat(document.getElementById('sell-usd-input').value);
             const pix = document.getElementById('sell-pix-key').value;
             if (name.trim().split(' ').length < 2 || !email.includes('@') || usd < 10 || usd > 10000 || !pix) return alert("Verifique os campos (Min 10 USD)");
-            
-            orderData = { 
-                type: 'VENDA', name, email, usd, pix, 
-                coin: document.getElementById('sell-coin-select').value, 
-                receive: document.getElementById('sell-receive-display').innerText, 
-                rate: document.getElementById('sell-rate-display').innerText,
-                sellerCode: document.getElementById('sell-seller-code').value || 'Nenhum'
-            };
-            
+            orderData = { type: 'VENDA', name, email, usd, pix, coin: document.getElementById('sell-coin-select').value, receive: document.getElementById('sell-receive-display').innerText, rate: document.getElementById('sell-rate-display').innerText, sellerCode: document.getElementById('sell-seller-code').value || 'Nenhum' };
             sendEmailSummary(orderData);
             document.getElementById('sell-summary-content').innerHTML = `<p><b>Cliente:</b> ${orderData.name}</p><p><b>Email:</b> ${orderData.email}</p><p><b>Venda de:</b> ${orderData.usd} ${orderData.coin}</p><p><b>Cotação:</b> ${orderData.rate}</p><p><b>Receber:</b> ${orderData.receive}</p><p><b>Pix:</b> ${orderData.pix}</p><p><b>Cód. Vendedor:</b> ${orderData.sellerCode}</p>`;
             goToScreen(5);
@@ -880,12 +887,13 @@
         function startPartnerPayment(partnerName) {
             selectedPartner = partnerName;
             document.getElementById('partner-paying-name').innerText = "Pagamento para: " + partnerName;
-            new QRious({ 
-                element: document.getElementById('partner-qrcode'), 
-                value: "00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC", 
-                size: 220 
-            });
+            new QRious({ element: document.getElementById('partner-qrcode'), value: "00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC", size: 220 });
             goToScreen(15);
+        }
+
+        function payWithCrypto() {
+            const msg = `Quero pagar ${selectedPartner} com cripto.`;
+            window.open(`https://api.whatsapp.com/send?phone=595991398215&text=${encodeURIComponent(msg)}`);
         }
 
         function finishPartnerOrder() {
