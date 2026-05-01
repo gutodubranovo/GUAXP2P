@@ -709,10 +709,10 @@
             const baseComissao = 684.86;
             const baseCancelados = 120.00;
 
-            const incVendasUsdt = 5763.87;
+            const incVendasUsdt = 7763.87;
             const incComprasUsdt = 3639.79;
-            const incVendasPyg = 252.46;
-            const incComissao = 34.24;
+            const incVendasPyg = 952.46;
+            const incComissao = 54.24;
             const incCancelados = 5.10;
 
             const totalVendasUsdt = baseVendasUsdt + (daysToIncrement * incVendasUsdt);
@@ -791,7 +791,7 @@
         function calculatePyg() {
             const brl = parseFloat(document.getElementById('pyg-brl-input').value) || 0;
             const delivery = document.getElementById('pyg-delivery').value;
-            const rate = 1200; 
+            const rate = 1170; 
             const spread = 0.06; 
             document.getElementById('pyg-rate-display').innerText = `${rate.toLocaleString()} GS`;
             if (brl >= 60 && brl <= 5000) {
