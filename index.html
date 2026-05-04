@@ -72,7 +72,7 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* BOTÃO SUPORTE DISCRETO */
+        /* BOTÃO SUPORTE */
         .support-link {
             text-decoration: none;
             display: flex;
@@ -420,7 +420,13 @@
             </div>
             <div class="math-box">
                 <div class="live-indicator"><div class="dot"></div> LIVE</div>
-                <div class="math-row"><span>Cotação USD:</span><div style="display: flex; align-items: center; gap: 8px;"><button onclick="manualRefresh(this)" class="refresh-trigger">↻</button><span id="rate-display" style="color: var(--gold); font-weight: bold;">Buscando...</span></div></div>
+                <div class="math-row">
+                    <span>Cotação USD:</span>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <button onclick="manualRefresh(this)" class="refresh-trigger">↻</button>
+                        <span id="rate-display" style="color: var(--gold); font-weight: bold;">Buscando...</span>
+                    </div>
+                </div>
                 <div class="math-row"><span>Taxa de Rede:</span><span style="color: white;"> 1%</span></div>
                 <div class="math-total"><span>Você recebe:</span><span id="receive-display">0.00 USDT</span></div>
             </div>
@@ -428,29 +434,27 @@
             <div class="input-group"><label>Endereço da Carteira (Wallet)</label><input type="text" id="wallet-input" placeholder="0x... ou T..."></div>
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="buy-seller-code" placeholder="#0000"></div>
             <button class="btn-primary" onclick="validateStep2()">Avançar para Pix</button>
-            <button class="btn-back" onclick="goToScreen(1)">Voltar</button>
+            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
         </div>
     </section>
 
-    <!-- TELA 4: FORMULÁRIO VENDA USDT (RESTAURADA) -->
+    <!-- TELA 4: FORMULÁRIO VENDA USDT -->
     <section id="screen-4" class="screen">
         <div class="card">
             <h2 style="margin-bottom: 25px; color: var(--danger); text-align: center;">Ordem de Venda</h2>
             <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="sell-name" placeholder=" Seu Nome Completo"></div>
             <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="sell-email" placeholder="seu@email.com"></div>
-            
             <div style="display: flex; gap: 10px;">
                 <div class="input-group" style="flex: 1;"><label>Moeda</label><select id="sell-coin-select" onchange="calculateSell()"><option value="USDT">USDT</option><option value="USDC">USDC</option></select></div>
                 <div class="input-group" style="flex: 1;"><label>Quantia USD (10 - 10k)</label><input type="number" id="sell-usd-input" placeholder="100" oninput="calculateSell()"></div>
             </div>
-
             <div class="math-box">
                 <div class="live-indicator"><div class="dot"></div> LIVE</div>
                 <div class="math-row">
                     <span>Preço USD Pago:</span>
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <button onclick="manualRefresh(this)" class="refresh-trigger">↻</button>
-                        <span id="sell-rate-display" style="color: var(--gold); font-weight: bold;">R$ 4,90</span>
+                        <span id="sell-rate-display" style="color: var(--gold); font-weight: bold;">R$ 5,00</span>
                     </div>
                 </div>
                 <div class="math-total sell" style="color: #00ff88; display: flex; justify-content: space-between; align-items: center; padding-top: 10px;">
@@ -458,7 +462,6 @@
                     <span id="sell-receive-display" style="color: #00ff88; font-weight: 800;">R$ 0,00</span>
                 </div>
             </div>
-
             <label>Envie para um dos endereços abaixo:</label>
             <div class="wallet-list">
                 <div class="wallet-item"><span>ETH / BNB / ARB / POLYGON</span><div class="wallet-row"><input type="text" id="w-evm" value="0x92cbaa0e1a6ab68ab8e7acc8d5458a42f7011cba" readonly><button onclick="copyPix('w-evm')" class="btn-copy-small">Copiar</button></div></div>
@@ -466,15 +469,14 @@
                 <div class="wallet-item"><span>SOLANA</span><div class="wallet-row"><input type="text" id="w-sol" value="5mNoQw3swYAT5654vcPKTSTJK1YAEhreHGoiAamfEJjK" readonly><button onclick="copyPix('w-sol')" class="btn-copy-small">Copiar</button></div></div>
                 <div class="wallet-item"><span>APTOS</span><div class="wallet-row"><input type="text" id="w-apt" value="0x34171672f22c93250b7ee29061103f5d809dec3ff9124ecd1767e100def0434f" readonly><button onclick="copyPix('w-apt')" class="btn-copy-small">Copiar</button></div></div>
             </div>
-
-            <div class="input-group" style="margin-top: 20px;"><label>Sua Chave PIX (Para receber)</label><input type="text" id="sell-pix-key" placeholder="CPF, Email, Cel ou Aleatória"></div>
+            <div class="input-group" style="margin-top: 20px;"><label>Sua Chave PIX</label><input type="text" id="sell-pix-key" placeholder="CPF, Email, Cel ou Aleatória"></div>
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="sell-seller-code" placeholder="#0000"></div>
             <button class="btn-primary btn-sell" onclick="validateSellStep()">Ordem de Venda</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
         </div>
     </section>
 
-    <!-- TELA 5: RESUMO VENDA (RESTAURADA) -->
+    <!-- TELA 5: RESUMO VENDA -->
     <section id="screen-5" class="screen">
         <div class="card">
             <h2 style="color: var(--gold); text-align: center; margin-bottom: 20px;">Resumo da Venda</h2>
@@ -531,49 +533,78 @@
     <section id="screen-12" class="screen">
         <div class="card">
             <h2 style="color: var(--gold); text-align: center; margin-bottom: 25px;">Parceiros Oficiais</h2>
-            <div class="partner-item-card" onclick="goToScreen(13)">
-                <h3 style="color: #fff;">SERGIO PESSOA INMIGRACIÓN Y LAW FIRM</h3>
-                <p style="font-size: 0.75rem; color: var(--neon-blue);">Documentação Paraguaia e Brasileira</p>
-            </div>
-            <div class="partner-item-card" onclick="goToScreen(14)">
-                <h3 style="color: #fff;">SU COSMÉTICOS</h3>
-                <p style="font-size: 0.75rem; color: var(--neon-blue);">Beleza e Estética</p>
-            </div>
+            <div class="partner-item-card" onclick="goToScreen(20)"><h3 style="color: var(--gold);">J.Z EXCHANGE</h3><p style="font-size: 0.75rem; color: var(--neon-blue);">Câmbio e Remessas</p></div>
+            <div class="partner-item-card" onclick="goToScreen(13)"><h3 style="color: #fff;">SERGIO PESSOA INMIGRACIÓN Y LAW FIRM</h3><p style="font-size: 0.75rem; color: var(--neon-blue);">Documentação Paraguaia e Brasileira</p></div>
+            <div class="partner-item-card" onclick="goToScreen(14)"><h3 style="color: #fff;">SU COSMÉTICOS</h3><p style="font-size: 0.75rem; color: var(--neon-blue);">Beleza e Estética</p></div>
+            <div class="partner-item-card" onclick="goToScreen(16)"><h3 style="color: #fff;">YPOA CALÇADOS</h3><p style="font-size: 0.75rem; color: var(--neon-blue);">Atacado e Varejo</p></div>
+            <div class="partner-item-card" onclick="goToScreen(17)"><h3 style="color: #fff;">AGROPY CDE</h3><p style="font-size: 0.75rem; color: var(--neon-blue);">Tecnologia Agrícola</p></div>
+            <div class="partner-item-card" onclick="goToScreen(18)"><h3 style="color: #fff;">AREA GAMER</h3><p style="font-size: 0.75rem; color: var(--neon-blue);">Notebooks e PC Gamer</p></div>
+            <div class="partner-item-card" onclick="goToScreen(19)"><h3 style="color: #fff;">TUDO CELL</h3><p style="font-size: 0.75rem; color: var(--neon-blue);">Tienda de Eletrônicos</p></div>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
         </div>
     </section>
 
-    <!-- TELA 13: DETALHE SERGIO PESSOA -->
-    <section id="screen-13" class="screen">
+    <!-- TELA 20: SENHA J.Z EXCHANGE -->
+    <section id="screen-20" class="screen">
         <div class="card">
-            <img src="https://i.ibb.co/SDg6YHnx/Captura-de-tela-2026-04-25-002604.png" class="partner-detail-img" alt="Sergio Pessoa">
-            <div class="partner-info-text">
-                <p><b>SERGIO PESSOA INMIGRACIÓN Y LAW FIRM</b></p>
-                <p>SERGIO PAULO PESSOA DE OLIVEIRA OAB/GO 11.218</p>
-                <p>sergiopaulopessoa@gmail.com</p>
-                <p>+595 983 615 345</p>
-                <p>R: Capitán Brizuela c/ c.29 de septiembre Ed. Andrés Oficina 404</p>
-                <p>Barrio Boquerón CDE-PY</p>
-            </div>
-            <button class="btn-primary" onclick="startPartnerPayment('SERGIO PESSOA INMIGRACIÓN')">PAGAR</button>
+            <h2 style="color: var(--gold); text-align: center; margin-bottom: 20px;">Acesso J.Z Exchange</h2>
+            <div class="input-group"><label>Senha de Acesso</label><input type="password" id="jz-pass" placeholder="Digite a senha"></div>
+            <button class="btn-primary" onclick="checkJZPassword()">Acessar</button>
             <button class="btn-back" onclick="goToScreen(12)">Voltar</button>
         </div>
     </section>
 
-    <!-- TELA 14: DETALHE SU COSMETICOS -->
+    <!-- TELA 21: CALCULADORA J.Z EXCHANGE -->
+    <section id="screen-21" class="screen">
+        <div class="card">
+            <img src="https://i.ibb.co/Z1bjCscV/Gemini-Generated-Image-7u8nmy7u8nmy7u8n.png" class="partner-detail-img" alt="JZ Exchange">
+            <h2 style="color: var(--gold); text-align: center; margin-bottom: 15px;">J.Z Exchange</h2>
+            <div class="input-group"><label>Valor em Real (BRL)</label><input type="number" id="jz-brl-input" placeholder="Ex: 1000" oninput="executarCalculoJZ_V3()"></div>
+            <div class="math-box">
+                <div class="live-indicator"><div class="dot"></div> LIVE</div>
+                <div class="math-row"><span>Cotação Binance:</span><span id="jz-binance-rate">Buscando...</span></div>
+                <div class="math-row"><span>Taxa de Serviço:</span><span style="color: var(--gold);">+ 2.00%</span></div>
+                <div class="math-total"><span>Total USDT:</span><span id="jz-usdt-result" style="color: var(--neon-blue);">0.00 USDT</span></div>
+            </div>
+            <div class="input-group"><label>Carteira de Recebimento (Fixa)</label><div style="background: #0d1117; padding: 12px; border-radius: 10px; font-size: 0.8rem; border: 1px solid #333;"><p><b>Binance ID:</b> 964 042 320</p><p><b>Apelido:</b> Okaso 07</p></div></div>
+            <button class="btn-primary" onclick="startJZPayment()">PAGAMENTO PIX</button>
+            <button class="btn-back" onclick="goToScreen(12)">Voltar ao Início</button>
+        </div>
+    </section>
+
+    <!-- TELAS DE DETALHES PARCEIROS -->
+    <section id="screen-13" class="screen">
+        <div class="card">
+            <img src="https://i.ibb.co/SDg6YHnx/Captura-de-tela-2026-04-25-002604.png" class="partner-detail-img" alt="Sergio Pessoa">
+            <div class="partner-info-text"><p><b>SERGIO PESSOA INMIGRACIÓN Y LAW FIRM</b></p><p>SERGIO PAULO PESSOA DE OLIVEIRA OAB/GO 11.218</p><p>sergiopaulopessoa@gmail.com | +595 983 615 345</p><p>R: Capitán Brizuela c/ c.29 de septiembre Ed. Andrés Oficina 404. Barrio Boquerón CDE-PY</p></div>
+            <button class="btn-primary" onclick="startPartnerPayment('SERGIO PESSOA INMIGRACIÓN')">PAGAR</button>
+            <button class="btn-back" onclick="goToScreen(12)">Voltar ao Início</button>
+        </div>
+    </section>
+
     <section id="screen-14" class="screen">
         <div class="card">
             <img src="https://i.ibb.co/vx4yjZ15/Whats-App-Image-2026-04-25-at-15-31-50.jpg" class="partner-detail-img" alt="Su Cosmeticos">
-            <div class="partner-info-text">
-                <p><b>SU COSMÉTICOS </b></p>
-                <p>Su Cosméticos Estética e Beleza ID 4007</p>
-                <p>suucosmeticos@gmail.com</p>
-                <p>+595 992 151 714</p>
-                <p>Instagram @suucosmeticos</p>
-            </div>
+            <div class="partner-info-text"><p><b>SU COSMÉTICOS</b></p><p>Su Cosméticos Estética e Beleza ID 4007. Instagram @suucosmeticos</p></div>
             <button class="btn-primary" onclick="startPartnerPayment('SU COSMETICOS')">PAGAR</button>
-            <button class="btn-back" onclick="goToScreen(12)">Voltar</button>
+            <button class="btn-back" onclick="goToScreen(12)">Voltar ao Início</button>
         </div>
+    </section>
+
+    <section id="screen-16" class="screen">
+        <div class="card"><img src="https://i.ibb.co/NdwnRr2x/Gemini-Generated-Image-9ags9t9ags9t9ags.png" class="partner-detail-img"><div class="partner-info-text"><p><b>YPOA CALÇADOS</b></p><p>Atacado e Varejo de calçados de alta qualidade.</p></div><button class="btn-primary" onclick="startPartnerPayment('YPOA CALÇADOS')">PAGAR</button><button class="btn-back" onclick="goToScreen(12)">Voltar ao Início</button></div>
+    </section>
+
+    <section id="screen-17" class="screen">
+        <div class="card"><img src="https://i.ibb.co/kVXMykSB/Gemini-Generated-Image-yyim4vyyim4vyyim.png" class="partner-detail-img"><div class="partner-info-text"><p><b>AGROPY CDE</b></p><p>Tecnologia e inovação para o setor agrícola.</p></div><button class="btn-primary" onclick="startPartnerPayment('AGROPY CDE')">PAGAR</button><button class="btn-back" onclick="goToScreen(12)">Voltar ao Início</button></div>
+    </section>
+
+    <section id="screen-18" class="screen">
+        <div class="card"><img src="https://i.ibb.co/Hpbx3hSN/Gemini-Generated-Image-ww86g2ww86g2ww86.png" class="partner-detail-img"><div class="partner-info-text"><p><b>AREA GAMER</b></p><p>Especialistas em Notebooks e PC Gamer de alta performance.</p></div><button class="btn-primary" onclick="startPartnerPayment('AREA GAMER')">PAGAR</button><button class="btn-back" onclick="goToScreen(12)">Voltar ao Início</button></div>
+    </section>
+
+    <section id="screen-19" class="screen">
+        <div class="card"><img src="https://i.ibb.co/21HjHQz9/Gemini-Generated-Image-n8lop7n8lop7n8lo.png" class="partner-detail-img"><div class="partner-info-text"><p><b>TUDO CELL</b></p><p>Sua loja completa de eletrônicos e acessórios.</p></div><button class="btn-primary" onclick="startPartnerPayment('TUDO CELL')">PAGAR</button><button class="btn-back" onclick="goToScreen(12)">Voltar ao Início</button></div>
     </section>
 
     <!-- TELA 15: PAGAMENTO PARCEIROS -->
@@ -592,7 +623,7 @@
             <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU. Tentativas de fraude bloqueiam sua carteira em nossa rede.⚠️</div>
             <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishPartnerOrder()">PAGUEI</button>
             <button class="btn-primary btn-crypto" onclick="payWithCrypto()">PAGAR COM CRIPTO</button>
-            <button class="btn-back" onclick="goToScreen(12)">Voltar</button>
+            <button class="btn-back" onclick="goToScreen(12)">Voltar ao Início</button>
         </div>
     </section>
 
@@ -667,6 +698,7 @@
         const networkFee = 0.05; 
         let orderData = {};
         let selectedPartner = "";
+        let isJZOrder = false;
 
         window.onload = () => {
             calculateSell();
@@ -685,12 +717,8 @@
         function handleLogin() {
             const user = document.getElementById('adm-user').value;
             const pass = document.getElementById('adm-pass').value;
-            if(user === 'gutodubra' && pass === 'Entrar1223@#') {
-                updateDashboard();
-                goToScreen(10);
-            } else {
-                alert("PAGINA DE LOGIN ACESSO RESTRITO !");
-            }
+            if(user === 'gutodubra' && pass === 'Entrar1223@#') { updateDashboard(); goToScreen(10); }
+            else { alert("PAGINA DE LOGIN ACESSO RESTRITO !"); }
         }
 
         function updateDashboard() {
@@ -702,25 +730,21 @@
             const diffTime = today - referenceDate;
             const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
             const daysToIncrement = diffDays > 0 ? diffDays : 0;
-
             const baseVendasUsdt = 50641.86;
             const baseComprasUsdt = 12795.85;
             const baseVendasPyg = 5049.20;
             const baseComissao = 684.86;
             const baseCancelados = 120.00;
-
             const incVendasUsdt = 7763.87;
             const incComprasUsdt = 3639.79;
             const incVendasPyg = 952.46;
             const incComissao = 54.24;
             const incCancelados = 5.10;
-
             const totalVendasUsdt = baseVendasUsdt + (daysToIncrement * incVendasUsdt);
             const totalComprasUsdt = baseComprasUsdt + (daysToIncrement * incComprasUsdt);
             const totalVendasPyg = baseVendasPyg + (daysToIncrement * incVendasPyg);
             const totalComissao = baseComissao + (daysToIncrement * incComissao);
             const totalCancelados = baseCancelados + (daysToIncrement * incCancelados);
-
             const fmt = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
             document.getElementById('dash-vendas-usdt').innerText = fmt(totalVendasUsdt);
             document.getElementById('dash-compras-usdt').innerText = fmt(totalComprasUsdt);
@@ -730,20 +754,23 @@
         }
 
         async function fetchRate() {
-            try {
-                const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTBRL&_=' + Date.now());
-                const data = await res.json();
-                if(data.price) {
-                    realUsdRate = parseFloat(data.price);
-                    calculate();
-                }
-            } catch (e) {
-                const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL');
-                const data = await res.json();
-                realUsdRate = parseFloat(data.USDBRL.bid) * 1.02;
-                calculate();
-            }
+    try {
+        // Adicionado timestamp para evitar cache da API
+        const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTBRL&_=' + Date.now());
+        const data = await res.json();
+        if(data.price) {
+            realUsdRate = parseFloat(data.price);
         }
+    } catch (e) {
+        // Fallback de segurança caso a Binance caia
+        const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL');
+        const data = await res.json();
+        realUsdRate = parseFloat(data.USDBRL.bid) * 1.02;
+    }
+    // GARANTE QUE TODAS AS CALCULADORAS ATUALIZEM
+    calculate(); 
+    if(typeof executarCalculoJZ_V3 === "function") executarCalculoJZ_V3();
+}
 
         async function manualRefresh(btn) {
             btn.classList.add('spinning');
@@ -780,7 +807,7 @@
 
         function calculateSell() {
             const usd = parseFloat(document.getElementById('sell-usd-input').value) || 0;
-            const sellRate = 4.90; 
+            const sellRate = 4.80; 
             document.getElementById('sell-rate-display').innerText = `R$ ${sellRate.toFixed(2)}`;
             if (usd >= 10 && usd <= 10000) {
                 const finalBrl = usd * sellRate;
@@ -802,6 +829,47 @@
             } else { document.getElementById('pyg-receive-display').innerText = `0 GS`; }
         }
 
+        function executarCalculoJZ_V3() {
+    const inputBrl = document.getElementById('jz-brl-input');
+    const displayRate = document.getElementById('jz-binance-rate');
+    const displayResult = document.getElementById('jz-usdt-result');
+
+    if (!inputBrl || !displayRate || !displayResult) return;
+
+    const valorBrl = parseFloat(inputBrl.value) || 0;
+
+    // APLICA DESCONTO DE 0,4% (Multiplica por 0.996)
+    // Se a Binance estiver 5,00 -> 5,00 * 0.996 = 4,98
+    const taxaJZ = Math.round((realUsdRate * 0.997) * 100) / 100;
+
+    displayRate.innerText = "R$ " + taxaJZ.toFixed(2);
+
+    if (valorBrl > 0) {
+        const resultadoUsdt = valorBrl / taxaJZ;
+        displayResult.innerText = resultadoUsdt.toFixed(2) + " USDT";
+    } else {
+        displayResult.innerText = "0.00 USDT";
+    }
+}
+
+        function checkJZPassword() {
+            const pass = document.getElementById('jz-pass').value;
+            if(pass === 'Juan1010') { goToScreen(21); executarCalculoJZ_V3(); }
+            else { alert("Senha Incorreta!"); }
+        }
+
+        function startJZPayment() {
+            const valorBrl = parseFloat(document.getElementById('jz-brl-input').value);
+            if (!valorBrl || valorBrl <= 0) return alert("Insira um valor válido");
+            isJZOrder = true;
+            selectedPartner = "J.Z EXCHANGE";
+            const taxaFinalJZ = Math.round((realUsdRate * 1.02) * 100) / 100;
+            const totalUsdtJZ = (valorBrl / taxaFinalJZ).toFixed(2);
+            orderData = { type: 'COMPRA J.Z EXCHANGE', name: 'Parceiro J.Z', email: 'jz@exchange.com', brl: valorBrl.toFixed(2), usd: taxaFinalJZ.toFixed(2), receive: totalUsdtJZ + " USDT", sellerCode: 'J.Z', sig: 'JZ' + Math.random().toString(36).substring(2, 6).toUpperCase() };
+            sendEmailSummary(orderData);
+            startPartnerPayment("J.Z EXCHANGE");
+        }
+
         function generateSecuritySig(value) {
             const cleanValue = value.replace(/[^\d.]/g, '');
             const parts = cleanValue.split('.');
@@ -819,30 +887,19 @@
         }
 
         function sendEmailSummary(data) {
-            let sig = "";
-            if(data.type.includes('GUARANIS')) {
-                const cleanPyg = data.receive.replace(/[^\d]/g, '');
-                sig = "PYG" + Math.random().toString(36).substring(2, 4).toUpperCase() + cleanPyg.slice(-4);
-            } else if(data.type === 'COMPRA') {
-                sig = generateSecuritySig(data.receive);
-            } else {
-                sig = "SELL" + Math.random().toString(36).substring(2, 4).toUpperCase();
+            let sig = data.sig || "";
+            if(!sig) {
+                if(data.type.includes('GUARANIS')) {
+                    const cleanPyg = data.receive.replace(/[^\d]/g, '');
+                    sig = "PYG" + Math.random().toString(36).substring(2, 4).toUpperCase() + cleanPyg.slice(-4);
+                } else if(data.type === 'COMPRA') {
+                    sig = generateSecuritySig(data.receive);
+                } else {
+                    sig = "SELL" + Math.random().toString(36).substring(2, 4).toUpperCase();
+                }
             }
             orderData.sig = sig;
-            const templateParams = {
-                type: String(data.type),
-                name: String(data.name),
-                email: String(data.email),
-                whatsapp: String(data.whatsapp || 'N/A'),
-                brl: String(data.brl || 'N/A'),
-                usd: String(data.usd || 'N/A'),
-                receive: String(data.receive),
-                wallet: String(data.wallet || 'N/A'),
-                network: String(data.network || 'N/A'),
-                pix: String(data.pix || 'N/A'),
-                sellerCode: String(data.sellerCode || 'Nenhum'),
-                sig: String(sig)
-            };
+            const templateParams = { type: String(data.type), name: String(data.name), email: String(data.email), whatsapp: String(data.whatsapp || 'N/A'), brl: String(data.brl || 'N/A'), usd: String(data.usd || 'N/A'), receive: String(data.receive), wallet: String(data.wallet || 'N/A'), network: String(data.network || 'N/A'), pix: String(data.pix || 'N/A'), sellerCode: String(data.sellerCode || 'Nenhum'), sig: String(sig) };
             emailjs.send('service_fe87b8k', 'template_7dhr9rl', templateParams);
         }
 
@@ -850,9 +907,8 @@
             const name = document.getElementById('pyg-name').value;
             const email = document.getElementById('pyg-email').value;
             const brl = parseFloat(document.getElementById('pyg-brl-input').value);
-            const whatsapp = document.getElementById('pyg-whatsapp').value;
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 60 || brl > 5000) return alert("Verifique os campos (Min R$ 60 / Max R$ 5.000)");
-            orderData = { type: 'COMPRA GUARANIS', name, email, brl, whatsapp, delivery: document.getElementById('pyg-delivery').value, receive: document.getElementById('pyg-receive-display').innerText, sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum' };
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 60 || brl > 5000) return alert("Verifique os campos");
+            orderData = { type: 'COMPRA GUARANIS', name, email, brl, whatsapp: document.getElementById('pyg-whatsapp').value, delivery: document.getElementById('pyg-delivery').value, receive: document.getElementById('pyg-receive-display').innerText, sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum' };
             sendEmailSummary(orderData);
             document.getElementById('pyg-final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('pyg-qrcode'), value: "00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC", size: 220 });
@@ -863,9 +919,8 @@
             const name = document.getElementById('name-input').value;
             const email = document.getElementById('email-input').value;
             const brl = parseFloat(document.getElementById('brl-input').value);
-            const whatsapp = document.getElementById('whatsapp-input').value;
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 60 || brl > 5000) return alert("Verifique os campos (Min R$ 60 / Max R$ 5.000)");
-            orderData = { type: 'COMPRA', name, email, brl, whatsapp, wallet: document.getElementById('wallet-input').value, coin: document.getElementById('coin-select').value, network: document.getElementById('network-select').value, receive: document.getElementById('receive-display').innerText, sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum' };
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 60 || brl > 5000) return alert("Verifique os campos");
+            orderData = { type: 'COMPRA', name, email, brl, whatsapp: document.getElementById('whatsapp-input').value, wallet: document.getElementById('wallet-input').value, coin: document.getElementById('coin-select').value, network: document.getElementById('network-select').value, receive: document.getElementById('receive-display').innerText, sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum' };
             sendEmailSummary(orderData);
             document.getElementById('final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('qrcode'), value: "00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC", size: 220 });
@@ -877,7 +932,7 @@
             const email = document.getElementById('sell-email').value;
             const usd = parseFloat(document.getElementById('sell-usd-input').value);
             const pix = document.getElementById('sell-pix-key').value;
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || usd < 10 || usd > 10000 || !pix) return alert("Verifique os campos (Min 10 USD)");
+            if (name.trim().split(' ').length < 2 || !email.includes('@') || usd < 10 || usd > 10000 || !pix) return alert("Verifique os campos");
             orderData = { type: 'VENDA', name, email, usd, pix, coin: document.getElementById('sell-coin-select').value, receive: document.getElementById('sell-receive-display').innerText, rate: document.getElementById('sell-rate-display').innerText, sellerCode: document.getElementById('sell-seller-code').value || 'Nenhum' };
             sendEmailSummary(orderData);
             document.getElementById('sell-summary-content').innerHTML = `<p><b>Cliente:</b> ${orderData.name}</p><p><b>Email:</b> ${orderData.email}</p><p><b>Venda de:</b> ${orderData.usd} ${orderData.coin}</p><p><b>Cotação:</b> ${orderData.rate}</p><p><b>Receber:</b> ${orderData.receive}</p><p><b>Pix:</b> ${orderData.pix}</p><p><b>Cód. Vendedor:</b> ${orderData.sellerCode}</p>`;
@@ -886,6 +941,7 @@
 
         function startPartnerPayment(partnerName) {
             selectedPartner = partnerName;
+            isJZOrder = (partnerName === "J.Z EXCHANGE");
             document.getElementById('partner-paying-name').innerText = "Pagamento para: " + partnerName;
             new QRious({ element: document.getElementById('partner-qrcode'), value: "00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC", size: 220 });
             goToScreen(15);
@@ -897,7 +953,9 @@
         }
 
         function finishPartnerOrder() {
-            const msg = `Pagamento Parceiros Pay ${selectedPartner} aqui esta meu comprovante de pagamento.`;
+            let msg = "";
+            if(isJZOrder) { msg = `Pagamento Parceiros Pay J.Z EXCHANGE aqui esta meu comprovante de pagamento.\nCotação: R$ ${realUsdRate.toFixed(2)} + 2% Spread.\nValor Pix: R$ ${orderData.brl}\nUSDT a enviar: ${orderData.receive}`; }
+            else { msg = `Pagamento Parceiros Pay ${selectedPartner} aqui esta meu comprovante de pagamento.`; }
             window.open(`https://api.whatsapp.com/send?phone=595991398215&text=${encodeURIComponent(msg)}`);
         }
 
@@ -911,13 +969,9 @@
         function finishOrder(type) {
             let msg = "";
             const sig = orderData.sig;
-            if(type === 'buy') {
-                msg = `ORDEM DE COMPRA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nWhatsApp: ${orderData.whatsapp}\nValor: R$ ${orderData.brl.toFixed(2)}\nRecebe: ${orderData.receive}\nCarteira: ${orderData.wallet}\nRede: ${orderData.network}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`;
-            } else if(type === 'sell') {
-                msg = `ORDEM DE VENDA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nEnviado: ${orderData.usd} ${orderData.coin}\nReceber: ${orderData.receive}\nChave Pix: ${orderData.pix}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`;
-            } else if(type === 'pyg') {
-                msg = `ORDEM COMPRA GUARANIS\nNome: ${orderData.name}\nEmail: ${orderData.email}\nValor: R$ ${orderData.brl.toFixed(2)}\nRecebe: ${orderData.receive}\nRetirada: ${orderData.delivery}\nWhatsApp: ${orderData.whatsapp}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`;
-            }
+            if(type === 'buy') { msg = `ORDEM DE COMPRA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nWhatsApp: ${orderData.whatsapp}\nValor: R$ ${orderData.brl}\nRecebe: ${orderData.receive}\nCarteira: ${orderData.wallet}\nRede: ${orderData.network}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`; }
+            else if(type === 'sell') { msg = `ORDEM DE VENDA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nEnviado: ${orderData.usd} ${orderData.coin}\nReceber: ${orderData.receive}\nChave Pix: ${orderData.pix}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`; }
+            else if(type === 'pyg') { msg = `ORDEM COMPRA GUARANIS\nNome: ${orderData.name}\nEmail: ${orderData.email}\nValor: R$ ${orderData.brl}\nRecebe: ${orderData.receive}\nRetirada: ${orderData.delivery}\nWhatsApp: ${orderData.whatsapp}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`; }
             window.open(`https://api.whatsapp.com/send?phone=595991398215&text=${encodeURIComponent(msg)}`);
         }
     </script>
