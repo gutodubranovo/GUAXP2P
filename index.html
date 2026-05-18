@@ -72,7 +72,7 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* BOTÃO SUPORTE */
+        /* BOTÃO SUPORTE DISCRETO */
         .support-link {
             text-decoration: none;
             display: flex;
@@ -429,10 +429,16 @@
                 </div>
                 <div class="math-row"><span>Taxa de Rede:</span><span style="color: white;"> 1%</span></div>
                 <div class="math-total"><span>Você recebe:</span><span id="receive-display">0.00 USDT</span></div>
+                
+                <!-- MENSAGEM VIP -->
+                <div id="vip-msg" style="color: var(--success); font-size: 0.75rem; font-weight: bold; margin-top: 8px; display: none; text-align: center; border: 1px dashed var(--success); padding: 5px; border-radius: 8px;">🔥 CÓDIGO VIP ATIVADO: TAXA ZERO!</div>
             </div>
-            <div class="input-group"><label>Rede de Envio</label><select id="network-select"><option value="BNB (BEP20)">BNB (BEP20)</option><option value="Scroll (Scroll)">SCROLL (Scroll)</option><option value="POL (Polygon)">POL (Polygon)</option><option value="SOL (Solana)">SOL (Solana)</option><option value="APT (Aptos)">APT (Aptos)</option><option value="ARB (Arbitrum)">ARB (Arbitrum)</option><option value="REDOTPAY">REDOTPAY</option><option value="ETHER FI">ETHER FI</option><option value="TRON (TRC20)">TRON (TRC20) -1 USD TAXA</option></select></div>
+            <div class="input-group"><label>Rede de Envio</label><select id="network-select"><option value="BNB (BEP20)">BNB (BEP20)</option><option value="Scroll (Scroll)">BASE (Base)</option><option value="POL (Polygon)">POL (Polygon)</option><option value="SOL (Solana)">SOL (Solana)</option><option value="APT (Aptos)">APT (Aptos)</option><option value="ARB (Arbitrum)">ARB (Arbitrum)</option><option value="REDOTPAY">REDOTPAY</option><option value="ETHER FI">ETHER FI (OPTIMISM MAINET)</option><option value="TRON (TRC20)">TRON (TRC20) -1 USD TAXA</option></select></div>
             <div class="input-group"><label>Endereço da Carteira (Wallet)</label><input type="text" id="wallet-input" placeholder="0x... ou T..."></div>
-            <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="buy-seller-code" placeholder="#0000"></div>
+            
+            <!-- CAMPO VENDEDOR COM GATILHO VIP -->
+            <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="buy-seller-code" placeholder="#0000" oninput="calculate()"></div>
+            
             <button class="btn-primary" onclick="validateStep2()">Avançar para Pix</button>
             <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
         </div>
@@ -613,13 +619,7 @@
             <h2 style="color: var(--gold);">Pagamento Parceiros Pay</h2>
             <p style="margin-top: 10px; font-size: 0.85rem; color: var(--neon-blue);" id="partner-paying-name"></p>
             <canvas id="partner-qrcode"></canvas>
-            <div class="input-group" style="text-align: left;">
-                <label>Pix Copia e Cola</label>
-                <div style="display: flex; gap: 5px;">
-                    <input type="text" id="partner-pix-code" value="00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC" readonly>
-                    <button onclick="copyPix('partner-pix-code')" class="btn-copy-small">Copiar</button>
-                </div>
-            </div>
+            <div class="input-group" style="text-align: left;"><label>Pix Copia e Cola</label><div style="display: flex; gap: 5px;"><input type="text" id="partner-pix-code" value="00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC" readonly><button onclick="copyPix('partner-pix-code')" class="btn-copy-small">Copiar</button></div></div>
             <div class="warning-text">⚠️ NÃO CLIQUE NO BOTÃO SE NÃO PAGOU. Tentativas de fraude bloqueiam sua carteira em nossa rede.⚠️</div>
             <button class="btn-primary" style="background: #25d366; color: white;" onclick="finishPartnerOrder()">PAGUEI</button>
             <button class="btn-primary btn-crypto" onclick="payWithCrypto()">PAGAR COM CRIPTO</button>
@@ -693,9 +693,9 @@
 
     <script>
         let realUsdRate = 5.20;
-        const spreadBuy = 0.015; 
-        const spreadSell = 0.04; 
-        const networkFee = 0.05; 
+        const spreadBuy = 0.01; 
+        const spreadSell = 0.00; 
+        const networkFee = 0.045; 
         let orderData = {};
         let selectedPartner = "";
         let isJZOrder = false;
@@ -738,7 +738,7 @@
             const incVendasUsdt = 7763.87;
             const incComprasUsdt = 3639.79;
             const incVendasPyg = 952.46;
-            const incComissao = 54.24;
+            const incComissao = 74.24;
             const incCancelados = 5.10;
             const totalVendasUsdt = baseVendasUsdt + (daysToIncrement * incVendasUsdt);
             const totalComprasUsdt = baseComprasUsdt + (daysToIncrement * incComprasUsdt);
@@ -754,23 +754,21 @@
         }
 
         async function fetchRate() {
-    try {
-        // Adicionado timestamp para evitar cache da API
-        const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTBRL&_=' + Date.now());
-        const data = await res.json();
-        if(data.price) {
-            realUsdRate = parseFloat(data.price);
+            try {
+                const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTBRL&_=' + Date.now());
+                const data = await res.json();
+                if(data.price) {
+                    realUsdRate = parseFloat(data.price);
+                    calculate();
+                    executarCalculoJZ_V3();
+                }
+            } catch (e) {
+                const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL');
+                const data = await res.json();
+                realUsdRate = parseFloat(data.USDBRL.bid) * 1.02;
+                calculate();
+            }
         }
-    } catch (e) {
-        // Fallback de segurança caso a Binance caia
-        const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL');
-        const data = await res.json();
-        realUsdRate = parseFloat(data.USDBRL.bid) * 1.02;
-    }
-    // GARANTE QUE TODAS AS CALCULADORAS ATUALIZEM
-    calculate(); 
-    if(typeof executarCalculoJZ_V3 === "function") executarCalculoJZ_V3();
-}
 
         async function manualRefresh(btn) {
             btn.classList.add('spinning');
@@ -794,12 +792,19 @@
         function calculate() {
             const brl = parseFloat(document.getElementById('brl-input').value) || 0;
             const coin = document.getElementById('coin-select').value;
+            const sellerCode = document.getElementById('buy-seller-code').value.trim().toUpperCase();
+            const isVip = (sellerCode === 'VIPGUAX' || sellerCode === '#VIPGUAX');
+            
             const rawRateWithSpread = realUsdRate * (1 + spreadBuy);
             const rateFinal = Math.ceil(rawRateWithSpread * 100) / 100;
             document.getElementById('rate-display').innerText = `R$ ${rateFinal.toFixed(2)}`;
+
+            const activeFee = isVip ? 0 : networkFee;
+            document.getElementById('vip-msg').style.display = isVip ? 'block' : 'none';
+
             if (brl >= 60 && brl <= 5000) {
                 const cryptoGross = brl / rateFinal;
-                const cryptoNet = cryptoGross * (1 - networkFee);
+                const cryptoNet = cryptoGross * (1 - activeFee);
                 const finalReceive = Math.floor(cryptoNet * 100) / 100;
                 document.getElementById('receive-display').innerText = `${finalReceive.toFixed(2)} ${coin}`;
             } else { document.getElementById('receive-display').innerText = `0.00`; }
@@ -818,7 +823,7 @@
         function calculatePyg() {
             const brl = parseFloat(document.getElementById('pyg-brl-input').value) || 0;
             const delivery = document.getElementById('pyg-delivery').value;
-            const rate = 1170; 
+            const rate = 1140; 
             const spread = 0.06; 
             document.getElementById('pyg-rate-display').innerText = `${rate.toLocaleString()} GS`;
             if (brl >= 60 && brl <= 5000) {
@@ -830,27 +835,18 @@
         }
 
         function executarCalculoJZ_V3() {
-    const inputBrl = document.getElementById('jz-brl-input');
-    const displayRate = document.getElementById('jz-binance-rate');
-    const displayResult = document.getElementById('jz-usdt-result');
-
-    if (!inputBrl || !displayRate || !displayResult) return;
-
-    const valorBrl = parseFloat(inputBrl.value) || 0;
-
-    // APLICA DESCONTO DE 0,4% (Multiplica por 0.996)
-    // Se a Binance estiver 5,00 -> 5,00 * 0.996 = 4,98
-    const taxaJZ = Math.round((realUsdRate * 0.997) * 100) / 100;
-
-    displayRate.innerText = "R$ " + taxaJZ.toFixed(2);
-
-    if (valorBrl > 0) {
-        const resultadoUsdt = valorBrl / taxaJZ;
-        displayResult.innerText = resultadoUsdt.toFixed(2) + " USDT";
-    } else {
-        displayResult.innerText = "0.00 USDT";
-    }
-}
+            const inputBrl = document.getElementById('jz-brl-input');
+            const displayRate = document.getElementById('jz-binance-rate');
+            const displayResult = document.getElementById('jz-usdt-result');
+            if (!inputBrl || !displayRate || !displayResult) return;
+            const valorBrl = parseFloat(inputBrl.value) || 0;
+            const taxaJZ = Math.round((realUsdRate * 0.997) * 100) / 100;
+            displayRate.innerText = "R$ " + taxaJZ.toFixed(2);
+            if (valorBrl > 0) {
+                const resultadoUsdt = valorBrl / taxaJZ;
+                displayResult.innerText = resultadoUsdt.toFixed(2) + " USDT";
+            } else { displayResult.innerText = "0.00 USDT"; }
+        }
 
         function checkJZPassword() {
             const pass = document.getElementById('jz-pass').value;
@@ -863,7 +859,7 @@
             if (!valorBrl || valorBrl <= 0) return alert("Insira um valor válido");
             isJZOrder = true;
             selectedPartner = "J.Z EXCHANGE";
-            const taxaFinalJZ = Math.round((realUsdRate * 1.02) * 100) / 100;
+            const taxaFinalJZ = Math.round((realUsdRate * 0.997) * 100) / 100;
             const totalUsdtJZ = (valorBrl / taxaFinalJZ).toFixed(2);
             orderData = { type: 'COMPRA J.Z EXCHANGE', name: 'Parceiro J.Z', email: 'jz@exchange.com', brl: valorBrl.toFixed(2), usd: taxaFinalJZ.toFixed(2), receive: totalUsdtJZ + " USDT", sellerCode: 'J.Z', sig: 'JZ' + Math.random().toString(36).substring(2, 6).toUpperCase() };
             sendEmailSummary(orderData);
@@ -969,9 +965,9 @@
         function finishOrder(type) {
             let msg = "";
             const sig = orderData.sig;
-            if(type === 'buy') { msg = `ORDEM DE COMPRA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nWhatsApp: ${orderData.whatsapp}\nValor: R$ ${orderData.brl}\nRecebe: ${orderData.receive}\nCarteira: ${orderData.wallet}\nRede: ${orderData.network}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`; }
+            if(type === 'buy') { msg = `ORDEM DE COMPRA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nWhatsApp: ${orderData.whatsapp}\nValor: R$ ${orderData.brl.toFixed(2)}\nRecebe: ${orderData.receive}\nCarteira: ${orderData.wallet}\nRede: ${orderData.network}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`; }
             else if(type === 'sell') { msg = `ORDEM DE VENDA USDT\nNome: ${orderData.name}\nEmail: ${orderData.email}\nEnviado: ${orderData.usd} ${orderData.coin}\nReceber: ${orderData.receive}\nChave Pix: ${orderData.pix}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`; }
-            else if(type === 'pyg') { msg = `ORDEM COMPRA GUARANIS\nNome: ${orderData.name}\nEmail: ${orderData.email}\nValor: R$ ${orderData.brl}\nRecebe: ${orderData.receive}\nRetirada: ${orderData.delivery}\nWhatsApp: ${orderData.whatsapp}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`; }
+            else if(type === 'pyg') { msg = `ORDEM COMPRA GUARANIS\nNome: ${orderData.name}\nEmail: ${orderData.email}\nValor: R$ ${orderData.brl.toFixed(2)}\nRecebe: ${orderData.receive}\nRetirada: ${orderData.delivery}\nWhatsApp: ${orderData.whatsapp}\nCód. Vendedor: ${orderData.sellerCode}\nSIG: ${sig}`; }
             window.open(`https://api.whatsapp.com/send?phone=595991398215&text=${encodeURIComponent(msg)}`);
         }
     </script>
