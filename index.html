@@ -568,7 +568,11 @@
             <div class="input-group"><label>Valor em Real (BRL)</label><input type="number" id="jz-brl-input" placeholder="Ex: 1000" oninput="executarCalculoJZ_V3()"></div>
             <div class="math-box">
                 <div class="live-indicator"><div class="dot"></div> LIVE</div>
-                <div class="math-row"><span>Cotação Binance:</span><span id="jz-binance-rate">Buscando...</span></div>
+                <div class="math-row">
+    <span>Cotação Binance:</span>
+    <div style="display: flex; align-items: center; gap: 8px;">
+        <button onclick="manualRefresh(this, 'jz')" class="refresh-trigger" title="Atualizar Preço">↻</button>
+        <span id="jz-binance-rate" style="color: var(--gold); font-weight: bold;">Buscando...</span></div></div>
                 <div class="math-row"><span>Taxa de Serviço:</span><span style="color: var(--gold);">+ 2.00%</span></div>
                 <div class="math-total"><span>Total USDT:</span><span id="jz-usdt-result" style="color: var(--neon-blue);">0.00 USDT</span></div>
             </div>
@@ -695,7 +699,7 @@
         let realUsdRate = 5.20;
         const spreadBuy = 0.01; 
         const spreadSell = 0.00; 
-        const networkFee = 0.045; 
+        const networkFee = 0.04; 
         let orderData = {};
         let selectedPartner = "";
         let isJZOrder = false;
@@ -704,7 +708,7 @@
             calculateSell();
             fetchRate();
             fetchTicker();
-            setInterval(fetchRate, 60000); 
+            setInterval(fetchRate, 15000); // Atualiza tudo a cada 15 segundos 
             updateDashboard(); 
         };
 
@@ -776,8 +780,7 @@
             calculatePyg();
             setTimeout(() => btn.classList.remove('spinning'), 600);
         }
-
-        async function fetchTicker() {
+ async function fetchTicker() {
             try {
                 const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin,solana,tron&vs_currencies=usd');
                 const data = await res.json();
@@ -788,6 +791,24 @@
                 ticker.innerHTML = html + html;
             } catch (e) {}
         }
+        async function manualRefresh(btn, type) {
+    // Inicia animação de giro
+    btn.classList.add('spinning');
+    
+    // Busca preço novo na Binance
+    await fetchRate();
+    
+    // Se for Guaranis, força o cálculo manual (pois não depende da Binance)
+    if(type === 'pyg') {
+        calculatePyg();
+    } 
+    // Se for JZ, a função fetchRate já chama a executarCalculoJZ_V3 automaticamente
+    
+    // Para a animação após 600ms
+    setTimeout(() => {
+        btn.classList.remove('spinning');
+    }, 600);
+}
 
         function calculate() {
             const brl = parseFloat(document.getElementById('brl-input').value) || 0;
@@ -835,18 +856,33 @@
         }
 
         function executarCalculoJZ_V3() {
-            const inputBrl = document.getElementById('jz-brl-input');
-            const displayRate = document.getElementById('jz-binance-rate');
-            const displayResult = document.getElementById('jz-usdt-result');
-            if (!inputBrl || !displayRate || !displayResult) return;
-            const valorBrl = parseFloat(inputBrl.value) || 0;
-            const taxaJZ = Math.round((realUsdRate * 0.997) * 100) / 100;
-            displayRate.innerText = "R$ " + taxaJZ.toFixed(2);
-            if (valorBrl > 0) {
-                const resultadoUsdt = valorBrl / taxaJZ;
-                displayResult.innerText = resultadoUsdt.toFixed(2) + " USDT";
-            } else { displayResult.innerText = "0.00 USDT"; }
-        }
+    const inputBrl = document.getElementById('jz-brl-input');
+    const displayRate = document.getElementById('jz-binance-rate');
+    const displayResult = document.getElementById('jz-usdt-result');
+
+    if (!inputBrl || !displayRate || !displayResult) return;
+
+    const valorBrl = parseFloat(inputBrl.value) || 0;
+
+    // --- CONFIGURAÇÃO DE TAXAS J.Z ---
+    // 1. Taxa que o cliente VÊ (Ex: Binance pura ou com leve desconto)
+    const taxaVisivel = Math.round((realUsdRate * 0.997) * 100) / 100; 
+
+    // 2. Taxa que o sistema CALCULA (Aqui você coloca seu spread escondido)
+    // Exemplo: taxaVisivel + 0.5% de lucro escondido
+    const taxaRealComSpread = taxaVisivel * 1.03; 
+
+    // Mostra o preço atraente para o parceiro
+    displayRate.innerText = "R$ " + taxaVisivel.toFixed(2);
+
+    if (valorBrl > 0) {
+        // O cálculo final usa a taxa real (maior), entregando menos USDT
+        const resultadoUsdt = valorBrl / taxaRealComSpread;
+        displayResult.innerText = resultadoUsdt.toFixed(2) + " USDT";
+    } else {
+        displayResult.innerText = "0.00 USDT";
+    }
+}
 
         function checkJZPassword() {
             const pass = document.getElementById('jz-pass').value;
@@ -855,16 +891,32 @@
         }
 
         function startJZPayment() {
-            const valorBrl = parseFloat(document.getElementById('jz-brl-input').value);
-            if (!valorBrl || valorBrl <= 0) return alert("Insira um valor válido");
-            isJZOrder = true;
-            selectedPartner = "J.Z EXCHANGE";
-            const taxaFinalJZ = Math.round((realUsdRate * 0.997) * 100) / 100;
-            const totalUsdtJZ = (valorBrl / taxaFinalJZ).toFixed(2);
-            orderData = { type: 'COMPRA J.Z EXCHANGE', name: 'Parceiro J.Z', email: 'jz@exchange.com', brl: valorBrl.toFixed(2), usd: taxaFinalJZ.toFixed(2), receive: totalUsdtJZ + " USDT", sellerCode: 'J.Z', sig: 'JZ' + Math.random().toString(36).substring(2, 6).toUpperCase() };
-            sendEmailSummary(orderData);
-            startPartnerPayment("J.Z EXCHANGE");
-        }
+    const valorBrl = parseFloat(document.getElementById('jz-brl-input').value);
+    if (!valorBrl || valorBrl <= 0) return alert("Insira um valor válido");
+
+    isJZOrder = true;
+    selectedPartner = "J.Z EXCHANGE";
+
+    // REPETE A MESMA LÓGICA OCULTA PARA O EXTRATO
+    const taxaVisivel = Math.round((realUsdRate * 0.997) * 100) / 100;
+    const taxaRealComSpread = taxaVisivel * 1.03; // O spread de 0.5% aqui
+    
+    const totalUsdtJZ = (valorBrl / taxaRealComSpread).toFixed(2);
+
+    orderData = {
+        type: 'COMPRA J.Z EXCHANGE',
+        name: 'Parceiro J.Z',
+        email: 'jz@exchange.com',
+        brl: valorBrl.toFixed(2),
+        usd: taxaVisivel.toFixed(2), // No extrato ele vê o preço "bonito"
+        receive: totalUsdtJZ + " USDT",
+        sellerCode: 'J.Z',
+        sig: 'JZ' + Math.random().toString(36).substring(2, 6).toUpperCase()
+    };
+
+    sendEmailSummary(orderData);
+    startPartnerPayment("J.Z EXCHANGE");
+}
 
         function generateSecuritySig(value) {
             const cleanValue = value.replace(/[^\d.]/g, '');
