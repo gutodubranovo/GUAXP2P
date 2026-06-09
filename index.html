@@ -573,7 +573,7 @@
     <div style="display: flex; align-items: center; gap: 8px;">
         <button onclick="manualRefresh(this, 'jz')" class="refresh-trigger" title="Atualizar Preço">↻</button>
         <span id="jz-binance-rate" style="color: var(--gold); font-weight: bold;">Buscando...</span></div></div>
-                <div class="math-row"><span>Taxa de Serviço:</span><span style="color: var(--gold);">+ 2.00%</span></div>
+                <div class="math-row"><span>Taxa de Serviço:</span><span style="color: var(--gold);">+ 1.50%</span></div>
                 <div class="math-total"><span>Total USDT:</span><span id="jz-usdt-result" style="color: var(--neon-blue);">0.00 USDT</span></div>
             </div>
             <div class="input-group"><label>Carteira de Recebimento (Fixa)</label><div style="background: #0d1117; padding: 12px; border-radius: 10px; font-size: 0.8rem; border: 1px solid #333;"><p><b>Binance ID:</b> 964 042 320</p><p><b>Apelido:</b> Okaso 07</p></div></div>
@@ -739,11 +739,11 @@
             const baseVendasPyg = 5049.20;
             const baseComissao = 684.86;
             const baseCancelados = 120.00;
-            const incVendasUsdt = 7763.87;
-            const incComprasUsdt = 3639.79;
-            const incVendasPyg = 952.46;
-            const incComissao = 74.24;
-            const incCancelados = 5.10;
+            const incVendasUsdt = 9763.87;
+            const incComprasUsdt = 6639.79;
+            const incVendasPyg = 1552.46;
+            const incComissao = 124.24;
+            const incCancelados = 7.10;
             const totalVendasUsdt = baseVendasUsdt + (daysToIncrement * incVendasUsdt);
             const totalComprasUsdt = baseComprasUsdt + (daysToIncrement * incComprasUsdt);
             const totalVendasPyg = baseVendasPyg + (daysToIncrement * incVendasPyg);
@@ -844,10 +844,10 @@
         function calculatePyg() {
             const brl = parseFloat(document.getElementById('pyg-brl-input').value) || 0;
             const delivery = document.getElementById('pyg-delivery').value;
-            const rate = 1140; 
+            const rate = 1130; 
             const spread = 0.06; 
             document.getElementById('pyg-rate-display').innerText = `${rate.toLocaleString()} GS`;
-            if (brl >= 60 && brl <= 5000) {
+            if (brl >= 60 && brl <= 10000) {
                 let bruto = brl * rate;
                 let liquido = bruto * (1 - spread);
                 if (delivery === "DELIVERY") liquido -= 10000;
@@ -866,7 +866,7 @@
 
     // --- CONFIGURAÇÃO DE TAXAS J.Z ---
     // 1. Taxa que o cliente VÊ (Ex: Binance pura ou com leve desconto)
-    const taxaVisivel = Math.round((realUsdRate * 0.997) * 100) / 100; 
+    const taxaVisivel = Math.round((realUsdRate * 0.994) * 100) / 100; 
 
     // 2. Taxa que o sistema CALCULA (Aqui você coloca seu spread escondido)
     // Exemplo: taxaVisivel + 0.5% de lucro escondido
