@@ -817,7 +817,7 @@
             const activeFee = isVip ? 0 : networkFee;
             document.getElementById('vip-msg').style.display = isVip ? 'block' : 'none';
 
-            if (brl >= 60 && brl <= 5000) {
+            if (brl >= 60 && brl <= 10000) {
                 const cryptoGross = brl / rateFinal;
                 const cryptoNet = cryptoGross * (1 - activeFee);
                 const finalReceive = Math.floor(cryptoNet * 100) / 100;
@@ -827,7 +827,7 @@
 
         function calculateSell() {
             const usd = parseFloat(document.getElementById('sell-usd-input').value) || 0;
-            const sellRate = 4.80; 
+            const sellRate = 4.70; 
             document.getElementById('sell-rate-display').innerText = `R$ ${sellRate.toFixed(2)}`;
             if (usd >= 10 && usd <= 10000) {
                 const finalBrl = usd * sellRate;
@@ -838,7 +838,7 @@
         function calculatePyg() {
             const brl = parseFloat(document.getElementById('pyg-brl-input').value) || 0;
             const delivery = document.getElementById('pyg-delivery').value;
-            const rate = 1130; 
+            const rate = 1115; 
             const spread = 0.06; 
             document.getElementById('pyg-rate-display').innerText = `${rate.toLocaleString()} GS`;
             if (brl >= 60 && brl <= 10000) {
