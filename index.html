@@ -176,7 +176,6 @@
 
         .btn-sell { background: linear-gradient(90deg, #ff4d4d, #b30000); color: #fff; }
         .btn-pyg { background: linear-gradient(90deg, #00ff88, #008044); color: #fff; }
-        .btn-consult { background: linear-gradient(90deg, var(--gold), #b38f00); color: #000; }
         .btn-partner { background: linear-gradient(90deg, #6a11cb, #2575fc); color: #fff; }
         .btn-crypto { background: linear-gradient(90deg, #00c6ff, #0072ff); color: #fff; }
 
@@ -222,26 +221,6 @@
         .dash-label { font-size: 0.75rem; color: var(--text-dim); font-weight: bold; text-transform: uppercase; }
         .dash-value { font-size: 1.1rem; font-weight: 900; color: var(--success); }
         .dash-value.danger { color: var(--danger); }
-
-        /* CONSULTORIA STYLES */
-        .consult-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 0.85rem;
-        }
-        .consult-table th { color: var(--gold); padding: 10px; border-bottom: 1px solid #333; text-align: left; }
-        .consult-table td { padding: 12px 10px; border-bottom: 1px solid #222; }
-        .col-bank { color: var(--danger); font-weight: bold; }
-        .col-guax { color: var(--success); font-weight: bold; }
-
-        .highlight-box {
-            background: rgba(0, 255, 136, 0.05);
-            border: 1px solid var(--success);
-            padding: 15px;
-            border-radius: 15px;
-            margin: 15px 0;
-        }
 
         /* PARCEIROS STYLES */
         .partner-item-card {
@@ -371,6 +350,26 @@
         </div>
     </header>
 
+    <!-- TELA MANUTENÇÃO (EXIBIDA QUANDO O SITE ESTIVER DESLIGADO) -->
+    <section id="screen-maintenance" class="screen">
+        <div class="card" style="text-align: center; border: 1px solid var(--gold);">
+            <div style="font-size: 3.5rem; margin-bottom: 15px;">⚠️</div>
+            <h2 style="color: var(--gold); margin-bottom: 15px; font-size: 1.5rem;">SISTEMA EM MANUTENÇÃO</h2>
+            <div style="background: rgba(255, 204, 0, 0.08); padding: 15px; border-radius: 15px; border: 1px dashed var(--gold); margin-bottom: 20px;">
+                <p style="color: #fff; line-height: 1.6; font-size: 0.95rem; font-weight: 600;">
+                    Devido à altíssima demanda e ao elevado volume de ordens em nossa rede, suspendemos temporariamente novas operações para manutenção e balanceamento de liquidez.
+                </p>
+            </div>
+            <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 25px;">
+                Nosso sistema será restabelecido em breve. Agradecemos pela compreensão e preferência.
+            </p>
+            <a href="https://api.whatsapp.com/send?phone=595991398215&text=Olá,%20gostaria%20de%20informações%20sobre%20as%20operações." target="_blank" class="support-link" style="margin-bottom: 20px;">
+                FALAR COM SUPORTE OFICIAL
+            </a>
+            <button class="btn-discreet" onclick="goToScreen(9)">Acesso ADM</button>
+        </div>
+    </section>
+
     <!-- TELA 1: HOME -->
     <section id="screen-1" class="screen active">
         <a href="https://api.whatsapp.com/send?phone=595991398215&text=Olá,%20preciso%20de%20suporte." target="_blank" class="support-link">
@@ -401,7 +400,6 @@
 
         <button class="btn-primary btn-pyg" onclick="goToScreen(6)">Comprar Guaranis</button>
         <button class="btn-primary btn-partner" onclick="goToScreen(12)">PARCEIROS PAY</button>
-        <button class="btn-primary btn-consult" onclick="goToScreen(11)">CONSULTORIA</button>
 
         <button class="btn-discreet" onclick="goToScreen(8)">Cadastro Vendedor</button>
         <button class="btn-discreet" onclick="goToScreen(9)">LOGIN</button>
@@ -501,7 +499,7 @@
             <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="pyg-email" placeholder="seu@email.com"></div>
             <div class="input-group"><label>WhatsApp</label><input type="tel" id="pyg-whatsapp" placeholder="DDD + Número"></div>
             <div class="input-group"><label>Valor em Reais (BRL) - Min 60 / Max 5.000</label><input type="number" id="pyg-brl-input" placeholder="100" oninput="calculatePyg()"></div>
-            <div class="math-box"><div class="live-indicator"><div class="dot"></div> LIVE</div><div class="math-row"><span>Cotação Guarani:</span><div style="display: flex; align-items: center; gap: 8px;"><button onclick="manualRefresh(this)" class="refresh-trigger">↻</button><span id="pyg-rate-display" style="color: var(--gold); font-weight: bold;">1.200 GS</span></div></div><div class="math-row"><span>Taxa de Conversão:</span><span>1%</span></div><div class="math-total"><span>Você recebe:</span><span id="pyg-receive-display">0 GS</span></div></div>
+            <div class="math-box"><div class="live-indicator"><div class="dot"></div> LIVE</div><div class="math-row"><span>Cotação Guarani:</span><div style="display: flex; align-items: center; gap: 8px;"><button onclick="manualRefresh(this, 'pyg')" class="refresh-trigger">↻</button><span id="pyg-rate-display" style="color: var(--gold); font-weight: bold;">1.100 GS</span></div></div><div class="math-row"><span>Taxa de Conversão:</span><span>1%</span></div><div class="math-total"><span>Você recebe:</span><span id="pyg-receive-display">0 GS</span></div></div>
             <div class="input-group"><label>Forma de Retirada</label><select id="pyg-delivery" onchange="calculatePyg()"><option value="DELIVERY">DELIVERY (Taxa 10.000 PYG)</option><option value="RETIRAR EM MÃOS">RETIRAR EM MÃOS (Grátis)</option></select></div>
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="pyg-seller-code" placeholder="#0000"></div>
             <button class="btn-primary btn-pyg" onclick="validatePygStep()">Avançar para Pix</button>
@@ -563,10 +561,12 @@
             <div class="math-box">
                 <div class="live-indicator"><div class="dot"></div> LIVE</div>
                 <div class="math-row">
-    <span>Cotação Binance:</span>
-    <div style="display: flex; align-items: center; gap: 8px;">
-        <button onclick="manualRefresh(this, 'jz')" class="refresh-trigger" title="Atualizar Preço">↻</button>
-        <span id="jz-binance-rate" style="color: var(--gold); font-weight: bold;">Buscando...</span></div></div>
+                    <span>Cotação Mercado:</span>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <button onclick="manualRefresh(this, 'jz')" class="refresh-trigger" title="Atualizar Preço">↻</button>
+                        <span id="jz-binance-rate" style="color: var(--gold); font-weight: bold;">Buscando...</span>
+                    </div>
+                </div>
                 <div class="math-row"><span>Taxa de Serviço:</span><span style="color: var(--gold);">+ 1.50%</span></div>
                 <div class="math-total"><span>Total USDT:</span><span id="jz-usdt-result" style="color: var(--neon-blue);">0.00 USDT</span></div>
             </div>
@@ -625,35 +625,6 @@
         </div>
     </section>
 
-    <!-- TELA 11: CONSULTORIA -->
-    <section id="screen-11" class="screen">
-        <div class="card">
-            <h2 style="color: var(--gold); text-align: center; margin-bottom: 10px;">PARE DE PERDER DINHEIRO</h2>
-            <p style="text-align: center; color: var(--danger); font-weight: 800; font-size: 0.9rem; margin-bottom: 20px;">O sistema bancário tradicional está drenando seu patrimônio.</p>
-            <table class="consult-table">
-                <thead><tr><th>FATOR</th><th>BANCOS / SWIFT</th><th>GUAX P2P</th></tr></thead>
-                <tbody>
-                    <tr><td>Taxas Totais</td><td class="col-bank">10% a 25%</td><td class="col-guax">Taxa Mínima</td></tr>
-                    <tr><td>Tempo</td><td class="col-bank">7 a 45 dias</td><td class="col-guax">Minutos</td></tr>
-                    <tr><td>Burocracia</td><td class="col-bank">Gigantesca</td><td class="col-guax">Zero</td></tr>
-                    <tr><td>Privacidade</td><td class="col-bank">Exposição Total</td><td class="col-guax">Alto Nível</td></tr>
-                </tbody>
-            </table>
-            <div class="highlight-box">
-                <h3 style="color: var(--success); font-size: 1rem; margin-bottom: 10px;">Nossa Consultoria Oferece:</h3>
-                <ul style="list-style: none; font-size: 0.85rem; color: var(--text-dim); line-height: 1.6;">
-                    <li>✅ 100% de Segurança e Agilidade no Capital</li>
-                    <li>✅ Cartão de Crédito Internacional Stablecoin</li>
-                    <li>✅ Autocustódia (Você é o seu próprio banco)</li>
-                    <li>✅ Renda Passiva de 4% a 6% ao ANO em Dólar</li>
-                    <li>✅ Envio BR para Exterior em minutos sem perguntas</li>
-                </ul>
-            </div>
-            <button class="btn-primary" style="background: #25d366; color: white;" onclick="window.open('https://api.whatsapp.com/send?phone=595991398215&text=CONSULTORIA', '_blank')">TENHO INTERESSE</button>
-            <button class="btn-back" onclick="goToScreen(1)">Voltar ao Início</button>
-        </div>
-    </section>
-
     <!-- TELA 9: LOGIN ADM -->
     <section id="screen-9" class="screen">
         <div class="card">
@@ -669,7 +640,17 @@
     <section id="screen-10" class="screen">
         <div class="card">
             <h2 style="color: var(--neon-blue); text-align: center; margin-bottom: 5px;">Painel de Controle</h2>
-            <p style="text-align: center; color: var(--text-dim); font-size: 0.7rem; margin-bottom: 25px;">MÉTRICAS DE PERFORMANCE GUAX P2P</p>
+            <p style="text-align: center; color: var(--text-dim); font-size: 0.7rem; margin-bottom: 20px;">MÉTRICAS DE PERFORMANCE GUAX P2P</p>
+
+            <!-- CONTROLE DE SISTEMA LIGA / DESLIGA -->
+            <div class="dash-card" style="flex-direction: column; align-items: stretch; gap: 10px; margin-bottom: 20px; border: 1px solid #444; background: #161b22;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="dash-label">STATUS DO SISTEMA:</span>
+                    <span id="maintenance-badge" style="font-weight: 900; font-size: 0.85rem;">ONLINE</span>
+                </div>
+                <button id="btn-toggle-maintenance" class="btn-primary" style="margin-bottom: 0; padding: 14px; font-size: 0.95rem;" onclick="toggleMaintenance()"></button>
+            </div>
+
             <div class="dash-card"><span class="dash-label">Vendas USDT/USDC</span><span class="dash-value" id="dash-vendas-usdt">R$ 0,00</span></div>
             <div class="dash-card"><span class="dash-label">Compras USDT/USDC</span><span class="dash-value" id="dash-compras-usdt">R$ 0,00</span></div>
             <div class="dash-card"><span class="dash-label">Vendas Guaranis</span><span class="dash-value" id="dash-vendas-pyg">R$ 0,00</span></div>
@@ -690,32 +671,81 @@
     </section>
 
     <script>
-        let realUsdRate = 5.20;
-        const spreadBuy = 0.015; 
+        let realUsdRate = 0; // Inicializado dinâmico (sem valor travado)
+        const spreadBuy = 0.04; 
         const spreadSell = 0.00; 
         const networkFee = 0.04; 
         let orderData = {};
         let selectedPartner = "";
         let isJZOrder = false;
 
+        // CONTROLE DO MODO MANUTENÇÃO (Salva no navegador)
+        let isMaintenance = localStorage.getItem('guax_system_maintenance') === 'true';
+
         window.onload = () => {
+            updateMaintenanceUI();
+            if (isMaintenance) {
+                goToScreen('maintenance');
+            } else {
+                goToScreen(1);
+            }
             calculateSell();
             fetchRate();
             fetchTicker();
-            setInterval(fetchRate, 15000); // Atualiza tudo a cada 15 segundos 
+            setInterval(fetchRate, 10000); // Atualiza com a Bybit/Mercado a cada 10 segundos
             updateDashboard(); 
         };
 
-        function goToScreen(num) {
+        function goToScreen(screenIdentifier) {
+            if (isMaintenance && screenIdentifier !== 9 && screenIdentifier !== 10 && screenIdentifier !== 'maintenance') {
+                screenIdentifier = 'maintenance';
+            }
+
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(`screen-${num}`).classList.add('active');
-            window.scrollTo(0,0);
+            const targetScreen = document.getElementById(typeof screenIdentifier === 'number' ? `screen-${screenIdentifier}` : `screen-${screenIdentifier}`);
+            if (targetScreen) targetScreen.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function updateMaintenanceUI() {
+            const badge = document.getElementById('maintenance-badge');
+            const btn = document.getElementById('btn-toggle-maintenance');
+            if (!badge || !btn) return;
+
+            if (isMaintenance) {
+                badge.innerText = "DESLIGADO (EM MANUTENÇÃO)";
+                badge.style.color = "var(--danger)";
+                btn.innerText = "LIGAR SISTEMA (ATIVAR SITE)";
+                btn.style.background = "linear-gradient(90deg, #00ff88, #008044)";
+                btn.style.color = "#000";
+            } else {
+                badge.innerText = "LIGADO (OPERANDO NORMAL)";
+                badge.style.color = "var(--success)";
+                btn.innerText = "DESLIGAR SISTEMA (ATIVAR MANUTENÇÃO)";
+                btn.style.background = "linear-gradient(90deg, #ff4d4d, #b30000)";
+                btn.style.color = "#fff";
+            }
+        }
+
+        function toggleMaintenance() {
+            isMaintenance = !isMaintenance;
+            localStorage.setItem('guax_system_maintenance', isMaintenance ? 'true' : 'false');
+            updateMaintenanceUI();
+            if (isMaintenance) {
+                alert("SISTEMA DESLIGADO! Agora o site exibirá a mensagem de manutenção por alta demanda para todos os visitantes.");
+            } else {
+                alert("SISTEMA LIGADO COM SUCESSO! O site voltou a funcionar normalmente.");
+            }
         }
 
         function handleLogin() {
             const user = document.getElementById('adm-user').value;
             const pass = document.getElementById('adm-pass').value;
-            if(user === 'gutodubra' && pass === 'Entrar1223@#') { updateDashboard(); goToScreen(10); }
+            if(user === 'gutodubra' && pass === 'Entrar1223@#') { 
+                updateDashboard(); 
+                updateMaintenanceUI();
+                goToScreen(10); 
+            }
             else { alert("PAGINA DE LOGIN ACESSO RESTRITO !"); }
         }
 
@@ -751,30 +781,83 @@
             document.getElementById('dash-cancelados').innerText = fmt(totalCancelados);
         }
 
+        // BUSCA EM TEMPO REAL: BYBIT (OFICIAL) + COINBASE + COINGECKO + BINANCE
         async function fetchRate() {
+            let price = 0;
+
+            // 1. Tenta API Oficial Spot da BYBIT (Suporta CORS e USDT/BRL direto)
             try {
-                const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTBRL&_=' + Date.now());
-                const data = await res.json();
-                if(data.price) {
-                    realUsdRate = parseFloat(data.price);
-                    calculate();
-                    executarCalculoJZ_V3();
+                const res = await fetch('https://api.bybit.com/v5/market/tickers?category=spot&symbol=USDTBRL&_=' + Date.now());
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.result && data.result.list && data.result.list.length > 0) {
+                        const p = parseFloat(data.result.list[0].lastPrice);
+                        if (p && p > 2) price = p;
+                    }
                 }
-            } catch (e) {
-                const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL');
-                const data = await res.json();
-                realUsdRate = parseFloat(data.USDBRL.bid) * 1.02;
+            } catch (e) {}
+
+            // 2. Se a Bybit falhar, tenta Coinbase (USDT/BRL com CORS 100% liberado)
+            if (!price) {
+                try {
+                    const res = await fetch('https://api.coinbase.com/v2/prices/USDT-BRL/spot?_=' + Date.now());
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data && data.data && data.data.amount) {
+                            const p = parseFloat(data.data.amount);
+                            if (p && p > 2) price = p;
+                        }
+                    }
+                } catch (e) {}
+            }
+
+            // 3. Se falhar, tenta CoinGecko (Tether em BRL)
+            if (!price) {
+                try {
+                    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=brl&_=' + Date.now());
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data && data.tether && data.tether.brl) {
+                            const p = parseFloat(data.tether.brl);
+                            if (p && p > 2) price = p;
+                        }
+                    }
+                } catch (e) {}
+            }
+
+            // 4. Se falhar, tenta Binance Vision (Mirror Aberto da Binance)
+            if (!price) {
+                try {
+                    const res = await fetch('https://data-api.binance.vision/api/v3/ticker/price?symbol=USDTBRL&_=' + Date.now());
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data && data.price) {
+                            const p = parseFloat(data.price);
+                            if (p && p > 2) price = p;
+                        }
+                    }
+                } catch (e) {}
+            }
+
+            if (price > 0) {
+                realUsdRate = price;
                 calculate();
+                executarCalculoJZ_V3();
             }
         }
 
-        async function manualRefresh(btn) {
+        async function manualRefresh(btn, type) {
             btn.classList.add('spinning');
             await fetchRate();
-            calculatePyg();
-            setTimeout(() => btn.classList.remove('spinning'), 600);
+            if(type === 'pyg') {
+                calculatePyg();
+            }
+            setTimeout(() => {
+                btn.classList.remove('spinning');
+            }, 600);
         }
- async function fetchTicker() {
+
+        async function fetchTicker() {
             try {
                 const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin,solana,tron&vs_currencies=usd');
                 const data = await res.json();
@@ -785,24 +868,6 @@
                 ticker.innerHTML = html + html;
             } catch (e) {}
         }
-        async function manualRefresh(btn, type) {
-    // Inicia animação de giro
-    btn.classList.add('spinning');
-    
-    // Busca preço novo na Binance
-    await fetchRate();
-    
-    // Se for Guaranis, força o cálculo manual (pois não depende da Binance)
-    if(type === 'pyg') {
-        calculatePyg();
-    } 
-    // Se for JZ, a função fetchRate já chama a executarCalculoJZ_V3 automaticamente
-    
-    // Para a animação após 600ms
-    setTimeout(() => {
-        btn.classList.remove('spinning');
-    }, 600);
-}
 
         function calculate() {
             const brl = parseFloat(document.getElementById('brl-input').value) || 0;
@@ -810,6 +875,11 @@
             const sellerCode = document.getElementById('buy-seller-code').value.trim().toUpperCase();
             const isVip = (sellerCode === 'VIPGUAX' || sellerCode === '#VIPGUAX');
             
+            if (realUsdRate <= 0) {
+                document.getElementById('rate-display').innerText = "Buscando...";
+                return;
+            }
+
             const rawRateWithSpread = realUsdRate * (1 + spreadBuy);
             const rateFinal = Math.ceil(rawRateWithSpread * 100) / 100;
             document.getElementById('rate-display').innerText = `R$ ${rateFinal.toFixed(2)}`;
@@ -838,7 +908,7 @@
         function calculatePyg() {
             const brl = parseFloat(document.getElementById('pyg-brl-input').value) || 0;
             const delivery = document.getElementById('pyg-delivery').value;
-            const rate = 1115; 
+            const rate = 1070; 
             const spread = 0.06; 
             document.getElementById('pyg-rate-display').innerText = `${rate.toLocaleString()} GS`;
             if (brl >= 60 && brl <= 10000) {
@@ -850,33 +920,31 @@
         }
 
         function executarCalculoJZ_V3() {
-    const inputBrl = document.getElementById('jz-brl-input');
-    const displayRate = document.getElementById('jz-binance-rate');
-    const displayResult = document.getElementById('jz-usdt-result');
+            const inputBrl = document.getElementById('jz-brl-input');
+            const displayRate = document.getElementById('jz-binance-rate');
+            const displayResult = document.getElementById('jz-usdt-result');
 
-    if (!inputBrl || !displayRate || !displayResult) return;
+            if (!inputBrl || !displayRate || !displayResult) return;
 
-    const valorBrl = parseFloat(inputBrl.value) || 0;
+            if (realUsdRate <= 0) {
+                displayRate.innerText = "Buscando...";
+                return;
+            }
 
-    // --- CONFIGURAÇÃO DE TAXAS J.Z ---
-    // 1. Taxa que o cliente VÊ (Ex: Binance pura ou com leve desconto)
-    const taxaVisivel = Math.round((realUsdRate * 0.994) * 100) / 100; 
+            const valorBrl = parseFloat(inputBrl.value) || 0;
 
-    // 2. Taxa que o sistema CALCULA (Aqui você coloca seu spread escondido)
-    // Exemplo: taxaVisivel + 0.5% de lucro escondido
-    const taxaRealComSpread = taxaVisivel * 1.03; 
+            const taxaVisivel = Math.round((realUsdRate * 0.994) * 100) / 100; 
+            const taxaRealComSpread = taxaVisivel * 1.03; 
 
-    // Mostra o preço atraente para o parceiro
-    displayRate.innerText = "R$ " + taxaVisivel.toFixed(2);
+            displayRate.innerText = "R$ " + taxaVisivel.toFixed(2);
 
-    if (valorBrl > 0) {
-        // O cálculo final usa a taxa real (maior), entregando menos USDT
-        const resultadoUsdt = valorBrl / taxaRealComSpread;
-        displayResult.innerText = resultadoUsdt.toFixed(2) + " USDT";
-    } else {
-        displayResult.innerText = "0.00 USDT";
-    }
-}
+            if (valorBrl > 0) {
+                const resultadoUsdt = valorBrl / taxaRealComSpread;
+                displayResult.innerText = resultadoUsdt.toFixed(2) + " USDT";
+            } else {
+                displayResult.innerText = "0.00 USDT";
+            }
+        }
 
         function checkJZPassword() {
             const pass = document.getElementById('jz-pass').value;
@@ -885,32 +953,31 @@
         }
 
         function startJZPayment() {
-    const valorBrl = parseFloat(document.getElementById('jz-brl-input').value);
-    if (!valorBrl || valorBrl <= 0) return alert("Insira um valor válido");
+            const valorBrl = parseFloat(document.getElementById('jz-brl-input').value);
+            if (!valorBrl || valorBrl <= 0) return alert("Insira um valor válido");
 
-    isJZOrder = true;
-    selectedPartner = "J.Z EXCHANGE";
+            isJZOrder = true;
+            selectedPartner = "J.Z EXCHANGE";
 
-    // REPETE A MESMA LÓGICA OCULTA PARA O EXTRATO
-    const taxaVisivel = Math.round((realUsdRate * 0.997) * 100) / 100;
-    const taxaRealComSpread = taxaVisivel * 1.03; // O spread de 0.5% aqui
-    
-    const totalUsdtJZ = (valorBrl / taxaRealComSpread).toFixed(2);
+            const taxaVisivel = Math.round((realUsdRate * 0.997) * 100) / 100;
+            const taxaRealComSpread = taxaVisivel * 1.03;
+            
+            const totalUsdtJZ = (valorBrl / taxaRealComSpread).toFixed(2);
 
-    orderData = {
-        type: 'COMPRA J.Z EXCHANGE',
-        name: 'Parceiro J.Z',
-        email: 'jz@exchange.com',
-        brl: valorBrl.toFixed(2),
-        usd: taxaVisivel.toFixed(2), // No extrato ele vê o preço "bonito"
-        receive: totalUsdtJZ + " USDT",
-        sellerCode: 'J.Z',
-        sig: 'JZ' + Math.random().toString(36).substring(2, 6).toUpperCase()
-    };
+            orderData = {
+                type: 'COMPRA J.Z EXCHANGE',
+                name: 'Parceiro J.Z',
+                email: 'jz@exchange.com',
+                brl: valorBrl.toFixed(2),
+                usd: taxaVisivel.toFixed(2),
+                receive: totalUsdtJZ + " USDT",
+                sellerCode: 'J.Z',
+                sig: 'JZ' + Math.random().toString(36).substring(2, 6).toUpperCase()
+            };
 
-    sendEmailSummary(orderData);
-    startPartnerPayment("J.Z EXCHANGE");
-}
+            sendEmailSummary(orderData);
+            startPartnerPayment("J.Z EXCHANGE");
+        }
 
         function generateSecuritySig(value) {
             const cleanValue = value.replace(/[^\d.]/g, '');
