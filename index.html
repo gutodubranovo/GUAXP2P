@@ -337,6 +337,17 @@
         .btn-copy-small { background: var(--gold); border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.7rem; }
 
         #qrcode, #pyg-qrcode, #partner-qrcode { background: #fff; padding: 10px; border-radius: 12px; margin: 20px 0; }
+
+        /* PROTEÇÃO HONEYPOT (INVISÍVEL A HUMANOS) */
+        .hp-field {
+            position: absolute !important;
+            left: -9999px !important;
+            width: 1px !important;
+            height: 1px !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            tabindex: -1 !important;
+        }
     </style>
 </head>
 <body>
@@ -350,7 +361,7 @@
         </div>
     </header>
 
-    <!-- TELA MANUTENÇÃO (EXIBIDA QUANDO O SITE ESTIVER DESLIGADO) -->
+    <!-- TELA MANUTENÇÃO (EXIBIDA QUANDO O SITE ESTIVER DESLIGADO GLOBALMENTE) -->
     <section id="screen-maintenance" class="screen">
         <div class="card" style="text-align: center; border: 1px solid var(--gold);">
             <div style="font-size: 3.5rem; margin-bottom: 15px;">⚠️</div>
@@ -409,6 +420,9 @@
     <section id="screen-2" class="screen">
         <div class="card">
             <h2 style="margin-bottom: 25px; color: var(--neon-blue); text-align: center;">Ordem de Compra</h2>
+            <!-- HONEYPOT BOT TRAP -->
+            <input type="text" id="buy-hp" class="hp-field" autocomplete="off" tabindex="-1">
+            
             <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="name-input" placeholder="Joao Maria Jose"></div>
             <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="email-input" placeholder="seu@email.com"></div>
             <div class="input-group"><label>WhatsApp (DDD + Número)</label><input type="tel" id="whatsapp-input" placeholder="(11) 999999999"></div>
@@ -446,6 +460,9 @@
     <section id="screen-4" class="screen">
         <div class="card">
             <h2 style="margin-bottom: 25px; color: var(--danger); text-align: center;">Ordem de Venda</h2>
+            <!-- HONEYPOT BOT TRAP -->
+            <input type="text" id="sell-hp" class="hp-field" autocomplete="off" tabindex="-1">
+
             <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="sell-name" placeholder=" Seu Nome Completo"></div>
             <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="sell-email" placeholder="seu@email.com"></div>
             <div style="display: flex; gap: 10px;">
@@ -495,11 +512,14 @@
     <section id="screen-6" class="screen">
         <div class="card">
             <h2 style="margin-bottom: 25px; color: var(--success); text-align: center;">Comprar Guaranis (PYG)</h2>
+            <!-- HONEYPOT BOT TRAP -->
+            <input type="text" id="pyg-hp" class="hp-field" autocomplete="off" tabindex="-1">
+
             <div class="input-group"><label>Nome Completo (Sem abreviações)</label><input type="text" id="pyg-name" placeholder="Nome Completo"></div>
             <div class="input-group"><label>E-mail Obrigatório</label><input type="email" id="pyg-email" placeholder="seu@email.com"></div>
             <div class="input-group"><label>WhatsApp</label><input type="tel" id="pyg-whatsapp" placeholder="DDD + Número"></div>
             <div class="input-group"><label>Valor em Reais (BRL) - Min 60 / Max 5.000</label><input type="number" id="pyg-brl-input" placeholder="100" oninput="calculatePyg()"></div>
-            <div class="math-box"><div class="live-indicator"><div class="dot"></div> LIVE</div><div class="math-row"><span>Cotação Guarani:</span><div style="display: flex; align-items: center; gap: 8px;"><button onclick="manualRefresh(this, 'pyg')" class="refresh-trigger">↻</button><span id="pyg-rate-display" style="color: var(--gold); font-weight: bold;">1.100 GS</span></div></div><div class="math-row"><span>Taxa de Conversão:</span><span>1%</span></div><div class="math-total"><span>Você recebe:</span><span id="pyg-receive-display">0 GS</span></div></div>
+            <div class="math-box"><div class="live-indicator"><div class="dot"></div> LIVE</div><div class="math-row"><span>Cotação Guarani:</span><div style="display: flex; align-items: center; gap: 8px;"><button onclick="manualRefresh(this, 'pyg')" class="refresh-trigger">↻</button><span id="pyg-rate-display" style="color: var(--gold); font-weight: bold;">1.070 GS</span></div></div><div class="math-row"><span>Taxa de Conversão:</span><span>1%</span></div><div class="math-total"><span>Você recebe:</span><span id="pyg-receive-display">0 GS</span></div></div>
             <div class="input-group"><label>Forma de Retirada</label><select id="pyg-delivery" onchange="calculatePyg()"><option value="DELIVERY">DELIVERY (Taxa 10.000 PYG)</option><option value="RETIRAR EM MÃOS">RETIRAR EM MÃOS (Grátis)</option></select></div>
             <div class="input-group"><label>Cód. Vendedor (Opcional)</label><input type="text" id="pyg-seller-code" placeholder="#0000"></div>
             <button class="btn-primary btn-pyg" onclick="validatePygStep()">Avançar para Pix</button>
@@ -642,13 +662,13 @@
             <h2 style="color: var(--neon-blue); text-align: center; margin-bottom: 5px;">Painel de Controle</h2>
             <p style="text-align: center; color: var(--text-dim); font-size: 0.7rem; margin-bottom: 20px;">MÉTRICAS DE PERFORMANCE GUAX P2P</p>
 
-            <!-- CONTROLE DE SISTEMA LIGA / DESLIGA -->
+            <!-- CONTROLE DE SISTEMA LIGA / DESLIGA GLOBAL -->
             <div class="dash-card" style="flex-direction: column; align-items: stretch; gap: 10px; margin-bottom: 20px; border: 1px solid #444; background: #161b22;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span class="dash-label">STATUS DO SISTEMA:</span>
-                    <span id="maintenance-badge" style="font-weight: 900; font-size: 0.85rem;">ONLINE</span>
+                    <span class="dash-label">STATUS GLOBAL DO SISTEMA:</span>
+                    <span id="maintenance-badge" style="font-weight: 900; font-size: 0.85rem;">CARREGANDO...</span>
                 </div>
-                <button id="btn-toggle-maintenance" class="btn-primary" style="margin-bottom: 0; padding: 14px; font-size: 0.95rem;" onclick="toggleMaintenance()"></button>
+                <button id="btn-toggle-maintenance" class="btn-primary" style="margin-bottom: 0; padding: 14px; font-size: 0.95rem;" onclick="toggleMaintenanceGlobal()">SINCRONIZANDO...</button>
             </div>
 
             <div class="dash-card"><span class="dash-label">Vendas USDT/USDC</span><span class="dash-value" id="dash-vendas-usdt">R$ 0,00</span></div>
@@ -671,7 +691,7 @@
     </section>
 
     <script>
-        let realUsdRate = 0; // Inicializado dinâmico (sem valor travado)
+        let realUsdRate = 0;
         const spreadBuy = 0.04; 
         const spreadSell = 0.00; 
         const networkFee = 0.04; 
@@ -679,25 +699,122 @@
         let selectedPartner = "";
         let isJZOrder = false;
 
-        // CONTROLE DO MODO MANUTENÇÃO (Salva no navegador)
-        let isMaintenance = localStorage.getItem('guax_system_maintenance') === 'true';
+        // ==========================================
+        // SISTEMA GLOBAL DE STATUS ON/OFF EM NUVEM
+        // ==========================================
+        // Guarda o status global na nuvem via JSONBin.io (Acesso compartilhado entre todos os celulares e computadores)
+        const GLOBAL_BIN_ID = "6639c0f9ad19ca34f866412b"; // Bin central
+        const GLOBAL_BIN_KEY = "$2a$10$iM.o501pA5jZ45sR6k0vU.g020t71K8aJ4N428M5rZ7L1R3qG.4I2";
+        let isMaintenanceGlobal = false;
+        let lastOrderTimestamp = 0; // Para Rate Limiting
+        const pageLoadTimestamp = Date.now(); // Para checagem de velocidade de preenchimento (Anti-bot)
 
-        window.onload = () => {
-            updateMaintenanceUI();
-            if (isMaintenance) {
-                goToScreen('maintenance');
-            } else {
-                goToScreen(1);
-            }
+        window.onload = async () => {
+            await syncGlobalStatus();
             calculateSell();
             fetchRate();
             fetchTicker();
-            setInterval(fetchRate, 10000); // Atualiza com a Bybit/Mercado a cada 10 segundos
+            setInterval(fetchRate, 10000); 
+            setInterval(syncGlobalStatus, 15000); // Todos os celulares checam o status do site a cada 15 segundos
             updateDashboard(); 
         };
 
+        // Consulta se o sistema está ligado ou desligado no servidor em nuvem
+        async function syncGlobalStatus() {
+            try {
+                const res = await fetch(`https://api.jsonbin.io/v3/b/${GLOBAL_BIN_ID}/latest`, {
+                    headers: { 'X-Master-Key': GLOBAL_BIN_KEY, 'X-Bin-Meta': 'false' }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && typeof data.maintenance !== 'undefined') {
+                        isMaintenanceGlobal = data.maintenance;
+                        localStorage.setItem('guax_system_maintenance', isMaintenanceGlobal ? 'true' : 'false');
+                    }
+                }
+            } catch (e) {
+                // Se houver instabilidade de rede, consulta o cache seguro local
+                isMaintenanceGlobal = localStorage.getItem('guax_system_maintenance') === 'true';
+            }
+
+            updateMaintenanceUI();
+
+            const currentActive = document.querySelector('.screen.active');
+            const currentId = currentActive ? currentActive.id : '';
+
+            // Se o sistema estiver desligado e o usuário não estiver logado no painel ADM, trava na tela de manutenção
+            if (isMaintenanceGlobal && currentId !== 'screen-9' && currentId !== 'screen-10') {
+                goToScreen('maintenance');
+            } else if (!isMaintenanceGlobal && currentId === 'screen-maintenance') {
+                goToScreen(1);
+            }
+        }
+
+        function updateMaintenanceUI() {
+            const badge = document.getElementById('maintenance-badge');
+            const btn = document.getElementById('btn-toggle-maintenance');
+            if (!badge || !btn) return;
+
+            if (isMaintenanceGlobal) {
+                badge.innerText = "DESLIGADO (TODOS OS DISPOSITIVOS)";
+                badge.style.color = "var(--danger)";
+                btn.innerText = "LIGAR SISTEMA (LIBERAR PARA TODOS)";
+                btn.style.background = "linear-gradient(90deg, #00ff88, #008044)";
+                btn.style.color = "#000";
+            } else {
+                badge.innerText = "ONLINE (OPERANDO NORMALMENTE)";
+                badge.style.color = "var(--success)";
+                btn.innerText = "DESLIGAR SISTEMA (BLOQUEAR TODOS APARELHOS)";
+                btn.style.background = "linear-gradient(90deg, #ff4d4d, #b30000)";
+                btn.style.color = "#fff";
+            }
+        }
+
+        // Altera o status no servidor em nuvem para que TODOS os aparelhos recebam a ordem de desligar
+        async function toggleMaintenanceGlobal() {
+            const btn = document.getElementById('btn-toggle-maintenance');
+            const novoStatus = !isMaintenanceGlobal;
+            
+            btn.innerText = "GRAVANDO NA NUVEM...";
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(`https://api.jsonbin.io/v3/b/${GLOBAL_BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': GLOBAL_BIN_KEY
+                    },
+                    body: JSON.stringify({ maintenance: novoStatus, updated_at: new Date().toISOString() })
+                });
+
+                if (res.ok) {
+                    isMaintenanceGlobal = novoStatus;
+                    localStorage.setItem('guax_system_maintenance', novoStatus ? 'true' : 'false');
+                    updateMaintenanceUI();
+                    alert(novoStatus 
+                        ? "🚨 SISTEMA DESLIGADO GLOBALMENTE!\nNenhum cliente em nenhum aparelho conseguirá criar ordens. O aviso de manutenção já está em vigor para todos." 
+                        : "✅ SISTEMA LIGADO COM SUCESSO!\nTodas as operações liberadas em todos os aparelhos.");
+                } else {
+                    // Fallback
+                    isMaintenanceGlobal = novoStatus;
+                    localStorage.setItem('guax_system_maintenance', novoStatus ? 'true' : 'false');
+                    updateMaintenanceUI();
+                    alert("Status atualizado localmente.");
+                }
+            } catch (err) {
+                isMaintenanceGlobal = novoStatus;
+                localStorage.setItem('guax_system_maintenance', novoStatus ? 'true' : 'false');
+                updateMaintenanceUI();
+                alert("Status atualizado no cache.");
+            } finally {
+                btn.disabled = false;
+                updateMaintenanceUI();
+            }
+        }
+
         function goToScreen(screenIdentifier) {
-            if (isMaintenance && screenIdentifier !== 9 && screenIdentifier !== 10 && screenIdentifier !== 'maintenance') {
+            if (isMaintenanceGlobal && screenIdentifier !== 9 && screenIdentifier !== 10 && screenIdentifier !== 'maintenance') {
                 screenIdentifier = 'maintenance';
             }
 
@@ -707,35 +824,54 @@
             window.scrollTo(0, 0);
         }
 
-        function updateMaintenanceUI() {
-            const badge = document.getElementById('maintenance-badge');
-            const btn = document.getElementById('btn-toggle-maintenance');
-            if (!badge || !btn) return;
+        // ==========================================
+        // MÓDULO DE SEGURANÇA E PROTEÇÃO ANTI-BOT
+        // ==========================================
 
-            if (isMaintenance) {
-                badge.innerText = "DESLIGADO (EM MANUTENÇÃO)";
-                badge.style.color = "var(--danger)";
-                btn.innerText = "LIGAR SISTEMA (ATIVAR SITE)";
-                btn.style.background = "linear-gradient(90deg, #00ff88, #008044)";
-                btn.style.color = "#000";
-            } else {
-                badge.innerText = "LIGADO (OPERANDO NORMAL)";
-                badge.style.color = "var(--success)";
-                btn.innerText = "DESLIGAR SISTEMA (ATIVAR MANUTENÇÃO)";
-                btn.style.background = "linear-gradient(90deg, #ff4d4d, #b30000)";
-                btn.style.color = "#fff";
-            }
+        // Sanitização estrita contra injeção de HTML/Scripts nos e-mails
+        function sanitizeInput(str) {
+            if (typeof str !== 'string') return '';
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;")
+                .replace(/\//g, "&#x2F;")
+                .trim();
         }
 
-        function toggleMaintenance() {
-            isMaintenance = !isMaintenance;
-            localStorage.setItem('guax_system_maintenance', isMaintenance ? 'true' : 'false');
-            updateMaintenanceUI();
-            if (isMaintenance) {
-                alert("SISTEMA DESLIGADO! Agora o site exibirá a mensagem de manutenção por alta demanda para todos os visitantes.");
-            } else {
-                alert("SISTEMA LIGADO COM SUCESSO! O site voltou a funcionar normalmente.");
+        // Rejeita padrões comuns disparados por bots e scanners como CyberStrikeAI
+        function isBotPattern(str) {
+            if (!str) return false;
+            const s = str.toLowerCase();
+            const badWords = [
+                'test', 'teste', 'asdf', 'admin', 'qwerty', 'cyberstrike', 
+                'exploit', 'script', 'null', 'undefined', 'drop table', 'select *',
+                '<script', 'eval(', 'alert(', 'curl', 'wget', 'bot', 'scanner'
+            ];
+            return badWords.some(w => s.includes(w));
+        }
+
+        // Validação de limite de tentativas por tempo (Rate Limiting / Throttle)
+        function checkRateLimit() {
+            const now = Date.now();
+            if (lastOrderTimestamp && (now - lastOrderTimestamp < 20000)) { // Mínimo 20 segundos entre tentativas
+                alert("⚠️ Por segurança contra robôs, aguarde alguns instantes antes de enviar uma nova ordem.");
+                return false;
             }
+            lastOrderTimestamp = now;
+            return true;
+        }
+
+        // Validação de tempo humano de preenchimento (Bots preenchem em milissegundos)
+        function checkHumanSpeed() {
+            const timeElapsed = (Date.now() - pageLoadTimestamp) / 1000;
+            if (timeElapsed < 2.5) { // Impossível um humano digitar nome, e-mail e carteira em menos de 2.5 segundos
+                console.warn("CyberStrike/Bot bloqueado: preenchimento instantâneo detectado.");
+                return false;
+            }
+            return true;
         }
 
         function handleLogin() {
@@ -785,7 +921,6 @@
         async function fetchRate() {
             let price = 0;
 
-            // 1. Tenta API Oficial Spot da BYBIT (Suporta CORS e USDT/BRL direto)
             try {
                 const res = await fetch('https://api.bybit.com/v5/market/tickers?category=spot&symbol=USDTBRL&_=' + Date.now());
                 if (res.ok) {
@@ -797,7 +932,6 @@
                 }
             } catch (e) {}
 
-            // 2. Se a Bybit falhar, tenta Coinbase (USDT/BRL com CORS 100% liberado)
             if (!price) {
                 try {
                     const res = await fetch('https://api.coinbase.com/v2/prices/USDT-BRL/spot?_=' + Date.now());
@@ -811,7 +945,6 @@
                 } catch (e) {}
             }
 
-            // 3. Se falhar, tenta CoinGecko (Tether em BRL)
             if (!price) {
                 try {
                     const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=brl&_=' + Date.now());
@@ -825,7 +958,6 @@
                 } catch (e) {}
             }
 
-            // 4. Se falhar, tenta Binance Vision (Mirror Aberto da Binance)
             if (!price) {
                 try {
                     const res = await fetch('https://data-api.binance.vision/api/v3/ticker/price?symbol=USDTBRL&_=' + Date.now());
@@ -953,6 +1085,7 @@
         }
 
         function startJZPayment() {
+            if (isMaintenanceGlobal) return alert("Sistema em manutenção temporária.");
             const valorBrl = parseFloat(document.getElementById('jz-brl-input').value);
             if (!valorBrl || valorBrl <= 0) return alert("Insira um valor válido");
 
@@ -980,9 +1113,9 @@
         }
 
         function generateSecuritySig(value) {
-            const cleanValue = value.replace(/[^\d.]/g, '');
+            const cleanValue = String(value).replace(/[^\d.]/g, '');
             const parts = cleanValue.split('.');
-            const dollars = parts[0];
+            const dollars = parts[0] || '0';
             const cents = parts[1] || '00';
             const isLarge = parseInt(dollars) >= 900;
             const r = (n) => {
@@ -999,7 +1132,7 @@
             let sig = data.sig || "";
             if(!sig) {
                 if(data.type.includes('GUARANIS')) {
-                    const cleanPyg = data.receive.replace(/[^\d]/g, '');
+                    const cleanPyg = String(data.receive).replace(/[^\d]/g, '');
                     sig = "PYG" + Math.random().toString(36).substring(2, 4).toUpperCase() + cleanPyg.slice(-4);
                 } else if(data.type === 'COMPRA') {
                     sig = generateSecuritySig(data.receive);
@@ -1008,16 +1141,57 @@
                 }
             }
             orderData.sig = sig;
-            const templateParams = { type: String(data.type), name: String(data.name), email: String(data.email), whatsapp: String(data.whatsapp || 'N/A'), brl: String(data.brl || 'N/A'), usd: String(data.usd || 'N/A'), receive: String(data.receive), wallet: String(data.wallet || 'N/A'), network: String(data.network || 'N/A'), pix: String(data.pix || 'N/A'), sellerCode: String(data.sellerCode || 'Nenhum'), sig: String(sig) };
+            
+            // Sanitização de saída estilo Blade {{ $var }} para neutralizar tags maliciosas
+            const templateParams = { 
+                type: sanitizeInput(String(data.type)), 
+                name: sanitizeInput(String(data.name)), 
+                email: sanitizeInput(String(data.email)), 
+                whatsapp: sanitizeInput(String(data.whatsapp || 'N/A')), 
+                brl: sanitizeInput(String(data.brl || 'N/A')), 
+                usd: sanitizeInput(String(data.usd || 'N/A')), 
+                receive: sanitizeInput(String(data.receive)), 
+                wallet: sanitizeInput(String(data.wallet || 'N/A')), 
+                network: sanitizeInput(String(data.network || 'N/A')), 
+                pix: sanitizeInput(String(data.pix || 'N/A')), 
+                sellerCode: sanitizeInput(String(data.sellerCode || 'Nenhum')), 
+                sig: sanitizeInput(String(sig)) 
+            };
+
             emailjs.send('service_fe87b8k', 'template_7dhr9rl', templateParams);
         }
 
         function validatePygStep() {
-            const name = document.getElementById('pyg-name').value;
-            const email = document.getElementById('pyg-email').value;
+            if (isMaintenanceGlobal) return alert("Sistema em manutenção temporária.");
+            
+            // HONEYPOT TRAP: Se o campo oculto estiver preenchido, é um robô scanner
+            if (document.getElementById('pyg-hp').value.trim() !== '') return;
+            if (!checkHumanSpeed()) return;
+            if (!checkRateLimit()) return;
+
+            const name = document.getElementById('pyg-name').value.trim();
+            const email = document.getElementById('pyg-email').value.trim();
             const brl = parseFloat(document.getElementById('pyg-brl-input').value);
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 60 || brl > 5000) return alert("Verifique os campos");
-            orderData = { type: 'COMPRA GUARANIS', name, email, brl, whatsapp: document.getElementById('pyg-whatsapp').value, delivery: document.getElementById('pyg-delivery').value, receive: document.getElementById('pyg-receive-display').innerText, sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum' };
+
+            // Validação estrita de dados
+            if (name.split(' ').length < 2 || !email.includes('@') || isNaN(brl) || brl < 60 || brl > 5000) {
+                return alert("Verifique os campos obrigatórios e os limites.");
+            }
+            if (isBotPattern(name) || isBotPattern(email)) {
+                return alert("Dados inválidos identificados pelo sistema de segurança.");
+            }
+
+            orderData = { 
+                type: 'COMPRA GUARANIS', 
+                name, 
+                email, 
+                brl, 
+                whatsapp: document.getElementById('pyg-whatsapp').value, 
+                delivery: document.getElementById('pyg-delivery').value, 
+                receive: document.getElementById('pyg-receive-display').innerText, 
+                sellerCode: document.getElementById('pyg-seller-code').value || 'Nenhum' 
+            };
+
             sendEmailSummary(orderData);
             document.getElementById('pyg-final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('pyg-qrcode'), value: "00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC", size: 220 });
@@ -1025,11 +1199,39 @@
         }
 
         function validateStep2() {
-            const name = document.getElementById('name-input').value;
-            const email = document.getElementById('email-input').value;
+            if (isMaintenanceGlobal) return alert("Sistema em manutenção temporária.");
+
+            // HONEYPOT TRAP: Se o campo oculto estiver preenchido, é um bot scanner
+            if (document.getElementById('buy-hp').value.trim() !== '') return;
+            if (!checkHumanSpeed()) return;
+            if (!checkRateLimit()) return;
+
+            const name = document.getElementById('name-input').value.trim();
+            const email = document.getElementById('email-input').value.trim();
             const brl = parseFloat(document.getElementById('brl-input').value);
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || brl < 60 || brl > 5000) return alert("Verifique os campos");
-            orderData = { type: 'COMPRA', name, email, brl, whatsapp: document.getElementById('whatsapp-input').value, wallet: document.getElementById('wallet-input').value, coin: document.getElementById('coin-select').value, network: document.getElementById('network-select').value, receive: document.getElementById('receive-display').innerText, sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum' };
+            const wallet = document.getElementById('wallet-input').value.trim();
+
+            // Validação estrita de dados
+            if (name.split(' ').length < 2 || !email.includes('@') || isNaN(brl) || brl < 60 || brl > 10000 || !wallet || wallet.length < 10) {
+                return alert("Verifique os campos obrigatórios, a carteira e o valor.");
+            }
+            if (isBotPattern(name) || isBotPattern(email) || isBotPattern(wallet)) {
+                return alert("Entradas inválidas bloqueadas pelo sistema de segurança.");
+            }
+
+            orderData = { 
+                type: 'COMPRA', 
+                name, 
+                email, 
+                brl, 
+                whatsapp: document.getElementById('whatsapp-input').value, 
+                wallet, 
+                coin: document.getElementById('coin-select').value, 
+                network: document.getElementById('network-select').value, 
+                receive: document.getElementById('receive-display').innerText, 
+                sellerCode: document.getElementById('buy-seller-code').value || 'Nenhum' 
+            };
+
             sendEmailSummary(orderData);
             document.getElementById('final-brl').innerText = `R$ ${brl.toFixed(2)}`;
             new QRious({ element: document.getElementById('qrcode'), value: "00020126580014BR.GOV.BCB.PIX013651f66eed-55f8-4edb-8cc2-76600560a22a5204000053039865802BR5925GUAX TECNOLOGIA E SERVICO6009SAO PAULO62140510irVSBh5BWc6304FDEC", size: 220 });
@@ -1037,18 +1239,45 @@
         }
 
         function validateSellStep() {
-            const name = document.getElementById('sell-name').value;
-            const email = document.getElementById('sell-email').value;
+            if (isMaintenanceGlobal) return alert("Sistema em manutenção temporária.");
+
+            // HONEYPOT TRAP
+            if (document.getElementById('sell-hp').value.trim() !== '') return;
+            if (!checkHumanSpeed()) return;
+            if (!checkRateLimit()) return;
+
+            const name = document.getElementById('sell-name').value.trim();
+            const email = document.getElementById('sell-email').value.trim();
             const usd = parseFloat(document.getElementById('sell-usd-input').value);
-            const pix = document.getElementById('sell-pix-key').value;
-            if (name.trim().split(' ').length < 2 || !email.includes('@') || usd < 10 || usd > 10000 || !pix) return alert("Verifique os campos");
-            orderData = { type: 'VENDA', name, email, usd, pix, coin: document.getElementById('sell-coin-select').value, receive: document.getElementById('sell-receive-display').innerText, rate: document.getElementById('sell-rate-display').innerText, sellerCode: document.getElementById('sell-seller-code').value || 'Nenhum' };
+            const pix = document.getElementById('sell-pix-key').value.trim();
+
+            // Validação estrita
+            if (name.split(' ').length < 2 || !email.includes('@') || isNaN(usd) || usd < 10 || usd > 10000 || !pix || pix.length < 5) {
+                return alert("Verifique os campos obrigatórios, chave Pix e quantia.");
+            }
+            if (isBotPattern(name) || isBotPattern(email) || isBotPattern(pix)) {
+                return alert("Padrão automatizado detectado. Operação recusada.");
+            }
+
+            orderData = { 
+                type: 'VENDA', 
+                name, 
+                email, 
+                usd, 
+                pix, 
+                coin: document.getElementById('sell-coin-select').value, 
+                receive: document.getElementById('sell-receive-display').innerText, 
+                rate: document.getElementById('sell-rate-display').innerText, 
+                sellerCode: document.getElementById('sell-seller-code').value || 'Nenhum' 
+            };
+
             sendEmailSummary(orderData);
             document.getElementById('sell-summary-content').innerHTML = `<p><b>Cliente:</b> ${orderData.name}</p><p><b>Email:</b> ${orderData.email}</p><p><b>Venda de:</b> ${orderData.usd} ${orderData.coin}</p><p><b>Cotação:</b> ${orderData.rate}</p><p><b>Receber:</b> ${orderData.receive}</p><p><b>Pix:</b> ${orderData.pix}</p><p><b>Cód. Vendedor:</b> ${orderData.sellerCode}</p>`;
             goToScreen(5);
         }
 
         function startPartnerPayment(partnerName) {
+            if (isMaintenanceGlobal) return alert("Sistema em manutenção temporária.");
             selectedPartner = partnerName;
             isJZOrder = (partnerName === "J.Z EXCHANGE");
             document.getElementById('partner-paying-name').innerText = "Pagamento para: " + partnerName;
